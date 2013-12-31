@@ -1,6 +1,6 @@
 # Extensions for Ember Data
 
-[![Build Status](https://travis-ci.org/pixelhandler/activemodel-adapter.png)](https://travis-ci.org/pixelhandler/activemodel-adapter)
+[![Build Status](https://travis-ci.org/pixelhandler/ember-data-extensions.png)](https://travis-ci.org/pixelhandler/ember-data-extensions)
 
 
 ## Packages
@@ -50,7 +50,7 @@ with [Mongoid](https://github.com/mongoid/mongoid) also using the
 [active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem. Mongoid supports using `embeds_one` when serializing.
 
 * [mongoid-adapter.js](dist/mongoid-adapter.js)
-* [mongoid-adapter.min.js](dist/mongoid-adapter.js)
+* [mongoid-adapter.min.js](dist/mongoid-adapter.min.js)
 
 Supports embedded records by extending ActiveModelSerializer with mixins: 
 `HasOneEmbeddedRecordsMixin` and `HasManyEmbeddedRecordsMixin`.
@@ -140,7 +140,7 @@ Uses JSHint, when using commands to build or test, i.e. `make`, `make prod` or `
 
 * `yuidoc ./packages/activemodel-adapter/lib/* -c yuidoc.json --server` (you can append a port number e.g. `--server 8888`, the default port is 3000)
 
-Yuidoc syntax is used. See the source code in the 'activemodel-adapter/packages/activemodel-adapter/lib' directory, there are examples of using the adapter as well as examples using the `EmbeddedRecordsMixin`. Some of the docs in the souce can be found in the [wiki](https://github.com/pixelhandler/activemodel-adapter/wiki)
+Docs are generated from source using [yuidoc](https://github.com/yui/yuidoc).
 
 
 ### Development

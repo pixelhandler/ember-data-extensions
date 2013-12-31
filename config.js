@@ -11,7 +11,7 @@ exports.config = {
         'embedded-records-mixin.js': /^packages\/activemodel-adapter\/lib\/system\/embedded_records_mixin\.js$/,
 
         // mongoid-adapter
-        'mongoid_adapter.js': /^packages\/(mixins|mongoid\-adapter)\/lib/,
+        'mongoid-adapter.js': /^packages\/(mixins|mongoid\-adapter)\/lib/,
 
         // mixins
         'has-many-embedded-records-mixin.js': /^packages\/mixins\/lib\/has_many_embedded_records_mixin\.js$/,
@@ -63,7 +63,7 @@ exports.config = {
             'embedded-records-mixin.min.js': /^packages\/activemodel-adapter\/lib\/system\/embedded_records_mixin\.js$/,
 
             // mongoid-adapter
-            'mongoid_adapter.min.js': /^packages\/(mixins|mongoid\-adapter)\/lib/,
+            'mongoid-adapter.min.js': /^packages\/(mixins|mongoid\-adapter)\/lib/,
 
             // mixins
             'has-many-embedded-records-mixin.min.js': /^packages\/mixins\/lib\/has_many_embedded_records_mixin\.js$/,

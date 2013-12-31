@@ -487,7 +487,7 @@ var hasOneMixin = DS.HasOneEmbeddedRecordsMixin;
 /**
   The MongoidSerializer is a subclass of the ActiveModelSerializer.
 
-  @class 
+  @class MongoidSerializer
   @constructor
   @namespace DS
   @extends DS.ActiveModelSerializer

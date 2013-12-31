@@ -1,11 +1,12 @@
 {
   "name": "Extensions for Ember Data",
   "description": "Ember Data Adapters, Serializers and Mixins",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.4",
   "url": "https://github.com/pixelhandler/ember-data-extensions",
   "options": {
   	"paths": [
   	  "./packages/activemodel-adapter/lib/*.js",
+      "./packages/activemodelmongoid-adapter/lib/*.js",
       "./packages/mixins/lib/*.js",
       "./packages/mongoid-adapter/lib/*.js"
   	],

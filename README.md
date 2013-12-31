@@ -28,7 +28,29 @@ See the `/dist` directory for built files (ready to download/use).
 
 The 'embedded_records_mixin.js' file can be used independently from the ActiveModelSerializer.
 
-### Mixins
+
+### activemodelmongoid-adapter
+
+An extension of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo` 
+relationships embedded in JSON payloads. 
+
+Uses both `embeds_many` and `embeds_one` in model classes for persistance with Rails and 
+[Mongoid](https://github.com/mongoid/mongoid).
+
+See [proposal on discuss](http://discuss.emberjs.com/t/extend-ds-activemodelserializer-support-for-embedded-objects-belongsto-relationship-using-embeds-one).
+
+* [activemodelmongoid-adapter.js](dist/activemodelmongoid-adapter.js)
+* [activemodelmongoid-adapter.min.js](dist/activemodelmongoid-adapter.min.js)
+* [embedded-records-mongoid-mixin.js](dist/embedded-records-mongoid-mixin.js)
+* [embedded-records-mongoid-mixin.min.js](dist/embedded-records-mongoid-mixin.min.js)
+
+
+### mixins
+
+Work in progress...
+
+The goal is to break down `EmbeddedRecordsMongoidMixin` into only separate mixins for using
+`embeds_one` and `embeds_many` in (rails/mongoid) model classes.
 
 `HasManyEmbeddedRecordsMixin` is based on `EmbeddedRecordsMixin` for use with
 [active_model_serializers gem](https://github.com/rails-api/active_model_serializers)
@@ -44,6 +66,11 @@ The 'embedded_records_mixin.js' file can be used independently from the ActiveMo
 
 
 ### mongoid-adapter
+
+Work in progress... 
+
+The goal is to break down 'activemodelmongoid-adapter' into only an extension of
+'activemodel-adapter'.
 
 The `MongoidAdapter` is a subclass of the ActiveModelAdapter designed to integrate
 with [Mongoid](https://github.com/mongoid/mongoid) also using the 

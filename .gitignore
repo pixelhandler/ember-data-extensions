@@ -1,0 +1,15 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.lock
+*.DS_Store
+*.swp
+node_modules
+npm-debug.log
+bower_components
+docs

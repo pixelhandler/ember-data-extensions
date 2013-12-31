@@ -4,8 +4,10 @@ build: lint
 clean:
 	@rm -fr ./dist/*
 
+dist: clean build prod
+
 doc:
-	@yuidoc ./packages/* -c yuidoc.json --server
+	@yuidoc ./packages/* -c yuidoc.json --server 3333
 
 install:
 	@npm install
@@ -22,7 +24,7 @@ prod: lint
 test: lint
 	@testem
 
-ci: lint clean build prod
+ci: dist
 	@testem ci
 
 .PHONY: build doc install lint prod test ci

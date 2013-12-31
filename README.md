@@ -170,11 +170,12 @@ Uses JSHint, when using commands to build or test, i.e. `make`, `make prod` or `
 Docs are generated from source using [yuidoc](https://github.com/yui/yuidoc).
 
 
-### Development
+## Development
 
 A recent/current version of Node.js is required for using the build and test tools.
 
-#### Troubleshooting
+
+### Troubleshooting
 
 If you have trouble using the default `make install` command perhaps try the following:
 
@@ -189,3 +190,28 @@ Then try:
 
 1. `npm install`
 1. `bower install`
+
+
+### Makefile
+
+Various tasks (targets) for building, testing and continuous integration.
+
+* `make lint`: lints all files in the 'packages' directory w/ jshint
+* `make test`: starts `testem` and watches packages for changes to re-run test suites
+  * use any local browser: [http://localhost:7357/](http://localhost:7357/)
+* `make ci`: Run all tests in w/ output for continuous integration (uses phantomjs)
+* `make`: builds packages to '/dist' directory
+* `make prod`: builds optimized packages to '/dist' directory
+* `make dist`: Build all packages for distribution in '/dist' directory
+* `make clean`: empties '/dist' directory
+* `make doc`: create browsable documentation from source code [http://localhost:3333](http://localhost:3333)
+
+
+### Config files
+
+* [config.js](config.js) is used by brunch.io build tools
+* [testem.json](testem.json) is used for testing w/ both developer and ci modes
+* [yuidoc.json](yuidoc.json) is for generating documentation from source code using yuidocjs
+* [bower.json](bower.json) is used to install dependencies (Ember.js, etc.)
+* [.travis.yml](.travis.yml) is used for continuous integration with [travis-ci.org](https://travis-ci.org/pixelhandler/ember-data-extensions)
+* [.jshintrc](.jshintrc) is used for code quality w/ jshint

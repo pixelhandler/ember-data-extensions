@@ -1,14 +1,26 @@
 (function(Ember, DS) {
 
-/**
-  @module ember-data
-  @submodule activemodel-adapter
-*/
-
 var get = Ember.get;
 var forEach = Ember.EnumerableUtils.forEach;
 
-DS.ActiveModelSerializer = DS.RESTSerializer.extend({
+/**
+  @module ember-data
+  @submodule embedded-json-adapter
+**/
+
+/**
+  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer designed to integrate
+  with a JSON API that uses an underscored naming convention instead of camelcasing.
+  It has been designed to work out of the box with the
+  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
+  Ruby gem.
+
+  @class DS.EmbeddedJSONSerializer
+  @constructor
+  @namespace DS
+  @extends DS.RESTSerializer
+**/
+DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   // SERIALIZE
 
   /**
@@ -16,7 +28,7 @@ DS.ActiveModelSerializer = DS.RESTSerializer.extend({
 
     @method keyForAttribute
     @param {String} attribute
-    @returns String
+    @return String
   */
   keyForAttribute: function(attr) {
     return Ember.String.decamelize(attr);
@@ -29,7 +41,7 @@ DS.ActiveModelSerializer = DS.RESTSerializer.extend({
     @method keyForRelationship
     @param {String} key
     @param {String} kind
-    @returns String
+    @return String
   */
   keyForRelationship: function(key, kind) {
     key = Ember.String.decamelize(key);
@@ -41,11 +53,6 @@ DS.ActiveModelSerializer = DS.RESTSerializer.extend({
       return key;
     }
   },
-
-  /**
-    Does not serialize hasMany relationships by default.
-  */
-  serializeHasMany: Ember.K,
 
   /**
     Underscores the JSON root keys when serializing.
@@ -72,8 +79,10 @@ DS.ActiveModelSerializer = DS.RESTSerializer.extend({
   serializePolymorphicType: function(record, json, relationship) {
     var key = relationship.key,
         belongsTo = get(record, key);
-    key = this.keyForAttribute(key);
-    json[key + "_type"] = Ember.String.capitalize(belongsTo.constructor.typeKey);
+    if (belongsTo) {
+      key = this.keyForAttribute(key);
+      json[key + "_type"] = Ember.String.capitalize(belongsTo.constructor.typeKey);
+    }
   },
 
   // EXTRACT
@@ -83,7 +92,7 @@ DS.ActiveModelSerializer = DS.RESTSerializer.extend({
 
     @method typeForRoot
     @param {String} root
-    @returns String the model's typeKey
+    @return String the model's typeKey
   */
   typeForRoot: function(root) {
     var camelized = Ember.String.camelize(root);
@@ -121,7 +130,7 @@ DS.ActiveModelSerializer = DS.RESTSerializer.extend({
     @param {subclass of DS.Model} type
     @param {Object} hash
     @param {String} prop
-    @returns Object
+    @return Object
   */
 
   normalize: function(type, hash, prop) {

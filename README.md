@@ -8,79 +8,38 @@
 The goal of this repository is to share packages as extensions to the Ember Data project.
 Specifically: adapters, serializers, mixins for supporting various backend data storage systems.
 
+See the `/dist` directory for built files (ready to download/use).
 
-### activemodel-adapter
 
-`ActiveModelAdapter`, `ActiveModelSerializer`, and `EmbeddedRecordsMixin` are extracted from
-[Ember Data's activemodel-adapter package](https://github.com/emberjs/data/tree/master/packages/activemodel-adapter)
+### embedded-json-adapter
 
-The ActiveModelAdapter is a subclass of the RESTAdapter designed to integrate
+An fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo` 
+relationships embedded in JSON payloads. 
+
+The `ActiveModelAdapter` is a subclass of the RESTAdapter designed to integrate
 with a JSON API that uses an underscored naming convention instead of camelCasing.
 It has been designed to work out of the box with the
 [active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem
 
-See the `/dist` directory for built files (ready to download/use).
-
-* [activemodel-adapter.js](dist/activemodel-adapter.js)
-* [activemodel-adapter.min.js](dist/activemodel-adapter.min.js)
-* [embedded-records-mixin.js](dist/embedded-records-mixin.js)
-* [embedded-records-mixin.min.js](dist/embedded-records-mixin.min.js)
-
-The 'embedded_records_mixin.js' file can be used independently from the ActiveModelSerializer.
-
-
-### activemodelmongoid-adapter
-
-An extension of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo` 
-relationships embedded in JSON payloads. 
-
-Uses both `embeds_many` and `embeds_one` in model classes for persistance with Rails and 
-[Mongoid](https://github.com/mongoid/mongoid).
+[Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and `embeds_one`
+in (Rails) models. Also `has_one` and `has_many` can be used with `ActiveModel::Serializers`. 
+There are various embedded options, ids or objects.
 
 See [proposal on discuss](http://discuss.emberjs.com/t/extend-ds-activemodelserializer-support-for-embedded-objects-belongsto-relationship-using-embeds-one).
 
-* [activemodelmongoid-adapter.js](dist/activemodelmongoid-adapter.js)
-* [activemodelmongoid-adapter.min.js](dist/activemodelmongoid-adapter.min.js)
-* [embedded-records-mongoid-mixin.js](dist/embedded-records-mongoid-mixin.js)
-* [embedded-records-mongoid-mixin.min.js](dist/embedded-records-mongoid-mixin.min.js)
+* [embedded-json-adapter.js](dist/embedded-json-adapter.js)
+* [embedded-json-adapter.min.js](dist/embedded-json-adapter.min.js)
+
+_Note: `EmbeddedJSONMixin` is included in the build. Embedding objects/arrays 1 level deep
+is supported._
 
 
 ### mixins
 
-Work in progress...
+The 'embedded-json-mixin.js' file can be used independently from the `EmbeddedJSONSerializer`.
 
-The goal is to break down `EmbeddedRecordsMongoidMixin` into only separate mixins for using
-`embeds_one` and `embeds_many` in (rails/mongoid) model classes.
-
-`HasManyEmbeddedRecordsMixin` is based on `EmbeddedRecordsMixin` for use with
-[active_model_serializers gem](https://github.com/rails-api/active_model_serializers)
-
-* [has-many-embedded-records-mixin.js](dist/has-many-embedded-records-mixin.js)
-* [has-many-embedded-records-mixin.min.js](dist/has-many-embedded-records-mixin.min.js)
-
-`HasOneEmbeddedRecordsMixin` is based on `EmbeddedRecordsMixin` for use with
-[Mongoid](https://github.com/mongoid/mongoid)
-
-* [has-one-embedded-records-mixin.js](dist/has-one-embedded-records-mixin.js)
-* [has-one-embedded-records-mixin.min.js](dist/has-one-embedded-records-mixin.min.js)
-
-
-### mongoid-adapter
-
-Work in progress... 
-
-The goal is to break down 'activemodelmongoid-adapter' into only an extension of
-'activemodel-adapter'.
-
-The `MongoidAdapter` is a subclass of the ActiveModelAdapter designed to integrate
-with [Mongoid](https://github.com/mongoid/mongoid) also using the 
-[active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem. Mongoid supports using `embeds_one` when serializing.
-
-* [mongoid-adapter.js](dist/mongoid-adapter.js)
-* [mongoid-adapter.min.js](dist/mongoid-adapter.min.js)
-
-Supports embedded records by extending ActiveModelSerializer with mixins: 
-`HasOneEmbeddedRecordsMixin` and `HasManyEmbeddedRecordsMixin`.
+* [embedded-json-mixin.js](dist/embedded-json-mixin.js)
+* [embedded-json-mixin.min.js](dist/embedded-json-mixin.min.js)
 
 
 # Contributing
@@ -138,17 +97,6 @@ See the [package.json](package.json)
 
 * Bower is used to fetch Ember.js with the command: `bower install`
 * Update Ember with command: `bower update`
-
-
-### Ember Data
-
-When using the `make install` command... a copy of 'ember-data.js' is downloaded to the 
-'/bower_components/ember-data' directory, which replaces the file fetched via bower. 
-This build of Ember data is based on a branch without the activemodel-adapter package <https://github.com/pixelhandler/data/tree/remove-activemodel-adapter>, See 
-[ember-data PR #1615](https://github.com/emberjs/data/pull/1615).
-
-The activemodel-adapter.js file can be used with Ember Data beta, or Canary versions. 
-Likely there will be a console warning that the `activeModelAdapter` has already been defined.
 
 
 ## Code Quality

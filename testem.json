@@ -8,26 +8,13 @@
 
     "tests/ember_configuration.js",
 
-    "packages/activemodel-adapter/lib/system/embedded_records_mixin.js",
-    "packages/activemodel-adapter/lib/system/active_model_serializer.js",
-    "packages/activemodel-adapter/lib/system/active_model_adapter.js",
-    "packages/activemodel-adapter/lib/initializers.js",
-    "packages/activemodel-adapter/tests/integration/*_test.js",
-
-    "packages/activemodelmongoid-adapter/lib/embedded_records_mongoid_mixin.js",
-    "packages/activemodelmongoid-adapter/lib/active_model_mongoid_serializer.js",
-    "packages/activemodelmongoid-adapter/lib/active_model_mongoid_adapter.js",
-    "packages/activemodelmongoid-adapter/lib/initializer.js",
-    "packages/activemodelmongoid-adapter/tests/*_test.js",
-
-    "packages/mixins/lib/has_many_embedded_records_mixin.js",
-    "packages/mixins/lib/has_one_embedded_records_mixin.js",
+    "packages/mixins/lib/embedded_json_mixin.js",
     "packages/mixins/tests/*_test.js",
 
-    "packages/mongoid-adapter/lib/mongoid_serializer.js",
-    "packages/mongoid-adapter/lib/mongoid_adapter.js",
-    "packages/mongoid-adapter/lib/initializer.js",
-    "packages/mongoid-adapter/tests/*_test.js"
+    "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
+    "packages/embedded-json-adapter/lib/embedded_json_adapter.js",
+    "packages/embedded-json-adapter/lib/initializer.js",
+    "packages/embedded-json-adapter/tests/*_test.js"
   ],
   "launch_in_ci": ["phantomjs"]
 }

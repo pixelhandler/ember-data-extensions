@@ -1,19 +1,21 @@
 var env, store, adapter, SuperUser;
 var originalAjax, passedUrl, passedVerb, passedHash;
 
-module("integration/active_model_adapter - AMS Adapter", {
+module("embedded-json-adapter - EmbeddedJSONAdapter", {
   setup: function() {
+    Ember.run.begin();
     SuperUser = DS.Model.extend();
 
     env = setupStore({
       superUser: SuperUser,
-      adapter: DS.ActiveModelAdapter
+      adapter: DS.EmbeddedJSONAdapter
     });
 
     store = env.store;
     adapter = env.adapter;
 
     passedUrl = passedVerb = passedHash = null;
+    Ember.run.end();
   }
 });
 

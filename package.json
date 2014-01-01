@@ -3,7 +3,7 @@
   "summary": "Extensions for Ember Data",
   "description": "Adapters, Serializers and Mixins",
   "homepage": "http://github.com/emberjs/ember.js",
-  "author": ["Bradley Priest", "Bill Heaton"],
+  "author": ["Bill Heaton"],
   "version": "1.0.0-beta.4",
 
   "repository": {

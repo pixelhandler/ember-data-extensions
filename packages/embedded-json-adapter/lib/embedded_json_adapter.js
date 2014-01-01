@@ -4,11 +4,11 @@ var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule activemodelmongoid-adapter
+  @submodule embedded-json-adapter
 **/
 
 /**
-  The ActiveModelMongoidAdapter is a subclass of the RESTAdapter designed to integrate
+  The EmbeddedJSONAdapter is a subclass of the RESTAdapter designed to integrate
   with a JSON API that uses an underscored naming convention instead of camelCasing.
   It has been designed to work out of the box with the
   [active_model_serializers](http://github.com/rails-api/active_model_serializers)
@@ -50,13 +50,13 @@ var forEach = Ember.EnumerableUtils.forEach;
   }
   ```
 
-  @class ActiveModelMongoidAdapter
+  @class EmbeddedJSONAdapter
   @constructor
   @namespace DS
   @extends DS.RESTAdapter
 **/
 
-DS.ActiveModelMongoidAdapter = DS.RESTAdapter.extend({
+DS.EmbeddedJSONAdapter = DS.RESTAdapter.extend({
   defaultSerializer: 'ams_mongoid',
   /**
     The ActiveModelAdapter overrides the `pathForType` method to build

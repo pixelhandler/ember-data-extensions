@@ -21,7 +21,8 @@
         "async",
         "invokeAsync",
         "jQuery",
-        "expectAssertion"
+        "expectAssertion",
+        "exports" 
     ],
 
     "node" : false,

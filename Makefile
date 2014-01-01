@@ -12,8 +12,6 @@ doc:
 install:
 	@npm install
 	@bower install
-	@rm ./bower_components/ember-data/ember-data.js
-	@curl -o ./bower_components/ember-data/ember-data.js https://raw.github.com/pixelhandler/data/dist/dist/ember-data.js
 
 lint:
 	@jshint packages/*

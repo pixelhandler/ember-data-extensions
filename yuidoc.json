@@ -4,12 +4,10 @@
   "version": "1.0.0-beta.4",
   "url": "https://github.com/pixelhandler/ember-data-extensions",
   "options": {
-  	"paths": [
-  	  "./packages/activemodel-adapter/lib/*.js",
-      "./packages/activemodelmongoid-adapter/lib/*.js",
+    "paths": [
       "./packages/mixins/lib/*.js",
-      "./packages/mongoid-adapter/lib/*.js"
-  	],
+      "./packages/embedded-json-adapter/lib/*.js"
+    ],
     "outdir": "./docs"
   }
 }

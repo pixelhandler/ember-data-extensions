@@ -126,9 +126,9 @@ Uses JSHint, when using commands to build or test, i.e. `make`, `make prod` or `
 Docs are generated from source using [yuidoc](https://github.com/yui/yuidoc).
 
 The gh-pages branch of this repo includes the [generated
-docs](http://pixelhandler.github.io/ember-data-extensions/)
+docs](http://pixelhandler.github.io/ember-data-extensions/docs/)
 
-See the [wiki](./wiki) for notes on usage.
+See the [wiki](https://github.com/pixelhandler/ember-data-extensions/wiki) for notes on usage.
 
 
 ## Development

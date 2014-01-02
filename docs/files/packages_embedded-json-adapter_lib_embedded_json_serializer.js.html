@@ -55,6 +55,8 @@
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
+                <li><a href="../modules/mixins.html">mixins</a></li>
+            
             </ul>
         </div>
     </div>
@@ -105,11 +107,13 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer designed to integrate
-  with a JSON API that uses an underscored naming convention instead of camelcasing.
-  It has been designed to work out of the box with the
+  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer
+
+  A fork of &#x60;activemodel-adapter&#x60; with support for embedded &#x60;hasMany&#x60; and &#x60;belongsTo&#x60;
+  records embedded in JSON payloads, designed to work out of the box with the
   [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem.
+  Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+  naming convention instead of camelCasing.
 
   @class DS.EmbeddedJSONSerializer
   @constructor
@@ -120,7 +124,7 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   // SERIALIZE
 
   /**
-    Converts camelcased attributes to underscored when serializing.
+    Converts camelCased attributes to underscored when serializing.
 
     @method keyForAttribute
     @param {String} attribute
@@ -196,10 +200,9 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   },
 
   /**
-    Add extra step to &#x60;DS.RESTSerializer.normalize&#x60; so links are
-    normalized.
+    Add extra step to &#x60;DS.RESTSerializer.normalize&#x60; so links are normalized.
 
-    If your payload looks like this
+    If your payload looks like:
 
     &#x60;&#x60;&#x60;js
     {
@@ -210,6 +213,7 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
       }
     }
     &#x60;&#x60;&#x60;
+
     The normalized version would look like this
 
     &#x60;&#x60;&#x60;js

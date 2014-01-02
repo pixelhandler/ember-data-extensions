@@ -55,6 +55,8 @@
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
+                <li><a href="../modules/mixins.html">mixins</a></li>
+            
             </ul>
         </div>
     </div>
@@ -119,16 +121,18 @@
 
 
 <div class="box intro">
-    <p>The EmbeddedJSONAdapter is a subclass of the RESTAdapter designed to integrate
-with a JSON API that uses an underscored naming convention instead of camelCasing.
-It has been designed to work out of the box with the
-<a href="http://github.com/rails-api/active_model_serializers">active_model_serializers</a>
-Ruby gem.</p>
+    <p>The <code>EmbeddedJSONAdapter</code> is a subclass of the RESTAdapter.</p>
+<p>A fork of <code>activemodel-adapter</code> with support for embedded <code>hasMany</code> and <code>belongsTo</code>
+records embedded in JSON payloads, designed to work out of the box with the
+<a href="http://github.com/rails-api/active_model_serializers">active_model_serializers</a> Ruby gem.</p>
+<p><a href="https://github.com/mongoid/mongoid">Mongoid</a> supports using <code>embeds_many</code> and <code>embeds_one</code>
+in (Rails) models. Also <code>has_one</code> and <code>has_many</code> can be used with
+<code>ActiveModel::Serializers</code>. Choose an option for embedding ids or object(s).</p>
 <p>This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
 decamelization and pluralization methods to normalize the serialized JSON into a
 format that is compatible with a conventional Rails backend and Ember Data.</p>
 <h2 id="json-structure">JSON Structure</h2>
-<p>The ActiveModelAdapter expects the JSON returned from your server to follow
+<p>The EmbeddedJSONAdapter expects the JSON payload from your server to follow
 the REST adapter conventions substituting underscored keys for camelcased ones.</p>
 <h3 id="conventional-names">Conventional Names</h3>
 <p>Attribute names in your JSON payload should be the underscored versions of
@@ -307,7 +311,7 @@ the attributes in your Ember.js models.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_adapter.js.html#l79"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_adapter.js:79</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_adapter.js.html#l83"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_adapter.js:83</code></a>
         
         </p>
 
@@ -418,7 +422,7 @@ content was not semantically correct or meaningful per the API.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_adapter.js.html#l61"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_adapter.js:61</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_adapter.js.html#l65"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_adapter.js:65</code></a>
         
         </p>
 

@@ -55,6 +55,8 @@
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
+                <li><a href="../modules/mixins.html">mixins</a></li>
+            
             </ul>
         </div>
     </div>
@@ -101,17 +103,19 @@ var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule mixins
 **/
 
 /**
-  The EmbeddedJSONMixin allows you to add embedded record support to your
-  serializers.
+  The EmbeddedJSONMixin allows you to add embedded record support to your serializers.
+
   To set up embedded records, you include the mixin into the serializer and then
-  define your embedded relations.
+  define your embedded relations. The EmbeddedJSONSerializer is an example.
+
+  Below is an example of a per type serializer (post type).
 
   &#x60;&#x60;&#x60;js
-  App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
     attrs: {
       author: {embedded: &#x27;always&#x27;},
       comments: {embedded: &#x27;always&#x27;}
@@ -147,7 +151,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded author
 
     &#x60;&#x60;&#x60;js
-    App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
       attrs: {
         author: {embedded: &#x27;always&#x27;}
       }
@@ -221,7 +225,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded comments
 
     &#x60;&#x60;&#x60;js
-    App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
       attrs: {
         comments: {embedded: &#x27;always&#x27;}
       }

@@ -55,6 +55,8 @@
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
+                <li><a href="../modules/mixins.html">mixins</a></li>
+            
             </ul>
         </div>
     </div>
@@ -154,11 +156,15 @@
                     </a>
 
                     <div class="module-submodule-description">
-                        The EmbeddedJSONAdapter is a subclass of the RESTAdapter designed to integrate
-with a JSON API that uses an underscored naming convention instead of camelCasing.
-It has been designed to work out of the box with the
-[active_model_serializers](http://github.com/rails-api/active_model_serializers)
-Ruby gem.
+                        The <code>EmbeddedJSONAdapter</code> is a subclass of the RESTAdapter.
+
+A fork of <code>activemodel-adapter</code> with support for embedded <code>hasMany</code> and <code>belongsTo</code>
+records embedded in JSON payloads, designed to work out of the box with the
+[active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.
+
+[Mongoid](https://github.com/mongoid/mongoid) supports using <code>embeds_many</code> and <code>embeds_one</code>
+in (Rails) models. Also <code>has_one</code> and <code>has_many</code> can be used with
+<code>ActiveModel::Serializers</code>. Choose an option for embedding ids or object(s).
 
 This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
 decamelization and pluralization methods to normalize the serialized JSON into a
@@ -166,7 +172,7 @@ format that is compatible with a conventional Rails backend and Ember Data.
 
 ## JSON Structure
 
-The ActiveModelAdapter expects the JSON returned from your server to follow
+The EmbeddedJSONAdapter expects the JSON payload from your server to follow
 the REST adapter conventions substituting underscored keys for camelcased ones.
 
 ### Conventional Names
@@ -195,6 +201,32 @@ The JSON returned should look like this:
   }
 }
 <code>&#x60;</code>
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
+                    <a href="../modules/mixins.html">
+                        mixins
+                    </a>
+
+                    <div class="module-submodule-description">
+                        The EmbeddedJSONMixin allows you to add embedded record support to your serializers.
+
+To set up embedded records, you include the mixin into the serializer and then
+define your embedded relations. The EmbeddedJSONSerializer is an example.
+
+Below is an example of a per type serializer (post type).
+
+<code>&#x60;</code>js
+App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+  attrs: {
+    author: {embedded: 'always'},
+    comments: {embedded: 'always'}
+  }
+})
+<code>&#x60;</code>
+
+Currently only <code>{embedded: &#x27;always&#x27;}</code> records are supported.
                     </div>
                 </li>
             

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>packages/embedded-json-adapter/lib/initializer.js - Extensions for Ember Data</title>
+    <title>mixins - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -92,26 +92,60 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: packages/embedded-json-adapter/lib/initializer.js</h1>
+                        <h1>mixins Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
-  @module ember-data
-  @submodule embedded-json-adapter
-**/
-Ember.onLoad(&#x27;Ember.Application&#x27;, function(Application) {
-  Application.initializer({
-    name: &quot;embeddedJSONAdapter&quot;,
+    
 
-    initialize: function(container, application) {
-      application.register(&#x27;serializer:embedded_json&#x27;, DS.EmbeddedJSONSerializer);
-      application.register(&#x27;adapter:embedded_json&#x27;, DS.EmbeddedJSONAdapter);
-    }
-  });
-});
+    
+        <div class="foundat">
+            Defined in: <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:11</code></a>
+        </div>
+    
 
-    </pre>
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>The EmbeddedJSONMixin allows you to add embedded record support to your serializers.</p>
+<p>To set up embedded records, you include the mixin into the serializer and then
+define your embedded relations. The EmbeddedJSONSerializer is an example.</p>
+<p>Below is an example of a per type serializer (post type).</p>
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+  attrs: {
+    author: {embedded: &#39;always&#39;},
+    comments: {embedded: &#39;always&#39;}
+  }
+})</code></pre>
+<p>Currently only <code>{embedded: &#39;always&#39;}</code> records are supported.</p>
+
+</div>
+
+
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
+
+            <ul class="module-classes">
+            
+                <li class="module-class">
+                    <a href="../classes/DS.EmbeddedJSONMixin.html">
+                        DS.EmbeddedJSONMixin
+                    </a>
+                </li>
+            
+            </ul>
+        
+    </div>
+
+    <div class="yui3-u-1-2">
+        
+    </div>
 </div>
 
                     </div>

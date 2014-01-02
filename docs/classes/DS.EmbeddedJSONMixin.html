@@ -55,6 +55,8 @@
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
+                <li><a href="../modules/mixins.html">mixins</a></li>
+            
             </ul>
         </div>
     </div>
@@ -104,7 +106,7 @@
 
     
         
-            Module: <a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a><br>
+            Module: <a href="../modules/mixins.html">mixins</a><br>
             Parent Module: <a href="../modules/ember-data.html">ember-data</a>
         
     
@@ -115,11 +117,11 @@
 
 
 <div class="box intro">
-    <p>The EmbeddedJSONMixin allows you to add embedded record support to your
-serializers.
-To set up embedded records, you include the mixin into the serializer and then
-define your embedded relations.</p>
-<pre><code class="lang-js">App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+    <p>The EmbeddedJSONMixin allows you to add embedded record support to your serializers.</p>
+<p>To set up embedded records, you include the mixin into the serializer and then
+define your embedded relations. The EmbeddedJSONSerializer is an example.</p>
+<p>Below is an example of a per type serializer (post type).</p>
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   attrs: {
     author: {embedded: &#39;always&#39;},
     comments: {embedded: &#39;always&#39;}
@@ -255,7 +257,7 @@ define your embedded relations.</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l239"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:239</code></a>
+        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l241"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:241</code></a>
         
         </p>
 
@@ -447,7 +449,7 @@ and add them as side-loaded objects instead.</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l180"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:180</code></a>
+        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l182"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:182</code></a>
         
         </p>
 
@@ -649,7 +651,7 @@ The <code>post</code> attribute under <code>author</code> is the foreign key wit
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l33"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:33</code></a>
+        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l35"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:35</code></a>
         
         </p>
 
@@ -673,7 +675,7 @@ Author = DS.Model.extend({
   post:     DS.belongsTo(&#39;post&#39;)
 });</code></pre>
 <p>Use a custom (type) serializer for the post model to configure embedded author</p>
-<pre><code class="lang-js">App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   attrs: {
     author: {embedded: &#39;always&#39;}
   }
@@ -808,7 +810,7 @@ the records together under the root attribute&#39;s payload:</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l107"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:107</code></a>
+        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l109"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:109</code></a>
         
         </p>
 
@@ -832,7 +834,7 @@ Comment = DS.Model.extend({
   post:     DS.belongsTo(&#39;post&#39;)
 });</code></pre>
 <p>Use a custom (type) serializer for the post model to configure embedded comments</p>
-<pre><code class="lang-js">App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   attrs: {
     comments: {embedded: &#39;always&#39;}
   }

@@ -55,6 +55,8 @@
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
+                <li><a href="../modules/mixins.html">mixins</a></li>
+            
             </ul>
         </div>
     </div>
@@ -119,11 +121,12 @@
 
 
 <div class="box intro">
-    <p>The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer designed to integrate
-with a JSON API that uses an underscored naming convention instead of camelcasing.
-It has been designed to work out of the box with the
+    <p>The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer</p>
+<p>A fork of <code>activemodel-adapter</code> with support for embedded <code>hasMany</code> and <code>belongsTo</code>
+records embedded in JSON payloads, designed to work out of the box with the
 <a href="http://github.com/rails-api/active_model_serializers">active_model_serializers</a>
-Ruby gem.</p>
+Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+naming convention instead of camelCasing.</p>
 
 </div>
 
@@ -326,7 +329,7 @@ Ruby gem.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l26"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:26</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l28"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:28</code></a>
         
         </p>
 
@@ -337,7 +340,7 @@ Ruby gem.</p>
     </div>
 
     <div class="description">
-        <p>Converts camelcased attributes to underscored when serializing.</p>
+        <p>Converts camelCased attributes to underscored when serializing.</p>
 
     </div>
 
@@ -436,7 +439,7 @@ Ruby gem.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l37"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:37</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l39"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:39</code></a>
         
         </p>
 
@@ -568,7 +571,7 @@ relationship keys.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l102"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:102</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l104"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:104</code></a>
         
         </p>
 
@@ -579,9 +582,8 @@ relationship keys.</p>
     </div>
 
     <div class="description">
-        <p>Add extra step to <code>DS.RESTSerializer.normalize</code> so links are
-normalized.</p>
-<p>If your payload looks like this</p>
+        <p>Add extra step to <code>DS.RESTSerializer.normalize</code> so links are normalized.</p>
+<p>If your payload looks like:</p>
 <pre><code class="lang-js">{
   &quot;post&quot;: {
     &quot;id&quot;: 1,
@@ -715,7 +717,7 @@ normalized.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l142"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:142</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l144"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:144</code></a>
         
         </p>
 
@@ -795,7 +797,7 @@ normalized.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l164"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:164</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l166"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:166</code></a>
         
         </p>
 
@@ -888,7 +890,7 @@ normalized.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l57"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:57</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l59"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:59</code></a>
         
         </p>
 
@@ -1033,7 +1035,7 @@ normalized.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l71"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:71</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l73"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:73</code></a>
         
         </p>
 
@@ -1155,7 +1157,7 @@ normalized.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l90"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:90</code></a>
+        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l92"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:92</code></a>
         
         </p>
 

@@ -8,11 +8,15 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The EmbeddedJSONAdapter is a subclass of the RESTAdapter designed to integrate
-  with a JSON API that uses an underscored naming convention instead of camelCasing.
-  It has been designed to work out of the box with the
-  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem.
+  The `EmbeddedJSONAdapter` is a subclass of the RESTAdapter.
+
+  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
+  records embedded in JSON payloads, designed to work out of the box with the
+  [active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.
+
+  [Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and `embeds_one`
+  in (Rails) models. Also `has_one` and `has_many` can be used with
+  `ActiveModel::Serializers`. Choose an option for embedding ids or object(s).
 
   This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
   decamelization and pluralization methods to normalize the serialized JSON into a
@@ -20,7 +24,7 @@ var forEach = Ember.EnumerableUtils.forEach;
 
   ## JSON Structure
 
-  The ActiveModelAdapter expects the JSON returned from your server to follow
+  The EmbeddedJSONAdapter expects the JSON payload from your server to follow
   the REST adapter conventions substituting underscored keys for camelcased ones.
 
   ### Conventional Names

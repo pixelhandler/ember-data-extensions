@@ -25,18 +25,26 @@ It has been designed to work out of the box with the
 in (Rails) models. Also `has_one` and `has_many` can be used with `ActiveModel::Serializers`. 
 There are various embedded options, ids or objects.
 
-See [proposal on discuss](http://discuss.emberjs.com/t/extend-ds-activemodelserializer-support-for-embedded-objects-belongsto-relationship-using-embeds-one).
+Like the ActiveModelAdapter/Serializer the EmbeddedJSONAdapter/Serializer extends the
+RESTAdapter/Serializer using a mixin for support of embedded records. See
+[proposal on discuss](http://discuss.emberjs.com/t/extend-ds-activemodelserializer-support-for-embedded-objects-belongsto-relationship-using-embeds-one).
+
+**Builds:**
 
 * [embedded-json-adapter.js](dist/embedded-json-adapter.js)
 * [embedded-json-adapter.min.js](dist/embedded-json-adapter.min.js)
 
 _Note: `EmbeddedJSONMixin` is included in the build. Embedding objects/arrays 1 level deep
-is supported._
+is supported. Thanks to Bradley Priest (and the Ember.js community) for the `ActiveModelAdapter`, which
+provides a large portion of support for embedded records in JSON payloads. The embedded-json-adapter
+and embedded-json-mixin are forks of the activemodel-adapter package._
 
 
 ### mixins
 
 The 'embedded-json-mixin.js' file can be used independently from the `EmbeddedJSONSerializer`.
+
+**Builds:**
 
 * [embedded-json-mixin.js](dist/embedded-json-mixin.js)
 * [embedded-json-mixin.min.js](dist/embedded-json-mixin.min.js)
@@ -117,6 +125,11 @@ Uses JSHint, when using commands to build or test, i.e. `make`, `make prod` or `
 
 Docs are generated from source using [yuidoc](https://github.com/yui/yuidoc).
 
+The gh-pages branch of this repo includes the [generated
+docs](http://pixelhandler.github.io/ember-data-extensions/)
+
+See the [wiki](./wiki) for notes on usage.
+
 
 ## Development
 
@@ -152,7 +165,8 @@ Various tasks (targets) for building, testing and continuous integration.
 * `make prod`: builds optimized packages to '/dist' directory
 * `make dist`: Build all packages for distribution in '/dist' directory
 * `make clean`: empties '/dist' directory
-* `make doc`: create browsable documentation from source code [http://localhost:3333](http://localhost:3333)
+* `make doc`: browse documentation from source code [http://localhost:3333](http://localhost:3333)
+* `make docfiles`: generate (html) documentation from source code, use w/ gh-pages branch 
 
 
 ### Config files

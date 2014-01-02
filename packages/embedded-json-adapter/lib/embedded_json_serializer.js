@@ -9,11 +9,13 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer designed to integrate
-  with a JSON API that uses an underscored naming convention instead of camelcasing.
-  It has been designed to work out of the box with the
+  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer
+
+  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
+  records embedded in JSON payloads, designed to work out of the box with the
   [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem.
+  Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+  naming convention instead of camelCasing.
 
   @class DS.EmbeddedJSONSerializer
   @constructor
@@ -24,7 +26,7 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   // SERIALIZE
 
   /**
-    Converts camelcased attributes to underscored when serializing.
+    Converts camelCased attributes to underscored when serializing.
 
     @method keyForAttribute
     @param {String} attribute
@@ -100,10 +102,9 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   },
 
   /**
-    Add extra step to `DS.RESTSerializer.normalize` so links are
-    normalized.
+    Add extra step to `DS.RESTSerializer.normalize` so links are normalized.
 
-    If your payload looks like this
+    If your payload looks like:
 
     ```js
     {
@@ -114,6 +115,7 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
       }
     }
     ```
+
     The normalized version would look like this
 
     ```js

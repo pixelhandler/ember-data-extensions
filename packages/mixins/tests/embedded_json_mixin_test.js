@@ -464,7 +464,7 @@ test("serialize with (new) embedded objects (hasMany relationship)", function() 
 });
 
 test("extractSingle with embedded object (belongsTo relationship)", function() {
-  //expect(4);
+  expect(4);
   env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
   env.container.register('serializer:superVillain', DS.EmbeddedJSONSerializer.extend({
     attrs: {

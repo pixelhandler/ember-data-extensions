@@ -9,6 +9,9 @@ dist: clean build prod
 doc:
 	@yuidoc ./packages/* -c yuidoc.json --server 3333
 
+docfiles: lint
+	@yuidoc ./packages/* -c yuidoc.json
+
 install:
 	@npm install
 	@bower install

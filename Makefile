@@ -14,6 +14,7 @@ docfiles: lint
 
 install:
 	@npm install
+	@npm install grunt-blanket-qunit --save-dev
 	@bower install
 
 lint:
@@ -25,7 +26,11 @@ prod: lint
 test: lint
 	@testem
 
+coverage: lint
+	@open http://localhost:8080/tests/coverage.html?coverage=true
+	@python -m SimpleHTTPServer 8080
+
 ci: dist
-	@testem ci
+	@grunt blanket_qunit --verbose
 
 .PHONY: build doc install lint prod test ci

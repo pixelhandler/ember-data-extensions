@@ -5,5 +5,9 @@
     "handlebars": "~1.2.1",
     "ember": "~1.2.0",
     "ember-data": "~1.0.0-beta.4"
+  },
+  "devDependencies": {
+    "qunit": "~1.13.0",
+    "blanket": "~1.1.5"
   }
 }

@@ -3,9 +3,10 @@
   "summary": "Extensions for Ember Data",
   "description": "Adapters, Serializers and Mixins",
   "homepage": "http://github.com/emberjs/ember.js",
-  "author": ["Bill Heaton"],
+  "author": [
+    "Bill Heaton"
+  ],
   "version": "1.0.0-beta.4",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/pixelhandler/ember-data-extensions"
@@ -25,6 +26,10 @@
     "javascript-brunch": "~1.7.0",
     "uglify-js-brunch": "~1.7.0",
     "jshint": ">= 2.4.0",
-    "yuidocjs": ">= 0.3.46"
+    "yuidocjs": ">= 0.3.46",
+    "blanket": "~1.1.5",
+    "grunt": "~0.4.2",
+    "grunt-cli": ">= 0.1.11",
+    "grunt-blanket-qunit": "~0.2.0"
   }
 }

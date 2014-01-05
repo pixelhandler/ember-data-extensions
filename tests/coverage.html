@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <script src="../bower_components/qunit/qunit/qunit.js"></script>
+  <script src="../bower_components/blanket/dist/qunit/blanket.js"></script>
+  <script src="../bower_components/jquery/jquery.js"></script>
+  <script src="../bower_components/handlebars/handlebars.js"></script>
+  <script src="../bower_components/ember/ember.js"></script>
+  <script src="../bower_components/ember-data/ember-data.js"></script>
+  <script src="./ember_configuration.js"></script>
+  <script src="../packages/mixins/lib/embedded_json_mixin.js" data-cover></script>
+  <script src="../packages/mixins/tests/embedded_json_mixin_test.js"></script>
+  <script src="../packages/embedded-json-adapter/lib/embedded_json_serializer.js" data-cover></script>
+  <script src="../packages/embedded-json-adapter/lib/embedded_json_adapter.js" data-cover></script>
+  <script src="../packages/embedded-json-adapter/lib/initializer.js"></script>
+  <script src="../packages/embedded-json-adapter/tests/embedded_json_adapter_test.js"></script>
+  <script src="../packages/embedded-json-adapter/tests/embedded_json_serializer_test.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(document)
+      .ready(function () {
+        $('#qunit-tests').addClass('hidepass');
+      })
+      .delegate("#qunit-testrunner-toolbar", "DOMNodeInserted", function (e) {
+        $("#qunit-filter-pass").attr("checked", true);
+      })
+      .delegate("#qunit-filter-pass", "click", function (e) {
+        e.stopPropagation();
+        var newValue = $(this).is(":checked");
+        $('#qunit-tests').toggleClass('hidepass', newValue);
+      });
+  </script>
+  <link rel="stylesheet" href="../bower_components/qunit/qunit/qunit.css"/>
+</head>
+<body>
+  <h1 id="qunit-header">Tests</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture"></div>
+</body>
+</html>

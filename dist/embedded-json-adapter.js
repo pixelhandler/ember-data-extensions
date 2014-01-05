@@ -6,17 +6,19 @@ var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule mixins
 **/
 
 /**
-  The EmbeddedJSONMixin allows you to add embedded record support to your
-  serializers.
+  The EmbeddedJSONMixin allows you to add embedded record support to your serializers.
+
   To set up embedded records, you include the mixin into the serializer and then
-  define your embedded relations.
+  define your embedded relations. The EmbeddedJSONSerializer is an example.
+
+  Below is an example of a per type serializer (post type).
 
   ```js
-  App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
     attrs: {
       author: {embedded: 'always'},
       comments: {embedded: 'always'}
@@ -52,7 +54,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded author
 
     ```js
-    App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
       attrs: {
         author: {embedded: 'always'}
       }
@@ -126,7 +128,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded comments
 
     ```js
-    App.PostSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
       attrs: {
         comments: {embedded: 'always'}
       }
@@ -405,11 +407,13 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer designed to integrate
-  with a JSON API that uses an underscored naming convention instead of camelcasing.
-  It has been designed to work out of the box with the
+  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer
+
+  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
+  records embedded in JSON payloads, designed to work out of the box with the
   [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem.
+  Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+  naming convention instead of camelCasing.
 
   @class DS.EmbeddedJSONSerializer
   @constructor
@@ -420,7 +424,7 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   // SERIALIZE
 
   /**
-    Converts camelcased attributes to underscored when serializing.
+    Converts camelCased attributes to underscored when serializing.
 
     @method keyForAttribute
     @param {String} attribute
@@ -496,10 +500,9 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
   },
 
   /**
-    Add extra step to `DS.RESTSerializer.normalize` so links are
-    normalized.
+    Add extra step to `DS.RESTSerializer.normalize` so links are normalized.
 
-    If your payload looks like this
+    If your payload looks like:
 
     ```js
     {
@@ -510,6 +513,7 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
       }
     }
     ```
+
     The normalized version would look like this
 
     ```js
@@ -624,11 +628,15 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The EmbeddedJSONAdapter is a subclass of the RESTAdapter designed to integrate
-  with a JSON API that uses an underscored naming convention instead of camelCasing.
-  It has been designed to work out of the box with the
-  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem.
+  The `EmbeddedJSONAdapter` is a subclass of the RESTAdapter.
+
+  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
+  records embedded in JSON payloads, designed to work out of the box with the
+  [active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.
+
+  [Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and `embeds_one`
+  in (Rails) models. Also `has_one` and `has_many` can be used with
+  `ActiveModel::Serializers`. Choose an option for embedding ids or object(s).
 
   This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
   decamelization and pluralization methods to normalize the serialized JSON into a
@@ -636,7 +644,7 @@ var forEach = Ember.EnumerableUtils.forEach;
 
   ## JSON Structure
 
-  The ActiveModelAdapter expects the JSON returned from your server to follow
+  The EmbeddedJSONAdapter expects the JSON payload from your server to follow
   the REST adapter conventions substituting underscored keys for camelcased ones.
 
   ### Conventional Names

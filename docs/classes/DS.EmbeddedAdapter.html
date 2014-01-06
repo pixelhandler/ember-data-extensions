@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>mixins - Extensions for Ember Data</title>
+    <title>DS.EmbeddedAdapter - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -96,16 +96,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>mixins Module</h1>
-<div class="box clearfix meta">
+                        <h1>DS.EmbeddedAdapter Class</h1>
+<div class="box meta">
     
 
+    
+        <div class="extends">
+            Extends DS.RESTAdapter
+        </div>
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:11</code></a>
+            Defined in: <a href="../files/packages_embedded-adapter_lib_initializer.js.html#l6"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;initializer.js:6</code></a>
         </div>
+    
+
+    
+        
+            Module: <a href="../modules/embedded-adapter.html">embedded-adapter</a><br>
+            Parent Module: <a href="../modules/ember-data.html">ember-data</a>
+        
     
 
     
@@ -114,52 +125,99 @@
 
 
 <div class="box intro">
-    <p>DS.EmbeddedMixin supports serializing embedded records.</p>
-<p>To set up embedded records, include the mixin into a serializer then
-define embedded (model) relationships.</p>
-<p>Below is an example of a per type serializer (post type).</p>
-<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
-  attrs: {
-    author: {embedded: &#39;always&#39;},
-    comments: {embedded: &#39;always&#39;}
-  }
-})</code></pre>
-<p>Currently only <code>{embedded: &#39;always&#39;}</code> records are supported.</p>
+    <p>DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:
+DS.UnderscoredAdapterMixin</p>
 
 </div>
 
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_DS.EmbeddedAdapter" class="method item">
+    <h3 class="name"><code>DS.EmbeddedAdapter</code></h3>
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
         
-            <p>This module provides the following classes:</p>
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/packages_embedded-adapter_lib_initializer.js.html#l6"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;initializer.js:6</code></a>
+        
+        </p>
 
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/DS.EmbeddedMixin.html">
-                        DS.EmbeddedMixin
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/DS.UnderscoredAdapterMixin.html">
-                        DS.UnderscoredAdapterMixin
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/DS.UnderscoredSerializer.html">
-                        DS.UnderscoredSerializer
-                    </a>
-                </li>
-            
-            </ul>
+
+        
+
         
     </div>
 
-    <div class="yui3-u-1-2">
+    <div class="description">
+        
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+    </div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+
+        
+
         
     </div>
 </div>

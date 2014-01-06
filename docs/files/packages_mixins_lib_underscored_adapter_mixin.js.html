@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>packages/embedded-json-adapter/lib/embedded_json_adapter.js - Extensions for Ember Data</title>
+    <title>packages/mixins/lib/underscored_adapter_mixin.js - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,17 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/DS.EmbeddedJSONAdapter.html">DS.EmbeddedJSONAdapter</a></li>
+                <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONMixin.html">DS.EmbeddedJSONMixin</a></li>
+                <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONSerializer.html">DS.EmbeddedJSONSerializer</a></li>
+                <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredSerializer.html">DS.UnderscoredSerializer</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a></li>
+                <li><a href="../modules/embedded-adapter.html">embedded-adapter</a></li>
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
@@ -92,7 +96,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: packages/embedded-json-adapter/lib/embedded_json_adapter.js</h1>
+                        <h1 class="file-heading">File: packages/mixins/lib/underscored_adapter_mixin.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -102,28 +106,31 @@ var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule mixins
 **/
 
 /**
-  The &#x60;EmbeddedJSONAdapter&#x60; is a subclass of the RESTAdapter.
+  The &#x60;UnderscoredAdapterMixin&#x60; is intended use when creating a subclass of the
+  DS.RESTAdapter.
 
-  A fork of &#x60;activemodel-adapter&#x60; with support for embedded &#x60;hasMany&#x60; and &#x60;belongsTo&#x60;
+  Based on &#x60;activemodel-adapter&#x60; package, supports &#x60;hasMany&#x60; and &#x60;belongsTo&#x60;
   records embedded in JSON payloads, designed to work out of the box with the
-  [active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.
+  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
+  Ruby gem.
 
-  [Mongoid](https://github.com/mongoid/mongoid) supports using &#x60;embeds_many&#x60; and &#x60;embeds_one&#x60;
-  in (Rails) models. Also &#x60;has_one&#x60; and &#x60;has_many&#x60; can be used with
+  [Mongoid](https://github.com/mongoid/mongoid) supports using &#x60;embeds_many&#x60; and
+  &#x60;embeds_one&#x60; in (Rails) models. Also &#x60;has_one&#x60; and &#x60;has_many&#x60; can be used with
   &#x60;ActiveModel::Serializers&#x60;. Choose an option for embedding ids or object(s).
 
-  This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
-  decamelization and pluralization methods to normalize the serialized JSON into a
-  format that is compatible with a conventional Rails backend and Ember Data.
+  Use to create an adapter based on the DS.RESTAdapter by making consistent use of
+  the camelization, decamelization and pluralization methods to normalize the
+  serialized JSON into a format that is compatible with a conventional Rails backend
+  and Ember Data.
 
   ## JSON Structure
 
-  The EmbeddedJSONAdapter expects the JSON payload from your server to follow
-  the REST adapter conventions substituting underscored keys for camelcased ones.
+  The UnderscoredAdapterMixin expects the JSON payload from your server to follow
+  the REST adapter conventions substituting underscored keys for camelCased ones.
 
   ### Conventional Names
 
@@ -152,16 +159,14 @@ var forEach = Ember.EnumerableUtils.forEach;
   }
   &#x60;&#x60;&#x60;
 
-  @class EmbeddedJSONAdapter
+  @class UnderscoredAdapterMixin
   @constructor
   @namespace DS
-  @extends DS.RESTAdapter
 **/
 
-DS.EmbeddedJSONAdapter = DS.RESTAdapter.extend({
-  defaultSerializer: &#x27;ams_mongoid&#x27;,
+DS.UnderscoredAdapterMixin = Ember.Mixin.create({
   /**
-    The ActiveModelAdapter overrides the &#x60;pathForType&#x60; method to build
+    The UnderscoredAdapterMixin overrides the &#x60;pathForType&#x60; method to build
     underscored URLs by decamelizing and pluralizing the object type name.
 
     &#x60;&#x60;&#x60;js
@@ -179,7 +184,7 @@ DS.EmbeddedJSONAdapter = DS.RESTAdapter.extend({
   },
 
   /**
-    The ActiveModelAdapter overrides the &#x60;ajaxError&#x60; method
+    DS.UnderscoredAdapterMixin can override the &#x60;ajaxError&#x60; method
     to return a DS.InvalidError for all 422 Unprocessable Entity
     responses.
 

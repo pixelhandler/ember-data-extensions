@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>DS.EmbeddedJSONSerializer - Extensions for Ember Data</title>
+    <title>DS.UnderscoredSerializer - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,17 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/DS.EmbeddedJSONAdapter.html">DS.EmbeddedJSONAdapter</a></li>
+                <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONMixin.html">DS.EmbeddedJSONMixin</a></li>
+                <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONSerializer.html">DS.EmbeddedJSONSerializer</a></li>
+                <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredSerializer.html">DS.UnderscoredSerializer</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a></li>
+                <li><a href="../modules/embedded-adapter.html">embedded-adapter</a></li>
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
@@ -92,25 +96,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>DS.EmbeddedJSONSerializer Class</h1>
+                        <h1>DS.UnderscoredSerializer Class</h1>
 <div class="box meta">
     
 
     
-        <div class="extends">
-            Extends DS.RESTSerializer
-        </div>
-    
 
     
         <div class="foundat">
-            Defined in: <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l11"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:11</code></a>
+            Defined in: <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:11</code></a>
         </div>
     
 
     
         
-            Module: <a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a><br>
+            Module: <a href="../modules/mixins.html">mixins</a><br>
             Parent Module: <a href="../modules/ember-data.html">ember-data</a>
         
     
@@ -121,11 +121,12 @@
 
 
 <div class="box intro">
-    <p>The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer</p>
-<p>A fork of <code>activemodel-adapter</code> with support for embedded <code>hasMany</code> and <code>belongsTo</code>
+    <p>The <code>UnderscoredSerializer</code> is intended use when creating a subclass of the
+DS.RESTSerializer.</p>
+<p>Based on <code>activemodel-adapter</code> package, supports <code>hasMany</code> and <code>belongsTo</code>
 records embedded in JSON payloads, designed to work out of the box with the
 <a href="http://github.com/rails-api/active_model_serializers">active_model_serializers</a>
-Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+Ruby gem. And is designed to integrate with an API that uses an underscored
 naming convention instead of camelCasing.</p>
 
 </div>
@@ -133,8 +134,8 @@ naming convention instead of camelCasing.</p>
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_DS.EmbeddedJSONSerializer" class="method item">
-    <h3 class="name"><code>DS.EmbeddedJSONSerializer</code></h3>
+        <div id="method_DS.UnderscoredSerializer" class="method item">
+    <h3 class="name"><code>DS.UnderscoredSerializer</code></h3>
 
     
         <span class="paren">()</span>
@@ -165,7 +166,7 @@ naming convention instead of camelCasing.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l11"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:11</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:11</code></a>
         
         </p>
 
@@ -209,7 +210,7 @@ naming convention instead of camelCasing.</p>
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                         
                             <li class="index-item method">
                                 <a href="#method_keyForAttribute">keyForAttribute</a>
@@ -329,7 +330,7 @@ naming convention instead of camelCasing.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l28"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:28</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l28"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:28</code></a>
         
         </p>
 
@@ -439,7 +440,7 @@ naming convention instead of camelCasing.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l39"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:39</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l39"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:39</code></a>
         
         </p>
 
@@ -571,7 +572,7 @@ relationship keys.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l104"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:104</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l104"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:104</code></a>
         
         </p>
 
@@ -717,7 +718,7 @@ relationship keys.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l144"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:144</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l144"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:144</code></a>
         
         </p>
 
@@ -797,7 +798,7 @@ relationship keys.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l166"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:166</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l166"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:166</code></a>
         
         </p>
 
@@ -890,7 +891,7 @@ relationship keys.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l59"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:59</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l59"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:59</code></a>
         
         </p>
 
@@ -1035,7 +1036,7 @@ relationship keys.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l73"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:73</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l73"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:73</code></a>
         
         </p>
 
@@ -1157,7 +1158,7 @@ relationship keys.</p>
             
         
         
-        <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l92"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:92</code></a>
+        <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l92"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:92</code></a>
         
         </p>
 

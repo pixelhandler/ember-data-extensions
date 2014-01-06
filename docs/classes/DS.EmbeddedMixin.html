@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>DS.EmbeddedJSONMixin - Extensions for Ember Data</title>
+    <title>DS.EmbeddedMixin - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,17 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/DS.EmbeddedJSONAdapter.html">DS.EmbeddedJSONAdapter</a></li>
+                <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONMixin.html">DS.EmbeddedJSONMixin</a></li>
+                <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONSerializer.html">DS.EmbeddedJSONSerializer</a></li>
+                <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredSerializer.html">DS.UnderscoredSerializer</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a></li>
+                <li><a href="../modules/embedded-adapter.html">embedded-adapter</a></li>
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
@@ -92,7 +96,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>DS.EmbeddedJSONMixin Class</h1>
+                        <h1>DS.EmbeddedMixin Class</h1>
 <div class="box meta">
     
 
@@ -100,7 +104,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:11</code></a>
+            Defined in: <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:11</code></a>
         </div>
     
 
@@ -117,11 +121,11 @@
 
 
 <div class="box intro">
-    <p>The EmbeddedJSONMixin allows you to add embedded record support to your serializers.</p>
-<p>To set up embedded records, you include the mixin into the serializer and then
-define your embedded relations. The EmbeddedJSONSerializer is an example.</p>
+    <p>DS.EmbeddedMixin supports serializing embedded records.</p>
+<p>To set up embedded records, include the mixin into a serializer then
+define embedded (model) relationships.</p>
 <p>Below is an example of a per type serializer (post type).</p>
-<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
   attrs: {
     author: {embedded: &#39;always&#39;},
     comments: {embedded: &#39;always&#39;}
@@ -257,7 +261,7 @@ define your embedded relations. The EmbeddedJSONSerializer is an example.</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l241"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:241</code></a>
+        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l241"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:241</code></a>
         
         </p>
 
@@ -449,7 +453,7 @@ and add them as side-loaded objects instead.</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l182"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:182</code></a>
+        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l182"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:182</code></a>
         
         </p>
 
@@ -651,7 +655,7 @@ The <code>post</code> attribute under <code>author</code> is the foreign key wit
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l35"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:35</code></a>
+        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l35"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:35</code></a>
         
         </p>
 
@@ -675,7 +679,7 @@ Author = DS.Model.extend({
   post:     DS.belongsTo(&#39;post&#39;)
 });</code></pre>
 <p>Use a custom (type) serializer for the post model to configure embedded author</p>
-<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
   attrs: {
     author: {embedded: &#39;always&#39;}
   }
@@ -810,7 +814,7 @@ the records together under the root attribute&#39;s payload:</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l109"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:109</code></a>
+        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l109"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:109</code></a>
         
         </p>
 
@@ -834,7 +838,7 @@ Comment = DS.Model.extend({
   post:     DS.belongsTo(&#39;post&#39;)
 });</code></pre>
 <p>Use a custom (type) serializer for the post model to configure embedded comments</p>
-<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
   attrs: {
     comments: {embedded: &#39;always&#39;}
   }

@@ -1,49 +1,54 @@
 {
     "project": {
         "name": "Extensions for Ember Data",
-        "description": "Ember Data Adapters, Serializers and Mixins",
+        "description": "Mixins for Adapters and Serializers",
         "version": "1.0.0-beta.4",
         "url": "https://github.com/pixelhandler/ember-data-extensions"
     },
     "files": {
-        "packages/embedded-json-adapter/lib/embedded_json_adapter.js": {
-            "name": "packages/embedded-json-adapter/lib/embedded_json_adapter.js",
+        "packages/embedded-adapter/lib/initializer.js": {
+            "name": "packages/embedded-adapter/lib/initializer.js",
             "modules": {
-                "embedded-json-adapter": 1
+                "embedded-adapter": 1
             },
             "classes": {
-                "DS.EmbeddedJSONAdapter": 1
+                "DS.EmbeddedAdapter": 1,
+                "DS.EmbeddedSerializer": 1
             },
             "fors": {},
             "namespaces": {
                 "DS": 1
             }
         },
-        "packages/embedded-json-adapter/lib/embedded_json_serializer.js": {
-            "name": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "modules": {},
-            "classes": {
-                "DS.EmbeddedJSONSerializer": 1
-            },
-            "fors": {},
-            "namespaces": {
-                "DS": 1
-            }
-        },
-        "packages/embedded-json-adapter/lib/initializer.js": {
-            "name": "packages/embedded-json-adapter/lib/initializer.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "packages/mixins/lib/embedded_json_mixin.js": {
-            "name": "packages/mixins/lib/embedded_json_mixin.js",
+        "packages/mixins/lib/embedded_mixin.js": {
+            "name": "packages/mixins/lib/embedded_mixin.js",
             "modules": {
                 "mixins": 1
             },
             "classes": {
-                "DS.EmbeddedJSONMixin": 1
+                "DS.EmbeddedMixin": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "DS": 1
+            }
+        },
+        "packages/mixins/lib/underscored_adapter_mixin.js": {
+            "name": "packages/mixins/lib/underscored_adapter_mixin.js",
+            "modules": {},
+            "classes": {
+                "DS.UnderscoredAdapterMixin": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "DS": 1
+            }
+        },
+        "packages/mixins/lib/underscored_serializer_mixin.js": {
+            "name": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "modules": {},
+            "classes": {
+                "DS.UnderscoredSerializer": 1
             },
             "fors": {},
             "namespaces": {
@@ -55,27 +60,29 @@
         "ember-data": {
             "name": "ember-data",
             "submodules": {
-                "embedded-json-adapter": 1,
+                "embedded-adapter": 1,
                 "mixins": 1
             },
             "classes": {
-                "DS.EmbeddedJSONAdapter": 1,
-                "DS.EmbeddedJSONSerializer": 1,
-                "DS.EmbeddedJSONMixin": 1
+                "DS.EmbeddedAdapter": 1,
+                "DS.EmbeddedSerializer": 1,
+                "DS.EmbeddedMixin": 1,
+                "DS.UnderscoredAdapterMixin": 1,
+                "DS.UnderscoredSerializer": 1
             },
             "fors": {},
             "namespaces": {
                 "DS": 1
             },
-            "file": "packages/mixins/lib/embedded_json_mixin.js",
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
             "line": 11
         },
-        "embedded-json-adapter": {
-            "name": "embedded-json-adapter",
+        "embedded-adapter": {
+            "name": "embedded-adapter",
             "submodules": {},
             "classes": {
-                "DS.EmbeddedJSONAdapter": 1,
-                "DS.EmbeddedJSONSerializer": 1
+                "DS.EmbeddedAdapter": 1,
+                "DS.EmbeddedSerializer": 1
             },
             "fors": {},
             "is_submodule": 1,
@@ -84,15 +91,17 @@
             },
             "module": "ember-data",
             "namespace": "",
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 11,
-            "description": "The `EmbeddedJSONAdapter` is a subclass of the RESTAdapter.\n\nA fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`\nrecords embedded in JSON payloads, designed to work out of the box with the\n[active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.\n\n[Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and `embeds_one`\nin (Rails) models. Also `has_one` and `has_many` can be used with\n`ActiveModel::Serializers`. Choose an option for embedding ids or object(s).\n\nThis adapter extends the DS.RESTAdapter by making consistent use of the camelization,\ndecamelization and pluralization methods to normalize the serialized JSON into a\nformat that is compatible with a conventional Rails backend and Ember Data.\n\n## JSON Structure\n\nThe EmbeddedJSONAdapter expects the JSON payload from your server to follow\nthe REST adapter conventions substituting underscored keys for camelcased ones.\n\n### Conventional Names\n\nAttribute names in your JSON payload should be the underscored versions of\nthe attributes in your Ember.js models.\n\nFor example, if you have a `Person` model:\n\n```js\nApp.FamousPerson = DS.Model.extend({\n  firstName: DS.attr('string'),\n  lastName: DS.attr('string'),\n  occupation: DS.attr('string')\n});\n```\n\nThe JSON returned should look like this:\n\n```js\n{\n  \"famous_person\": {\n    \"first_name\": \"Barack\",\n    \"last_name\": \"Obama\",\n    \"occupation\": \"President\"\n  }\n}\n```"
+            "file": "packages/embedded-adapter/lib/initializer.js",
+            "line": 21,
+            "description": "DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:\nDS.UnderscoredAdapterMixin"
         },
         "mixins": {
             "name": "mixins",
             "submodules": {},
             "classes": {
-                "DS.EmbeddedJSONMixin": 1
+                "DS.EmbeddedMixin": 1,
+                "DS.UnderscoredAdapterMixin": 1,
+                "DS.UnderscoredSerializer": 1
             },
             "fors": {},
             "is_submodule": 1,
@@ -101,49 +110,49 @@
             },
             "module": "ember-data",
             "namespace": "",
-            "file": "packages/mixins/lib/embedded_json_mixin.js",
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
             "line": 11,
-            "description": "The EmbeddedJSONMixin allows you to add embedded record support to your serializers.\n\nTo set up embedded records, you include the mixin into the serializer and then\ndefine your embedded relations. The EmbeddedJSONSerializer is an example.\n\nBelow is an example of a per type serializer (post type).\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {\n  attrs: {\n    author: {embedded: 'always'},\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nCurrently only `{embedded: 'always'}` records are supported."
+            "description": "DS.EmbeddedMixin supports serializing embedded records.\n\nTo set up embedded records, include the mixin into a serializer then\ndefine embedded (model) relationships.\n\nBelow is an example of a per type serializer (post type).\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    author: {embedded: 'always'},\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nCurrently only `{embedded: 'always'}` records are supported."
         }
     },
     "classes": {
-        "DS.EmbeddedJSONAdapter": {
-            "name": "DS.EmbeddedJSONAdapter",
-            "shortname": "DS.EmbeddedJSONAdapter",
+        "DS.EmbeddedAdapter": {
+            "name": "DS.EmbeddedAdapter",
+            "shortname": "DS.EmbeddedAdapter",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
             "module": "ember-data",
-            "submodule": "embedded-json-adapter",
+            "submodule": "embedded-adapter",
             "namespace": "DS",
-            "file": "packages/embedded-json-adapter/lib/embedded_json_adapter.js",
-            "line": 10,
-            "description": "The `EmbeddedJSONAdapter` is a subclass of the RESTAdapter.\n\nA fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`\nrecords embedded in JSON payloads, designed to work out of the box with the\n[active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.\n\n[Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and `embeds_one`\nin (Rails) models. Also `has_one` and `has_many` can be used with\n`ActiveModel::Serializers`. Choose an option for embedding ids or object(s).\n\nThis adapter extends the DS.RESTAdapter by making consistent use of the camelization,\ndecamelization and pluralization methods to normalize the serialized JSON into a\nformat that is compatible with a conventional Rails backend and Ember Data.\n\n## JSON Structure\n\nThe EmbeddedJSONAdapter expects the JSON payload from your server to follow\nthe REST adapter conventions substituting underscored keys for camelcased ones.\n\n### Conventional Names\n\nAttribute names in your JSON payload should be the underscored versions of\nthe attributes in your Ember.js models.\n\nFor example, if you have a `Person` model:\n\n```js\nApp.FamousPerson = DS.Model.extend({\n  firstName: DS.attr('string'),\n  lastName: DS.attr('string'),\n  occupation: DS.attr('string')\n});\n```\n\nThe JSON returned should look like this:\n\n```js\n{\n  \"famous_person\": {\n    \"first_name\": \"Barack\",\n    \"last_name\": \"Obama\",\n    \"occupation\": \"President\"\n  }\n}\n```",
+            "file": "packages/embedded-adapter/lib/initializer.js",
+            "line": 6,
+            "description": "DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:\nDS.UnderscoredAdapterMixin",
             "is_constructor": 1,
             "extends": "DS.RESTAdapter"
         },
-        "DS.EmbeddedJSONSerializer": {
-            "name": "DS.EmbeddedJSONSerializer",
-            "shortname": "DS.EmbeddedJSONSerializer",
+        "DS.EmbeddedSerializer": {
+            "name": "DS.EmbeddedSerializer",
+            "shortname": "DS.EmbeddedSerializer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
             "module": "ember-data",
-            "submodule": "embedded-json-adapter",
+            "submodule": "embedded-adapter",
             "namespace": "DS",
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 11,
-            "description": "The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer\n\nA fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`\nrecords embedded in JSON payloads, designed to work out of the box with the\n[active_model_serializers](http://github.com/rails-api/active_model_serializers)\nRuby gem. And is designed to integrate with a JSON API that uses an underscored\nnaming convention instead of camelCasing.",
+            "file": "packages/embedded-adapter/lib/initializer.js",
+            "line": 21,
+            "description": "DS.EmbeddedSerializer extends the DS.RESTSerializer adding mixins:\nDS.UnderscoredSerializer, DS.EmbeddedMixin",
             "is_constructor": 1,
             "extends": "DS.RESTSerializer"
         },
-        "DS.EmbeddedJSONMixin": {
-            "name": "DS.EmbeddedJSONMixin",
-            "shortname": "DS.EmbeddedJSONMixin",
+        "DS.EmbeddedMixin": {
+            "name": "DS.EmbeddedMixin",
+            "shortname": "DS.EmbeddedMixin",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -152,247 +161,48 @@
             "module": "ember-data",
             "submodule": "mixins",
             "namespace": "DS",
-            "file": "packages/mixins/lib/embedded_json_mixin.js",
+            "file": "packages/mixins/lib/embedded_mixin.js",
             "line": 11,
-            "description": "The EmbeddedJSONMixin allows you to add embedded record support to your serializers.\n\nTo set up embedded records, you include the mixin into the serializer and then\ndefine your embedded relations. The EmbeddedJSONSerializer is an example.\n\nBelow is an example of a per type serializer (post type).\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {\n  attrs: {\n    author: {embedded: 'always'},\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nCurrently only `{embedded: 'always'}` records are supported."
+            "description": "DS.EmbeddedMixin supports serializing embedded records.\n\nTo set up embedded records, include the mixin into a serializer then\ndefine embedded (model) relationships.\n\nBelow is an example of a per type serializer (post type).\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    author: {embedded: 'always'},\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nCurrently only `{embedded: 'always'}` records are supported."
+        },
+        "DS.UnderscoredAdapterMixin": {
+            "name": "DS.UnderscoredAdapterMixin",
+            "shortname": "DS.UnderscoredAdapterMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS",
+            "file": "packages/mixins/lib/underscored_adapter_mixin.js",
+            "line": 10,
+            "description": "The `UnderscoredAdapterMixin` is intended use when creating a subclass of the\nDS.RESTAdapter.\n\nBased on `activemodel-adapter` package, supports `hasMany` and `belongsTo`\nrecords embedded in JSON payloads, designed to work out of the box with the\n[active_model_serializers](http://github.com/rails-api/active_model_serializers)\nRuby gem.\n\n[Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and\n`embeds_one` in (Rails) models. Also `has_one` and `has_many` can be used with\n`ActiveModel::Serializers`. Choose an option for embedding ids or object(s).\n\nUse to create an adapter based on the DS.RESTAdapter by making consistent use of\nthe camelization, decamelization and pluralization methods to normalize the\nserialized JSON into a format that is compatible with a conventional Rails backend\nand Ember Data.\n\n## JSON Structure\n\nThe UnderscoredAdapterMixin expects the JSON payload from your server to follow\nthe REST adapter conventions substituting underscored keys for camelCased ones.\n\n### Conventional Names\n\nAttribute names in your JSON payload should be the underscored versions of\nthe attributes in your Ember.js models.\n\nFor example, if you have a `Person` model:\n\n```js\nApp.FamousPerson = DS.Model.extend({\n  firstName: DS.attr('string'),\n  lastName: DS.attr('string'),\n  occupation: DS.attr('string')\n});\n```\n\nThe JSON returned should look like this:\n\n```js\n{\n  \"famous_person\": {\n    \"first_name\": \"Barack\",\n    \"last_name\": \"Obama\",\n    \"occupation\": \"President\"\n  }\n}\n```",
+            "is_constructor": 1
+        },
+        "DS.UnderscoredSerializer": {
+            "name": "DS.UnderscoredSerializer",
+            "shortname": "DS.UnderscoredSerializer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS",
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 11,
+            "description": "The `UnderscoredSerializer` is intended use when creating a subclass of the\nDS.RESTSerializer.\n\nBased on `activemodel-adapter` package, supports `hasMany` and `belongsTo`\nrecords embedded in JSON payloads, designed to work out of the box with the\n[active_model_serializers](http://github.com/rails-api/active_model_serializers)\nRuby gem. And is designed to integrate with an API that uses an underscored\nnaming convention instead of camelCasing.",
+            "is_constructor": 1
         }
     },
     "classitems": [
         {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_adapter.js",
-            "line": 65,
-            "description": "The ActiveModelAdapter overrides the `pathForType` method to build\nunderscored URLs by decamelizing and pluralizing the object type name.\n\n```js\n  this.pathForType(\"famousPerson\");\n  //=> \"famous_people\"\n```",
-            "itemtype": "method",
-            "name": "pathForType",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "String"
-            },
-            "class": "DS.EmbeddedJSONAdapter",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_adapter.js",
-            "line": 83,
-            "description": "The ActiveModelAdapter overrides the `ajaxError` method\nto return a DS.InvalidError for all 422 Unprocessable Entity\nresponses.\n\nA 422 HTTP response from the server generally implies that the request\nwas well formed but the API was unable to process it because the\ncontent was not semantically correct or meaningful per the API.\n\nFor more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918\nhttps://tools.ietf.org/html/rfc4918#section-11.2",
-            "itemtype": "method",
-            "name": "ajaxError",
-            "params": [
-                {
-                    "name": "jqXHR",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "error"
-            },
-            "class": "DS.EmbeddedJSONAdapter",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 28,
-            "description": "Converts camelCased attributes to underscored when serializing.",
-            "itemtype": "method",
-            "name": "keyForAttribute",
-            "params": [
-                {
-                    "name": "attribute",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "String"
-            },
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 39,
-            "description": "Underscores relationship names and appends \"_id\" or \"_ids\" when serializing\nrelationship keys.",
-            "itemtype": "method",
-            "name": "keyForRelationship",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "kind",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "String"
-            },
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 59,
-            "description": "Underscores the JSON root keys when serializing.",
-            "itemtype": "method",
-            "name": "serializeIntoHash",
-            "params": [
-                {
-                    "name": "hash",
-                    "description": "",
-                    "type": "Object"
-                },
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "subclass of DS.Model"
-                },
-                {
-                    "name": "record",
-                    "description": "",
-                    "type": "DS.Model"
-                },
-                {
-                    "name": "options",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 73,
-            "description": "Serializes a polymorphic type as a fully capitalized model name.",
-            "itemtype": "method",
-            "name": "serializePolymorphicType",
-            "params": [
-                {
-                    "name": "record",
-                    "description": "",
-                    "type": "DS.Model"
-                },
-                {
-                    "name": "json",
-                    "description": "",
-                    "type": "Object"
-                },
-                {
-                    "name": "relationship",
-                    "description": ""
-                }
-            ],
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 92,
-            "description": "Extracts the model typeKey from underscored root objects.",
-            "itemtype": "method",
-            "name": "typeForRoot",
-            "params": [
-                {
-                    "name": "root",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "String the model's typeKey"
-            },
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 104,
-            "description": "Add extra step to `DS.RESTSerializer.normalize` so links are normalized.\n\nIf your payload looks like:\n\n```js\n{\n  \"post\": {\n    \"id\": 1,\n    \"title\": \"Rails is omakase\",\n    \"links\": { \"flagged_comments\": \"api/comments/flagged\" }\n  }\n}\n```\n\nThe normalized version would look like this\n\n```js\n{\n  \"post\": {\n    \"id\": 1,\n    \"title\": \"Rails is omakase\",\n    \"links\": { \"flaggedComments\": \"api/comments/flagged\" }\n  }\n}\n```",
-            "itemtype": "method",
-            "name": "normalize",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "",
-                    "type": "subclass of DS.Model"
-                },
-                {
-                    "name": "hash",
-                    "description": "",
-                    "type": "Object"
-                },
-                {
-                    "name": "prop",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "Object"
-            },
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 144,
-            "description": "Convert `snake_cased` links  to `camelCase`",
-            "itemtype": "method",
-            "name": "normalizeLinks",
-            "params": [
-                {
-                    "name": "hash",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-            "line": 166,
-            "description": "Normalize the polymorphic type from the JSON.\n\nNormalize:\n```js\n  {\n    id: \"1\"\n    minion: { type: \"evil_minion\", id: \"12\"}\n  }\n```\n\nTo:\n```js\n  {\n    id: \"1\"\n    minion: { type: \"evilMinion\", id: \"12\"}\n  }\n```",
-            "itemtype": "method",
-            "name": "normalizeRelationships",
-            "access": "private",
-            "tagname": "",
-            "class": "DS.EmbeddedJSONSerializer",
-            "module": "ember-data",
-            "submodule": "embedded-json-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/mixins/lib/embedded_json_mixin.js",
+            "file": "packages/mixins/lib/embedded_mixin.js",
             "line": 35,
-            "description": "Serialize `belongsTo` relationship when it is configured as an embedded object.\n\nThis example of an author model belongs to a post model:\n\n```js\nPost = DS.Model.extend({\n  title:    DS.attr('string'),\n  body:     DS.attr('string'),\n  author:   DS.belongsTo('author')\n});\n\nAuthor = DS.Model.extend({\n  name:     DS.attr('string'),\n  post:     DS.belongsTo('post')\n});\n```\n\nUse a custom (type) serializer for the post model to configure embedded author\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {\n  attrs: {\n    author: {embedded: 'always'}\n  }\n})\n```\n\nA payload with an attribute configured for embedded records can serialize\nthe records together under the root attribute's payload:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"author\": {\n      \"id\": \"2\"\n      \"name\": \"dhh\"\n    }\n  }\n}\n```",
+            "description": "Serialize `belongsTo` relationship when it is configured as an embedded object.\n\nThis example of an author model belongs to a post model:\n\n```js\nPost = DS.Model.extend({\n  title:    DS.attr('string'),\n  body:     DS.attr('string'),\n  author:   DS.belongsTo('author')\n});\n\nAuthor = DS.Model.extend({\n  name:     DS.attr('string'),\n  post:     DS.belongsTo('post')\n});\n```\n\nUse a custom (type) serializer for the post model to configure embedded author\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    author: {embedded: 'always'}\n  }\n})\n```\n\nA payload with an attribute configured for embedded records can serialize\nthe records together under the root attribute's payload:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"author\": {\n      \"id\": \"2\"\n      \"name\": \"dhh\"\n    }\n  }\n}\n```",
             "itemtype": "method",
             "name": "serializeBelongsTo",
             "params": [
@@ -411,15 +221,15 @@
                     "description": ""
                 }
             ],
-            "class": "DS.EmbeddedJSONMixin",
+            "class": "DS.EmbeddedMixin",
             "module": "ember-data",
             "submodule": "mixins",
             "namespace": "DS"
         },
         {
-            "file": "packages/mixins/lib/embedded_json_mixin.js",
+            "file": "packages/mixins/lib/embedded_mixin.js",
             "line": 109,
-            "description": "Serialize `hasMany` relationship when it is configured as embedded objects.\n\nThis example of a post model has many comments:\n\n```js\nPost = DS.Model.extend({\n  title:    DS.attr('string'),\n  body:     DS.attr('string'),\n  comments: DS.hasMany('comment')\n});\n\nComment = DS.Model.extend({\n  body:     DS.attr('string'),\n  post:     DS.belongsTo('post')\n});\n```\n\nUse a custom (type) serializer for the post model to configure embedded comments\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {\n  attrs: {\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nA payload with an attribute configured for embedded records can serialize\nthe records together under the root attribute's payload:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"body\": \"I want this for my ORM, I want that for my template language...\"\n    \"comments\": [{\n      \"id\": \"1\",\n      \"body\": \"Rails is unagi\"\n    }, {\n      \"id\": \"2\",\n      \"body\": \"Omakase O_o\"\n    }]\n  }\n}\n```",
+            "description": "Serialize `hasMany` relationship when it is configured as embedded objects.\n\nThis example of a post model has many comments:\n\n```js\nPost = DS.Model.extend({\n  title:    DS.attr('string'),\n  body:     DS.attr('string'),\n  comments: DS.hasMany('comment')\n});\n\nComment = DS.Model.extend({\n  body:     DS.attr('string'),\n  post:     DS.belongsTo('post')\n});\n```\n\nUse a custom (type) serializer for the post model to configure embedded comments\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nA payload with an attribute configured for embedded records can serialize\nthe records together under the root attribute's payload:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"body\": \"I want this for my ORM, I want that for my template language...\"\n    \"comments\": [{\n      \"id\": \"1\",\n      \"body\": \"Rails is unagi\"\n    }, {\n      \"id\": \"2\",\n      \"body\": \"Omakase O_o\"\n    }]\n  }\n}\n```",
             "itemtype": "method",
             "name": "serializeHasMany",
             "params": [
@@ -438,13 +248,13 @@
                     "description": ""
                 }
             ],
-            "class": "DS.EmbeddedJSONMixin",
+            "class": "DS.EmbeddedMixin",
             "module": "ember-data",
             "submodule": "mixins",
             "namespace": "DS"
         },
         {
-            "file": "packages/mixins/lib/embedded_json_mixin.js",
+            "file": "packages/mixins/lib/embedded_mixin.js",
             "line": 182,
             "description": "Extract an embedded object from the payload for a single object\nand add the object in the compound document (side-loaded) format instead.\n\nA payload with an attribute configured for embedded records needs to be extracted:\n\n```js\n{\n  \"post\": {\n    \"id\": 1\n    \"title\": \"Rails is omakase\",\n    \"author\": {\n      \"id\": 2\n      \"name\": \"dhh\"\n    }\n    \"comments\": []\n  }\n}\n```\n\nEmber Data is expecting a payload with a compound document (side-loaded) like:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"author\": \"2\"\n    \"comments\": []\n  },\n  \"authors\": [{\n    \"id\": \"2\"\n    \"post\": \"1\"\n    \"name\": \"dhh\"\n  }]\n  \"comments\": []\n}\n```\n\nThe payload's `author` attribute represents an object with a `belongsTo` relationship.\nThe `post` attribute under `author` is the foreign key with the id for the post",
             "itemtype": "method",
@@ -479,13 +289,13 @@
             "return": {
                 "description": "Object the primary response to the original request"
             },
-            "class": "DS.EmbeddedJSONMixin",
+            "class": "DS.EmbeddedMixin",
             "module": "ember-data",
             "submodule": "mixins",
             "namespace": "DS"
         },
         {
-            "file": "packages/mixins/lib/embedded_json_mixin.js",
+            "file": "packages/mixins/lib/embedded_mixin.js",
             "line": 241,
             "description": "Extract embedded objects in an array when an attr is configured for embedded,\nand add them as side-loaded objects instead.\n\nA payload with an attr configured for embedded records needs to be extracted:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"comments\": [{\n      \"id\": \"1\",\n      \"body\": \"Rails is unagi\"\n    }, {\n      \"id\": \"2\",\n      \"body\": \"Omakase O_o\"\n    }]\n  }\n}\n```\n\nEmber Data is expecting a payload with compound document (side-loaded) like:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"comments\": [\"1\", \"2\"]\n  },\n  \"comments\": [{\n    \"id\": \"1\",\n    \"body\": \"Rails is unagi\"\n  }, {\n    \"id\": \"2\",\n    \"body\": \"Omakase O_o\"\n  }]\n}\n```\n\nThe payload's `comments` attribute represents records in a `hasMany` relationship",
             "itemtype": "method",
@@ -511,7 +321,238 @@
                 "description": "The primary array that was returned in response\n  to the original query.",
                 "type": "Array<Object>"
             },
-            "class": "DS.EmbeddedJSONMixin",
+            "class": "DS.EmbeddedMixin",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_adapter_mixin.js",
+            "line": 66,
+            "description": "The UnderscoredAdapterMixin overrides the `pathForType` method to build\nunderscored URLs by decamelizing and pluralizing the object type name.\n\n```js\n  this.pathForType(\"famousPerson\");\n  //=> \"famous_people\"\n```",
+            "itemtype": "method",
+            "name": "pathForType",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "String"
+            },
+            "class": "DS.UnderscoredAdapterMixin",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_adapter_mixin.js",
+            "line": 84,
+            "description": "DS.UnderscoredAdapterMixin can override the `ajaxError` method\nto return a DS.InvalidError for all 422 Unprocessable Entity\nresponses.\n\nA 422 HTTP response from the server generally implies that the request\nwas well formed but the API was unable to process it because the\ncontent was not semantically correct or meaningful per the API.\n\nFor more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918\nhttps://tools.ietf.org/html/rfc4918#section-11.2",
+            "itemtype": "method",
+            "name": "ajaxError",
+            "params": [
+                {
+                    "name": "jqXHR",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "error"
+            },
+            "class": "DS.UnderscoredAdapterMixin",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 28,
+            "description": "Converts camelCased attributes to underscored when serializing.",
+            "itemtype": "method",
+            "name": "keyForAttribute",
+            "params": [
+                {
+                    "name": "attribute",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "String"
+            },
+            "class": "DS.UnderscoredSerializer",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 39,
+            "description": "Underscores relationship names and appends \"_id\" or \"_ids\" when serializing\nrelationship keys.",
+            "itemtype": "method",
+            "name": "keyForRelationship",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "kind",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "String"
+            },
+            "class": "DS.UnderscoredSerializer",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 59,
+            "description": "Underscores the JSON root keys when serializing.",
+            "itemtype": "method",
+            "name": "serializeIntoHash",
+            "params": [
+                {
+                    "name": "hash",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "subclass of DS.Model"
+                },
+                {
+                    "name": "record",
+                    "description": "",
+                    "type": "DS.Model"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "DS.UnderscoredSerializer",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 73,
+            "description": "Serializes a polymorphic type as a fully capitalized model name.",
+            "itemtype": "method",
+            "name": "serializePolymorphicType",
+            "params": [
+                {
+                    "name": "record",
+                    "description": "",
+                    "type": "DS.Model"
+                },
+                {
+                    "name": "json",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "relationship",
+                    "description": ""
+                }
+            ],
+            "class": "DS.UnderscoredSerializer",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 92,
+            "description": "Extracts the model typeKey from underscored root objects.",
+            "itemtype": "method",
+            "name": "typeForRoot",
+            "params": [
+                {
+                    "name": "root",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "String the model's typeKey"
+            },
+            "class": "DS.UnderscoredSerializer",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 104,
+            "description": "Add extra step to `DS.RESTSerializer.normalize` so links are normalized.\n\nIf your payload looks like:\n\n```js\n{\n  \"post\": {\n    \"id\": 1,\n    \"title\": \"Rails is omakase\",\n    \"links\": { \"flagged_comments\": \"api/comments/flagged\" }\n  }\n}\n```\n\nThe normalized version would look like this\n\n```js\n{\n  \"post\": {\n    \"id\": 1,\n    \"title\": \"Rails is omakase\",\n    \"links\": { \"flaggedComments\": \"api/comments/flagged\" }\n  }\n}\n```",
+            "itemtype": "method",
+            "name": "normalize",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "subclass of DS.Model"
+                },
+                {
+                    "name": "hash",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "prop",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Object"
+            },
+            "class": "DS.UnderscoredSerializer",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 144,
+            "description": "Convert `snake_cased` links  to `camelCase`",
+            "itemtype": "method",
+            "name": "normalizeLinks",
+            "params": [
+                {
+                    "name": "hash",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "DS.UnderscoredSerializer",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/mixins/lib/underscored_serializer_mixin.js",
+            "line": 166,
+            "description": "Normalize the polymorphic type from the JSON.\n\nNormalize:\n```js\n  {\n    id: \"1\"\n    minion: { type: \"evil_minion\", id: \"12\"}\n  }\n```\n\nTo:\n```js\n  {\n    id: \"1\"\n    minion: { type: \"evilMinion\", id: \"12\"}\n  }\n```",
+            "itemtype": "method",
+            "name": "normalizeRelationships",
+            "access": "private",
+            "tagname": "",
+            "class": "DS.UnderscoredSerializer",
             "module": "ember-data",
             "submodule": "mixins",
             "namespace": "DS"

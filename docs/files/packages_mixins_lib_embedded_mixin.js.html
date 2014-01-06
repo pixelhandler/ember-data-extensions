@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>packages/mixins/lib/embedded_json_mixin.js - Extensions for Ember Data</title>
+    <title>packages/mixins/lib/embedded_mixin.js - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,17 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/DS.EmbeddedJSONAdapter.html">DS.EmbeddedJSONAdapter</a></li>
+                <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONMixin.html">DS.EmbeddedJSONMixin</a></li>
+                <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONSerializer.html">DS.EmbeddedJSONSerializer</a></li>
+                <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredSerializer.html">DS.UnderscoredSerializer</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a></li>
+                <li><a href="../modules/embedded-adapter.html">embedded-adapter</a></li>
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
@@ -92,7 +96,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: packages/mixins/lib/embedded_json_mixin.js</h1>
+                        <h1 class="file-heading">File: packages/mixins/lib/embedded_mixin.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -107,15 +111,15 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The EmbeddedJSONMixin allows you to add embedded record support to your serializers.
+  DS.EmbeddedMixin supports serializing embedded records.
 
-  To set up embedded records, you include the mixin into the serializer and then
-  define your embedded relations. The EmbeddedJSONSerializer is an example.
+  To set up embedded records, include the mixin into a serializer then
+  define embedded (model) relationships.
 
   Below is an example of a per type serializer (post type).
 
   &#x60;&#x60;&#x60;js
-  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
     attrs: {
       author: {embedded: &#x27;always&#x27;},
       comments: {embedded: &#x27;always&#x27;}
@@ -125,10 +129,10 @@ var forEach = Ember.EnumerableUtils.forEach;
 
   Currently only &#x60;{embedded: &#x27;always&#x27;}&#x60; records are supported.
 
-  @class EmbeddedJSONMixin
+  @class EmbeddedMixin
   @namespace DS
 */
-DS.EmbeddedJSONMixin = Ember.Mixin.create({
+DS.EmbeddedMixin = Ember.Mixin.create({
 
   /**
     Serialize &#x60;belongsTo&#x60; relationship when it is configured as an embedded object.
@@ -151,7 +155,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded author
 
     &#x60;&#x60;&#x60;js
-    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
       attrs: {
         author: {embedded: &#x27;always&#x27;}
       }
@@ -225,7 +229,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded comments
 
     &#x60;&#x60;&#x60;js
-    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
       attrs: {
         comments: {embedded: &#x27;always&#x27;}
       }

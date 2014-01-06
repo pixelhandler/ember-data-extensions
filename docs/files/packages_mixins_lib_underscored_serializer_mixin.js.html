@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>packages/embedded-json-adapter/lib/embedded_json_serializer.js - Extensions for Ember Data</title>
+    <title>packages/mixins/lib/underscored_serializer_mixin.js - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,17 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/DS.EmbeddedJSONAdapter.html">DS.EmbeddedJSONAdapter</a></li>
+                <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONMixin.html">DS.EmbeddedJSONMixin</a></li>
+                <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONSerializer.html">DS.EmbeddedJSONSerializer</a></li>
+                <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredSerializer.html">DS.UnderscoredSerializer</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a></li>
+                <li><a href="../modules/embedded-adapter.html">embedded-adapter</a></li>
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
@@ -92,7 +96,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: packages/embedded-json-adapter/lib/embedded_json_serializer.js</h1>
+                        <h1 class="file-heading">File: packages/mixins/lib/underscored_serializer_mixin.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -103,24 +107,24 @@ var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule mixins
 **/
 
 /**
-  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer
+  The &#x60;UnderscoredSerializer&#x60; is intended use when creating a subclass of the
+  DS.RESTSerializer.
 
-  A fork of &#x60;activemodel-adapter&#x60; with support for embedded &#x60;hasMany&#x60; and &#x60;belongsTo&#x60;
+  Based on &#x60;activemodel-adapter&#x60; package, supports &#x60;hasMany&#x60; and &#x60;belongsTo&#x60;
   records embedded in JSON payloads, designed to work out of the box with the
   [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+  Ruby gem. And is designed to integrate with an API that uses an underscored
   naming convention instead of camelCasing.
 
-  @class DS.EmbeddedJSONSerializer
+  @class DS.UnderscoredSerializer
   @constructor
   @namespace DS
-  @extends DS.RESTSerializer
 **/
-DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+DS.UnderscoredSerializer = Ember.Mixin.create({
   // SERIALIZE
 
   /**

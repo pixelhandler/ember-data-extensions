@@ -41,17 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/DS.EmbeddedJSONAdapter.html">DS.EmbeddedJSONAdapter</a></li>
+                <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONMixin.html">DS.EmbeddedJSONMixin</a></li>
+                <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONSerializer.html">DS.EmbeddedJSONSerializer</a></li>
+                <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredSerializer.html">DS.UnderscoredSerializer</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a></li>
+                <li><a href="../modules/embedded-adapter.html">embedded-adapter</a></li>
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
@@ -100,7 +104,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/packages_mixins_lib_embedded_json_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_json_mixin.js:11</code></a>
+            Defined in: <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:11</code></a>
         </div>
     
 
@@ -123,20 +127,32 @@
             <ul class="module-classes">
             
                 <li class="module-class">
-                    <a href="../classes/DS.EmbeddedJSONAdapter.html">
-                        DS.EmbeddedJSONAdapter
+                    <a href="../classes/DS.EmbeddedAdapter.html">
+                        DS.EmbeddedAdapter
                     </a>
                 </li>
             
                 <li class="module-class">
-                    <a href="../classes/DS.EmbeddedJSONMixin.html">
-                        DS.EmbeddedJSONMixin
+                    <a href="../classes/DS.EmbeddedMixin.html">
+                        DS.EmbeddedMixin
                     </a>
                 </li>
             
                 <li class="module-class">
-                    <a href="../classes/DS.EmbeddedJSONSerializer.html">
-                        DS.EmbeddedJSONSerializer
+                    <a href="../classes/DS.EmbeddedSerializer.html">
+                        DS.EmbeddedSerializer
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/DS.UnderscoredAdapterMixin.html">
+                        DS.UnderscoredAdapterMixin
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/DS.UnderscoredSerializer.html">
+                        DS.UnderscoredSerializer
                     </a>
                 </li>
             
@@ -151,56 +167,13 @@
             <ul class="module-submodules">
             
                 <li class="module-submodule">
-                    <a href="../modules/embedded-json-adapter.html">
-                        embedded-json-adapter
+                    <a href="../modules/embedded-adapter.html">
+                        embedded-adapter
                     </a>
 
                     <div class="module-submodule-description">
-                        The <code>EmbeddedJSONAdapter</code> is a subclass of the RESTAdapter.
-
-A fork of <code>activemodel-adapter</code> with support for embedded <code>hasMany</code> and <code>belongsTo</code>
-records embedded in JSON payloads, designed to work out of the box with the
-[active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.
-
-[Mongoid](https://github.com/mongoid/mongoid) supports using <code>embeds_many</code> and <code>embeds_one</code>
-in (Rails) models. Also <code>has_one</code> and <code>has_many</code> can be used with
-<code>ActiveModel::Serializers</code>. Choose an option for embedding ids or object(s).
-
-This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
-decamelization and pluralization methods to normalize the serialized JSON into a
-format that is compatible with a conventional Rails backend and Ember Data.
-
-## JSON Structure
-
-The EmbeddedJSONAdapter expects the JSON payload from your server to follow
-the REST adapter conventions substituting underscored keys for camelcased ones.
-
-### Conventional Names
-
-Attribute names in your JSON payload should be the underscored versions of
-the attributes in your Ember.js models.
-
-For example, if you have a <code>Person</code> model:
-
-<code>&#x60;</code>js
-App.FamousPerson = DS.Model.extend({
-  firstName: DS.attr('string'),
-  lastName: DS.attr('string'),
-  occupation: DS.attr('string')
-});
-<code>&#x60;</code>
-
-The JSON returned should look like this:
-
-<code>&#x60;</code>js
-{
-  "famous_person": {
-    "first_name": "Barack",
-    "last_name": "Obama",
-    "occupation": "President"
-  }
-}
-<code>&#x60;</code>
+                        DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:
+DS.UnderscoredAdapterMixin
                     </div>
                 </li>
             
@@ -210,15 +183,15 @@ The JSON returned should look like this:
                     </a>
 
                     <div class="module-submodule-description">
-                        The EmbeddedJSONMixin allows you to add embedded record support to your serializers.
+                        DS.EmbeddedMixin supports serializing embedded records.
 
-To set up embedded records, you include the mixin into the serializer and then
-define your embedded relations. The EmbeddedJSONSerializer is an example.
+To set up embedded records, include the mixin into a serializer then
+define embedded (model) relationships.
 
 Below is an example of a per type serializer (post type).
 
 <code>&#x60;</code>js
-App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
   attrs: {
     author: {embedded: 'always'},
     comments: {embedded: 'always'}

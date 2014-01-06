@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>embedded-json-adapter - Extensions for Ember Data</title>
+    <title>embedded-adapter - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -41,17 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/DS.EmbeddedJSONAdapter.html">DS.EmbeddedJSONAdapter</a></li>
+                <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONMixin.html">DS.EmbeddedJSONMixin</a></li>
+                <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
-                <li><a href="../classes/DS.EmbeddedJSONSerializer.html">DS.EmbeddedJSONSerializer</a></li>
+                <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
+            
+                <li><a href="../classes/DS.UnderscoredSerializer.html">DS.UnderscoredSerializer</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/embedded-json-adapter.html">embedded-json-adapter</a></li>
+                <li><a href="../modules/embedded-adapter.html">embedded-adapter</a></li>
             
                 <li><a href="../modules/ember-data.html">ember-data</a></li>
             
@@ -92,7 +96,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>embedded-json-adapter Module</h1>
+                        <h1>embedded-adapter Module</h1>
 <div class="box clearfix meta">
     
 
@@ -100,7 +104,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/packages_embedded-json-adapter_lib_embedded_json_serializer.js.html#l11"><code>packages&#x2F;embedded-json-adapter&#x2F;lib&#x2F;embedded_json_serializer.js:11</code></a>
+            Defined in: <a href="../files/packages_embedded-adapter_lib_initializer.js.html#l21"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;initializer.js:21</code></a>
         </div>
     
 
@@ -110,36 +114,8 @@
 
 
 <div class="box intro">
-    <p>The <code>EmbeddedJSONAdapter</code> is a subclass of the RESTAdapter.</p>
-<p>A fork of <code>activemodel-adapter</code> with support for embedded <code>hasMany</code> and <code>belongsTo</code>
-records embedded in JSON payloads, designed to work out of the box with the
-<a href="http://github.com/rails-api/active_model_serializers">active_model_serializers</a> Ruby gem.</p>
-<p><a href="https://github.com/mongoid/mongoid">Mongoid</a> supports using <code>embeds_many</code> and <code>embeds_one</code>
-in (Rails) models. Also <code>has_one</code> and <code>has_many</code> can be used with
-<code>ActiveModel::Serializers</code>. Choose an option for embedding ids or object(s).</p>
-<p>This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
-decamelization and pluralization methods to normalize the serialized JSON into a
-format that is compatible with a conventional Rails backend and Ember Data.</p>
-<h2 id="json-structure">JSON Structure</h2>
-<p>The EmbeddedJSONAdapter expects the JSON payload from your server to follow
-the REST adapter conventions substituting underscored keys for camelcased ones.</p>
-<h3 id="conventional-names">Conventional Names</h3>
-<p>Attribute names in your JSON payload should be the underscored versions of
-the attributes in your Ember.js models.</p>
-<p>For example, if you have a <code>Person</code> model:</p>
-<pre><code class="lang-js">App.FamousPerson = DS.Model.extend({
-  firstName: DS.attr(&#39;string&#39;),
-  lastName: DS.attr(&#39;string&#39;),
-  occupation: DS.attr(&#39;string&#39;)
-});</code></pre>
-<p>The JSON returned should look like this:</p>
-<pre><code class="lang-js">{
-  &quot;famous_person&quot;: {
-    &quot;first_name&quot;: &quot;Barack&quot;,
-    &quot;last_name&quot;: &quot;Obama&quot;,
-    &quot;occupation&quot;: &quot;President&quot;
-  }
-}</code></pre>
+    <p>DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:
+DS.UnderscoredAdapterMixin</p>
 
 </div>
 
@@ -153,14 +129,14 @@ the attributes in your Ember.js models.</p>
             <ul class="module-classes">
             
                 <li class="module-class">
-                    <a href="../classes/DS.EmbeddedJSONAdapter.html">
-                        DS.EmbeddedJSONAdapter
+                    <a href="../classes/DS.EmbeddedAdapter.html">
+                        DS.EmbeddedAdapter
                     </a>
                 </li>
             
                 <li class="module-class">
-                    <a href="../classes/DS.EmbeddedJSONSerializer.html">
-                        DS.EmbeddedJSONSerializer
+                    <a href="../classes/DS.EmbeddedSerializer.html">
+                        DS.EmbeddedSerializer
                     </a>
                 </li>
             

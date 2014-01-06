@@ -11,10 +11,11 @@ Specifically: adapters, serializers, mixins for supporting various backend data 
 See the `/dist` directory for built files (ready to download/use).
 
 
-### embedded-json-adapter
+### embedded-adapter
 
 An fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo` 
-relationships embedded in JSON payloads. 
+relationships embedded in JSON payloads. The ActiveModelAdapter and ActiveModelSerializer
+were converted to mixins (and extended for supporting embedded belongsTo relationships).
 
 The `ActiveModelAdapter` is a subclass of the RESTAdapter designed to integrate
 with a JSON API that uses an underscored naming convention instead of camelCasing.
@@ -25,29 +26,40 @@ It has been designed to work out of the box with the
 in (Rails) models. Also `has_one` and `has_many` can be used with `ActiveModel::Serializers`. 
 There are various embedded options, ids or objects.
 
-Like the ActiveModelAdapter/Serializer the EmbeddedJSONAdapter/Serializer extends the
-RESTAdapter/Serializer using a mixin for support of embedded records. See
+Like the ActiveModelAdapter/Serializer the EmbeddedAdapter/Serializer extends the
+RESTAdapter/Serializer using mixins for supporting embedded records. See
 [proposal on discuss](http://discuss.emberjs.com/t/extend-ds-activemodelserializer-support-for-embedded-objects-belongsto-relationship-using-embeds-one).
 
 **Builds:**
 
-* [embedded-json-adapter.js](dist/embedded-json-adapter.js)
-* [embedded-json-adapter.min.js](dist/embedded-json-adapter.min.js)
+* [embedded-adapter.js](dist/embedded-adapter.js)
+* [embedded-adapter.min.js](dist/embedded-adapter.min.js)
 
-_Note: `EmbeddedJSONMixin` is included in the build. Embedding objects/arrays 1 level deep
-is supported. Thanks to Bradley Priest (and the Ember.js community) for the `ActiveModelAdapter`, which
-provides a large portion of support for embedded records in JSON payloads. The embedded-json-adapter
-and embedded-json-mixin are forks of the activemodel-adapter package._
+_Note: `EmbeddedMixin`, `UnderscoredAdapterMixin` and `UnderscoredSerializer` are included
+in the build, along with an application initializer (name: `embeddedAdapter`). Embedding
+objects/arrays 1 level deep is supported. Thanks to Bradley Priest (and the Ember.js community)
+for the `ActiveModelAdapter`, which provides a large portion of support for embedded records
+in JSON payloads. The embedded-json-adapter and embedded-json-mixin are forks of the
+activemodel-adapter package._
 
 
 ### mixins
 
-The 'embedded-json-mixin.js' file can be used independently from the `EmbeddedJSONSerializer`.
+The mixins can be used independently from the `EmbeddedSerializer`.
 
-**Builds:**
+**[Builds](dist):**
 
-* [embedded-json-mixin.js](dist/embedded-json-mixin.js)
-* [embedded-json-mixin.min.js](dist/embedded-json-mixin.min.js)
+* [embedded-mixin.js](dist/embedded-mixin.js)
+* [embedded-mixin.min.js](dist/embedded-mixin.min.js)
+* [underscored-adapter-mixin.js](dist/underscored-adapter-mixin.js)
+* [underscored-adapter-mixin.min.js](dist/underscored-adapter-mixin.min.js)
+* [underscored-serializer-mixin.js](dist/underscored-serializer-mixin.js)
+* [underscored-serializer-mixin.min.js](dist/underscored-serializer-mixin.min.js)
+
+See the [embedded-adapter/initializer.js](packages/embedded-adapter/lib/initializer.js)
+file as an example implemenation for a custom adapter/serializer based on using mixins
+for supporting an API that uses snake_case properties and embedded related objects in
+arrays or as plain objects.
 
 
 # Contributing
@@ -111,16 +123,19 @@ See the [package.json](package.json)
 
 `make lint` or...
 
-* `jshint packages/activemodel-adapter/lib/*`
-* `jshint packages/activemodel-adapter/tests/*`
+* `jshint packages/mixins/lib/*`
+* `jshint packages/mixins/tests/*`
 
-Uses JSHint, when using commands to build or test, i.e. `make`, `make prod` or `make test` the jshint check is performed first.
+Uses JSHint, when using commands to build or test, i.e. `make`, `make prod` or `make test`
+the jshint check is performed first.
+
 
 ## Code Coverage Report
 
-Using blanket.js with grunt task for running coverage in continuous integration:
+[Blanket.js](http://blanketjs.org) with grunt a task is used for running code coverage reports
+during continuous integration tooling w/ Travis.
 
-`make coverage` or...
+To execute reports locally, use `make coverage` or...
 
     open http://localhost:8080/tests/coverage.html?coverage=true
     python -m SimpleHTTPServer 8080
@@ -149,7 +164,7 @@ Options for CI: `testem ci` or `grunt blanket_qunit --verbose`
 
 The [Gruntfile.js](Gruntfile.js) default task is `blanket_qunit` which exectutes the QUnit
 and Blanket.js test reports. The blanket_qunit task has an option for `threshold` which is
-the acceptable percentage of code coverage.
+the acceptable percentage of code coverage (e.g. 97%).
 
 
 ## Documentation
@@ -160,8 +175,8 @@ the acceptable percentage of code coverage.
 
 Docs are generated from source using [yuidoc](https://github.com/yui/yuidoc).
 
-The gh-pages branch of this repo includes the [generated
-docs](http://pixelhandler.github.io/ember-data-extensions/docs/)
+`make docfiles` is used to generante files for the gh-pages branch of this repo,
+[generated docs](http://pixelhandler.github.io/ember-data-extensions/docs/)
 
 See the [wiki](https://github.com/pixelhandler/ember-data-extensions/wiki) for notes on usage.
 

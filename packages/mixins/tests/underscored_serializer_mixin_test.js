@@ -1,8 +1,17 @@
 var get = Ember.get, set = Ember.set;
 var HomePlanet, league, SuperVillain, superVillain, EvilMinion, YellowMinion, DoomsdayDevice, MediocreVillain, env;
 
-module("embedded-json-adapter - EmbeddedJSONSerializer", {
+module("mixins - EmbeddedSerializer", {
   setup: function() {
+    DS.EmbeddedAdapter = DS.RESTAdapter.extend(
+      DS.UnderscoredAdapterMixin, {
+      defaultSerializer: '_embedded'
+    });
+
+    DS.EmbeddedSerializer = DS.RESTSerializer.extend(
+      DS.UnderscoredSerializer, DS.EmbeddedMixin
+    );
+
     SuperVillain = DS.Model.extend({
       firstName:       DS.attr('string'),
       lastName:        DS.attr('string'),
@@ -40,11 +49,11 @@ module("embedded-json-adapter - EmbeddedJSONSerializer", {
     env.store.modelFor('yellowMinion');
     env.store.modelFor('doomsdayDevice');
     env.store.modelFor('mediocreVillain');
-    env.container.register('serializer:application', DS.EmbeddedJSONSerializer);
-    env.container.register('serializer:embedded_json', DS.EmbeddedJSONSerializer);
-    env.container.register('adapter:embedded_json', DS.EmbeddedJSONAdapter);
-    env.embeddedJSONSerializer = env.container.lookup("serializer:embedded_json");
-    env.embeddedJSONAdapter = env.container.lookup("adapter:embedded_json");
+    env.container.register('serializer:application', DS.EmbeddedSerializer);
+    env.container.register('serializer:embedded_json', DS.EmbeddedSerializer);
+    env.container.register('adapter:embedded_json', DS.EmbeddedAdapter);
+    env.embeddedSerializer = env.container.lookup("serializer:embedded_json");
+    env.embeddedAdapter = env.container.lookup("adapter:embedded_json");
   },
 
   teardown: function() {
@@ -58,7 +67,7 @@ test("serialize", function() {
   league = env.store.createRecord(HomePlanet, { name: "Villain League", id: "123" });
   var tom = env.store.createRecord(SuperVillain, { firstName: "Tom", lastName: "Dale", homePlanet: league });
 
-  var json = env.embeddedJSONSerializer.serialize(tom);
+  var json = env.embeddedSerializer.serialize(tom);
 
   deepEqual(json, {
     first_name:       "Tom",
@@ -71,7 +80,7 @@ test("serializeIntoHash", function() {
   league = env.store.createRecord(HomePlanet, { name: "Umber", id: "123" });
   var json = {};
 
-  env.embeddedJSONSerializer.serializeIntoHash(json, HomePlanet, league);
+  env.embeddedSerializer.serializeIntoHash(json, HomePlanet, league);
 
   deepEqual(json, {
     home_planet: {
@@ -83,7 +92,7 @@ test("serializeIntoHash", function() {
 test("normalize", function() {
   var superVillain_hash = {first_name: "Tom", last_name: "Dale", home_planet_id: "123", evil_minion_ids: [1,2]};
 
-  var json = env.embeddedJSONSerializer.normalize(SuperVillain, superVillain_hash, "superVillain");
+  var json = env.embeddedSerializer.normalize(SuperVillain, superVillain_hash, "superVillain");
 
   deepEqual(json, {
     firstName:      "Tom",
@@ -101,13 +110,13 @@ test("normalize links", function() {
   };
 
 
-  var json = env.embeddedJSONSerializer.normalize(HomePlanet, home_planet, "homePlanet");
+  var json = env.embeddedSerializer.normalize(HomePlanet, home_planet, "homePlanet");
 
   equal(json.links.superVillains,  "/api/super_villians/1", "normalize links");
 });
 
 test("extractSingle", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
 
   var json_hash = {
     home_planet:   {id: "1", name: "Umber", super_villain_ids: [1]},
@@ -119,7 +128,7 @@ test("extractSingle", function() {
     }]
   };
 
-  var json = env.embeddedJSONSerializer.extractSingle(env.store, HomePlanet, json_hash);
+  var json = env.embeddedSerializer.extractSingle(env.store, HomePlanet, json_hash);
 
   deepEqual(json, {
     "id": "1",
@@ -133,14 +142,14 @@ test("extractSingle", function() {
 });
 
 test("extractArray", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
 
   var json_hash = {
     home_planets: [{id: "1", name: "Umber", super_villain_ids: [1]}],
     super_villains: [{id: "1", first_name: "Tom", last_name: "Dale", home_planet_id: "1"}]
   };
 
-  var array = env.embeddedJSONSerializer.extractArray(env.store, HomePlanet, json_hash);
+  var array = env.embeddedSerializer.extractArray(env.store, HomePlanet, json_hash);
 
   deepEqual(array, [{
     "id": "1",
@@ -157,7 +166,7 @@ test("serialize polymorphic", function() {
   var tom = env.store.createRecord(YellowMinion,   {name: "Alex", id: "124"});
   var ray = env.store.createRecord(DoomsdayDevice, {evilMinion: tom, name: "DeathRay"});
 
-  var json = env.embeddedJSONSerializer.serialize(ray);
+  var json = env.embeddedSerializer.serialize(ray);
 
   deepEqual(json, {
     name:  "DeathRay",
@@ -167,7 +176,7 @@ test("serialize polymorphic", function() {
 });
 
 test("extractPolymorphic hasMany", function() {
-  env.container.register('adapter:yellowMinion', DS.EmbeddedJSONAdapter);
+  env.container.register('adapter:yellowMinion', DS.EmbeddedAdapter);
   MediocreVillain.toString   = function() { return "MediocreVillain"; };
   YellowMinion.toString = function() { return "YellowMinion"; };
 
@@ -176,7 +185,7 @@ test("extractPolymorphic hasMany", function() {
     evil_minions:    [{id: 12, name: "Alex", doomsday_device_ids: [1] }]
   };
 
-  var json = env.embeddedJSONSerializer.extractSingle(env.store, MediocreVillain, json_hash);
+  var json = env.embeddedSerializer.extractSingle(env.store, MediocreVillain, json_hash);
 
   deepEqual(json, {
     "id": 1,
@@ -189,7 +198,7 @@ test("extractPolymorphic hasMany", function() {
 });
 
 test("extractPolymorphic", function() {
-  env.container.register('adapter:yellowMinion', DS.EmbeddedJSONAdapter);
+  env.container.register('adapter:yellowMinion', DS.EmbeddedAdapter);
   EvilMinion.toString   = function() { return "EvilMinion"; };
   YellowMinion.toString = function() { return "YellowMinion"; };
 
@@ -198,7 +207,7 @@ test("extractPolymorphic", function() {
     evil_minions:    [{id: 12, name: "Alex", doomsday_device_ids: [1] }]
   };
 
-  var json = env.embeddedJSONSerializer.extractSingle(env.store, DoomsdayDevice, json_hash);
+  var json = env.embeddedSerializer.extractSingle(env.store, DoomsdayDevice, json_hash);
 
   deepEqual(json, {
     "id": 1,
@@ -216,7 +225,7 @@ test("extractPolymorphic when the related data is not specified", function() {
     evil_minions:    [{id: 12, name: "Alex", doomsday_device_ids: [1] }]
   };
 
-  json = env.embeddedJSONSerializer.extractSingle(env.store, DoomsdayDevice, json);
+  json = env.embeddedSerializer.extractSingle(env.store, DoomsdayDevice, json);
 
   deepEqual(json, {
     "id": 1,
@@ -230,7 +239,7 @@ test("extractPolymorphic hasMany when the related data is not specified", functi
     mediocre_villain: {id: 1, name: "Dr Horrible"}
   };
 
-  json = env.embeddedJSONSerializer.extractSingle(env.store, MediocreVillain, json);
+  json = env.embeddedSerializer.extractSingle(env.store, MediocreVillain, json);
 
   deepEqual(json, {
     "id": 1,
@@ -244,7 +253,7 @@ test("extractPolymorphic does not break hasMany relationships", function() {
     mediocre_villain: {id: 1, name: "Dr. Evil", evil_minions: []}
   };
 
-  json = env.embeddedJSONSerializer.extractSingle(env.store, MediocreVillain, json);
+  json = env.embeddedSerializer.extractSingle(env.store, MediocreVillain, json);
 
   deepEqual(json, {
     "id": 1,

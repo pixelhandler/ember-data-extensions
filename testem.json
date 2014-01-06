@@ -8,13 +8,10 @@
 
     "tests/ember_configuration.js",
 
-    "packages/mixins/lib/embedded_json_mixin.js",
-    "packages/mixins/tests/*_test.js",
-
-    "packages/embedded-json-adapter/lib/embedded_json_serializer.js",
-    "packages/embedded-json-adapter/lib/embedded_json_adapter.js",
-    "packages/embedded-json-adapter/lib/initializer.js",
-    "packages/embedded-json-adapter/tests/*_test.js"
+    "packages/mixins/lib/underscored_adapter_mixin.js",
+    "packages/mixins/lib/embedded_mixin.js",
+    "packages/mixins/lib/underscored_serializer_mixin.js",
+    "packages/mixins/tests/*_test.js"
   ],
   "launch_in_ci": ["phantomjs"]
 }

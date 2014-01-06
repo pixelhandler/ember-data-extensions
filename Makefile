@@ -24,6 +24,7 @@ prod: lint
 	@brunch build --production
 
 test: lint
+	@open http://localhost:7357/
 	@testem
 
 coverage: lint
@@ -33,4 +34,4 @@ coverage: lint
 ci: dist
 	@grunt blanket_qunit --verbose
 
-.PHONY: build doc install lint prod test ci
+.PHONY: build clean dist doc docfiles install lint prod test coverage ci

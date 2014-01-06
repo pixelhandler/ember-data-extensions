@@ -1,8 +1,18 @@
 var get = Ember.get, set = Ember.set;
 var HomePlanet, league, SuperVillain, superVillain, SecretLab, EvilMinion, Comment, env;
 
-module("embedded-json-adapter - EmbeddedJSONMixin", {
+module("mixins - EmbeddedMixin", {
   setup: function() {
+
+    DS.EmbeddedAdapter = DS.RESTAdapter.extend(
+      DS.UnderscoredAdapterMixin, {
+      defaultSerializer: '_embedded'
+    });
+
+    DS.EmbeddedSerializer = DS.RESTSerializer.extend(
+      DS.UnderscoredSerializer, DS.EmbeddedMixin
+    );
+
     SuperVillain = DS.Model.extend({
       firstName:       DS.attr('string'),
       lastName:        DS.attr('string'),
@@ -40,11 +50,11 @@ module("embedded-json-adapter - EmbeddedJSONMixin", {
     env.store.modelFor('secretLab');
     env.store.modelFor('evilMinion');
     env.store.modelFor('comment');
-    env.container.register('serializer:application', DS.EmbeddedJSONSerializer.extend());
-    env.container.register('serializer:embedded_json', DS.EmbeddedJSONSerializer.extend());
-    env.container.register('adapter:embedded_json', DS.EmbeddedJSONAdapter);
-    env.embeddedJSONSerializer = env.container.lookup("serializer:embedded_json");
-    env.embeddedJSONAdapter = env.container.lookup("adapter:embedded_json");
+    env.container.register('serializer:application', DS.EmbeddedSerializer.extend());
+    env.container.register('serializer:embedded_json', DS.EmbeddedSerializer.extend());
+    env.container.register('adapter:embedded_json', DS.EmbeddedAdapter);
+    env.embeddedSerializer = env.container.lookup("serializer:embedded_json");
+    env.embeddedAdapter = env.container.lookup("adapter:embedded_json");
   },
 
   teardown: function() {
@@ -55,8 +65,8 @@ module("embedded-json-adapter - EmbeddedJSONMixin", {
 });
 
 test("extractSingle with embedded objects (hasMany relationship)", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:homePlanet', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:homePlanet', DS.EmbeddedSerializer.extend({
     attrs: {
       villains: {embedded: 'always'}
     }
@@ -88,13 +98,13 @@ test("extractSingle with embedded objects (hasMany relationship)", function() {
 });
 
 test("extractSingle with embedded objects inside embedded objects", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:homePlanet', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:homePlanet', DS.EmbeddedSerializer.extend({
     attrs: {
       villains: {embedded: 'always'}
     }
   }));
-  env.container.register('serializer:superVillain', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
     attrs: {
       evilMinions: {embedded: 'always'}
     }
@@ -135,8 +145,8 @@ test("extractSingle with embedded objects inside embedded objects", function() {
 });
 
 test("extractSingle with embedded objects of same type", function() {
-  env.container.register('adapter:comment', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:comment', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:comment', DS.EmbeddedAdapter);
+  env.container.register('serializer:comment', DS.EmbeddedSerializer.extend({
     attrs: {
       children: {embedded: 'always'}
     }
@@ -173,8 +183,8 @@ test("extractSingle with embedded objects of same type", function() {
 });
 
 test("extractSingle with embedded objects inside embedded objects of same type", function() {
-  env.container.register('adapter:comment', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:comment', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:comment', DS.EmbeddedAdapter);
+  env.container.register('serializer:comment', DS.EmbeddedSerializer.extend({
     attrs: {
       children: {embedded: 'always'}
     }
@@ -223,8 +233,8 @@ test("extractSingle with embedded objects of same type, but from separate attrib
     reformedVillains: DS.hasMany('superVillain')
   });
 
-  env.container.register('adapter:home_planet', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:home_planet', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:home_planet', DS.EmbeddedAdapter);
+  env.container.register('serializer:home_planet', DS.EmbeddedSerializer.extend({
     attrs: {
       villains: {embedded: 'always'},
       reformedVillains: {embedded: 'always'}
@@ -268,8 +278,8 @@ test("extractSingle with embedded objects of same type, but from separate attrib
 });
 
 test("extractArray with embedded objects", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:homePlanet', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:homePlanet', DS.EmbeddedSerializer.extend({
     attrs: {
       villains: {embedded: 'always'}
     }
@@ -303,8 +313,8 @@ test("extractArray with embedded objects", function() {
 });
 
 test("extractArray with embedded objects of same type as primary type", function() {
-  env.container.register('adapter:comment', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:comment', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:comment', DS.EmbeddedAdapter);
+  env.container.register('serializer:comment', DS.EmbeddedSerializer.extend({
     attrs: {
       children: {embedded: 'always'}
     }
@@ -348,8 +358,8 @@ test("extractArray with embedded objects of same type, but from separate attribu
     reformedVillains: DS.hasMany('superVillain')
   });
 
-  env.container.register('adapter:homePlanet', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:homePlanet', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:homePlanet', DS.EmbeddedAdapter);
+  env.container.register('serializer:homePlanet', DS.EmbeddedSerializer.extend({
     attrs: {
       villains: {embedded: 'always'},
       reformedVillains: {embedded: 'always'}
@@ -420,7 +430,7 @@ test("serialize with embedded objects (hasMany relationship)", function() {
   league = env.store.createRecord(HomePlanet, { name: "Villain League", id: "123" });
   var tom = env.store.createRecord(SuperVillain, { firstName: "Tom", lastName: "Dale", homePlanet: league, id: '1' });
 
-  env.container.register('serializer:homePlanet', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('serializer:homePlanet', DS.EmbeddedSerializer.extend({
     attrs: {
       villains: {embedded: 'always'}
     }
@@ -444,7 +454,7 @@ test("serialize with (new) embedded objects (hasMany relationship)", function() 
   league = env.store.createRecord(HomePlanet, { name: "Villain League", id: "123" });
   var tom = env.store.createRecord(SuperVillain, { firstName: "Tom", lastName: "Dale", homePlanet: league });
 
-  env.container.register('serializer:homePlanet', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('serializer:homePlanet', DS.EmbeddedSerializer.extend({
     attrs: {
       villains: {embedded: 'always'}
     }
@@ -465,8 +475,8 @@ test("serialize with (new) embedded objects (hasMany relationship)", function() 
 
 test("extractSingle with embedded object (belongsTo relationship)", function() {
   expect(4);
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:superVillain', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
     attrs: {
       secretLab: {embedded: 'always'}
     }
@@ -508,8 +518,8 @@ test("extractSingle with embedded object (belongsTo relationship)", function() {
 });
 
 test("serialize with embedded object (belongsTo relationship)", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:superVillain', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
     attrs: {
       secretLab: {embedded: 'always'}
     }
@@ -540,8 +550,8 @@ test("serialize with embedded object (belongsTo relationship)", function() {
 });
 
 test("serialize with embedded object (belongsTo relationship, new no id)", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:superVillain', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
     attrs: {
       secretLab: {embedded: 'always'}
     }
@@ -572,8 +582,8 @@ test("serialize with embedded object (belongsTo relationship, new no id)", funct
 });
 
 test("when related record is not present, serialize embedded record (with a belongsTo relationship) as null", function() {
-  env.container.register('adapter:superVillain', DS.EmbeddedJSONAdapter);
-  env.container.register('serializer:superVillain', DS.EmbeddedJSONSerializer.extend({
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
     attrs: {
       secretLab: {embedded: 'always'}
     }

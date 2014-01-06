@@ -1,4 +1,125 @@
-/* packages/mixins/lib/embedded_json_mixin.js */
+/* packages/mixins/lib/underscored_adapter_mixin.js */
+(function(Ember, DS) {
+
+var forEach = Ember.EnumerableUtils.forEach;
+
+/**
+  @module ember-data
+  @submodule mixins
+**/
+
+/**
+  The `UnderscoredAdapterMixin` is intended use when creating a subclass of the
+  DS.RESTAdapter.
+
+  Based on `activemodel-adapter` package, supports `hasMany` and `belongsTo`
+  records embedded in JSON payloads, designed to work out of the box with the
+  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
+  Ruby gem.
+
+  [Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and
+  `embeds_one` in (Rails) models. Also `has_one` and `has_many` can be used with
+  `ActiveModel::Serializers`. Choose an option for embedding ids or object(s).
+
+  Use to create an adapter based on the DS.RESTAdapter by making consistent use of
+  the camelization, decamelization and pluralization methods to normalize the
+  serialized JSON into a format that is compatible with a conventional Rails backend
+  and Ember Data.
+
+  ## JSON Structure
+
+  The UnderscoredAdapterMixin expects the JSON payload from your server to follow
+  the REST adapter conventions substituting underscored keys for camelCased ones.
+
+  ### Conventional Names
+
+  Attribute names in your JSON payload should be the underscored versions of
+  the attributes in your Ember.js models.
+
+  For example, if you have a `Person` model:
+
+  ```js
+  App.FamousPerson = DS.Model.extend({
+    firstName: DS.attr('string'),
+    lastName: DS.attr('string'),
+    occupation: DS.attr('string')
+  });
+  ```
+
+  The JSON returned should look like this:
+
+  ```js
+  {
+    "famous_person": {
+      "first_name": "Barack",
+      "last_name": "Obama",
+      "occupation": "President"
+    }
+  }
+  ```
+
+  @class UnderscoredAdapterMixin
+  @constructor
+  @namespace DS
+**/
+
+DS.UnderscoredAdapterMixin = Ember.Mixin.create({
+  /**
+    The UnderscoredAdapterMixin overrides the `pathForType` method to build
+    underscored URLs by decamelizing and pluralizing the object type name.
+
+    ```js
+      this.pathForType("famousPerson");
+      //=> "famous_people"
+    ```
+
+    @method pathForType
+    @param {String} type
+    @return String
+  */
+  pathForType: function(type) {
+    var decamelized = Ember.String.decamelize(type);
+    return Ember.String.pluralize(decamelized);
+  },
+
+  /**
+    DS.UnderscoredAdapterMixin can override the `ajaxError` method
+    to return a DS.InvalidError for all 422 Unprocessable Entity
+    responses.
+
+    A 422 HTTP response from the server generally implies that the request
+    was well formed but the API was unable to process it because the
+    content was not semantically correct or meaningful per the API.
+
+    For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
+    https://tools.ietf.org/html/rfc4918#section-11.2
+
+    @method ajaxError
+    @param jqXHR
+    @return error
+  */
+  ajaxError: function(jqXHR) {
+    var error = this._super(jqXHR);
+
+    if (jqXHR && jqXHR.status === 422) {
+      var jsonErrors = Ember.$.parseJSON(jqXHR.responseText)["errors"],
+          errors = {};
+
+      forEach(Ember.keys(jsonErrors), function(key) {
+        errors[Ember.String.camelize(key)] = jsonErrors[key];
+      });
+
+      return new DS.InvalidError(errors);
+    } else {
+      return error;
+    }
+  }
+});
+
+}(Ember, DS));
+
+
+;/* packages/mixins/lib/embedded_mixin.js */
 (function(Ember, DS) {
 
 var get = Ember.get;
@@ -10,15 +131,15 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The EmbeddedJSONMixin allows you to add embedded record support to your serializers.
+  DS.EmbeddedMixin supports serializing embedded records.
 
-  To set up embedded records, you include the mixin into the serializer and then
-  define your embedded relations. The EmbeddedJSONSerializer is an example.
+  To set up embedded records, include the mixin into a serializer then
+  define embedded (model) relationships.
 
   Below is an example of a per type serializer (post type).
 
   ```js
-  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
     attrs: {
       author: {embedded: 'always'},
       comments: {embedded: 'always'}
@@ -28,10 +149,10 @@ var forEach = Ember.EnumerableUtils.forEach;
 
   Currently only `{embedded: 'always'}` records are supported.
 
-  @class EmbeddedJSONMixin
+  @class EmbeddedMixin
   @namespace DS
 */
-DS.EmbeddedJSONMixin = Ember.Mixin.create({
+DS.EmbeddedMixin = Ember.Mixin.create({
 
   /**
     Serialize `belongsTo` relationship when it is configured as an embedded object.
@@ -54,7 +175,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded author
 
     ```js
-    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
       attrs: {
         author: {embedded: 'always'}
       }
@@ -128,7 +249,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded comments
 
     ```js
-    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
       attrs: {
         comments: {embedded: 'always'}
       }
@@ -395,7 +516,7 @@ function updatePayloadWithEmbeddedBelongsTo(store, primaryType, relationship, pa
 }(Ember, DS));
 
 
-;/* packages/embedded-json-adapter/lib/embedded_json_serializer.js */
+;/* packages/mixins/lib/underscored_serializer_mixin.js */
 (function(Ember, DS) {
 
 var get = Ember.get;
@@ -403,24 +524,24 @@ var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule mixins
 **/
 
 /**
-  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer
+  The `UnderscoredSerializer` is intended use when creating a subclass of the
+  DS.RESTSerializer.
 
-  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
+  Based on `activemodel-adapter` package, supports `hasMany` and `belongsTo`
   records embedded in JSON payloads, designed to work out of the box with the
   [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+  Ruby gem. And is designed to integrate with an API that uses an underscored
   naming convention instead of camelCasing.
 
-  @class DS.EmbeddedJSONSerializer
+  @class DS.UnderscoredSerializer
   @constructor
   @namespace DS
-  @extends DS.RESTSerializer
 **/
-DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+DS.UnderscoredSerializer = Ember.Mixin.create({
   // SERIALIZE
 
   /**
@@ -617,138 +738,49 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
 }(Ember, DS));
 
 
-;/* packages/embedded-json-adapter/lib/embedded_json_adapter.js */
-(function(Ember, DS) {
-
-var forEach = Ember.EnumerableUtils.forEach;
-
+;/* packages/embedded-adapter/lib/initializer.js */
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule embedded-adapter
 **/
 
 /**
-  The `EmbeddedJSONAdapter` is a subclass of the RESTAdapter.
+  DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:
+  DS.UnderscoredAdapterMixin
 
-  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
-  records embedded in JSON payloads, designed to work out of the box with the
-  [active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.
-
-  [Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and `embeds_one`
-  in (Rails) models. Also `has_one` and `has_many` can be used with
-  `ActiveModel::Serializers`. Choose an option for embedding ids or object(s).
-
-  This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
-  decamelization and pluralization methods to normalize the serialized JSON into a
-  format that is compatible with a conventional Rails backend and Ember Data.
-
-  ## JSON Structure
-
-  The EmbeddedJSONAdapter expects the JSON payload from your server to follow
-  the REST adapter conventions substituting underscored keys for camelcased ones.
-
-  ### Conventional Names
-
-  Attribute names in your JSON payload should be the underscored versions of
-  the attributes in your Ember.js models.
-
-  For example, if you have a `Person` model:
-
-  ```js
-  App.FamousPerson = DS.Model.extend({
-    firstName: DS.attr('string'),
-    lastName: DS.attr('string'),
-    occupation: DS.attr('string')
-  });
-  ```
-
-  The JSON returned should look like this:
-
-  ```js
-  {
-    "famous_person": {
-      "first_name": "Barack",
-      "last_name": "Obama",
-      "occupation": "President"
-    }
-  }
-  ```
-
-  @class EmbeddedJSONAdapter
+  @class EmbeddedAdapter
   @constructor
   @namespace DS
   @extends DS.RESTAdapter
 **/
 
-DS.EmbeddedJSONAdapter = DS.RESTAdapter.extend({
-  defaultSerializer: 'ams_mongoid',
-  /**
-    The ActiveModelAdapter overrides the `pathForType` method to build
-    underscored URLs by decamelizing and pluralizing the object type name.
+DS.EmbeddedAdapter = DS.RESTAdapter.extend(
+  DS.UnderscoredAdapterMixin,
+  { defaultSerializer: '_embedded' }
+);
 
-    ```js
-      this.pathForType("famousPerson");
-      //=> "famous_people"
-    ```
-
-    @method pathForType
-    @param {String} type
-    @return String
-  */
-  pathForType: function(type) {
-    var decamelized = Ember.String.decamelize(type);
-    return Ember.String.pluralize(decamelized);
-  },
-
-  /**
-    The ActiveModelAdapter overrides the `ajaxError` method
-    to return a DS.InvalidError for all 422 Unprocessable Entity
-    responses.
-
-    A 422 HTTP response from the server generally implies that the request
-    was well formed but the API was unable to process it because the
-    content was not semantically correct or meaningful per the API.
-
-    For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
-    https://tools.ietf.org/html/rfc4918#section-11.2
-
-    @method ajaxError
-    @param jqXHR
-    @return error
-  */
-  ajaxError: function(jqXHR) {
-    var error = this._super(jqXHR);
-
-    if (jqXHR && jqXHR.status === 422) {
-      var jsonErrors = Ember.$.parseJSON(jqXHR.responseText)["errors"],
-          errors = {};
-
-      forEach(Ember.keys(jsonErrors), function(key) {
-        errors[Ember.String.camelize(key)] = jsonErrors[key];
-      });
-
-      return new DS.InvalidError(errors);
-    } else {
-      return error;
-    }
-  }
-});
-
-}(Ember, DS));
-
-
-;/* packages/embedded-json-adapter/lib/initializer.js */
 /**
-  @module ember-data
-  @submodule embedded-json-adapter
+  DS.EmbeddedSerializer extends the DS.RESTSerializer adding mixins:
+  DS.UnderscoredSerializer, DS.EmbeddedMixin
+
+  @class EmbeddedSerializer
+  @constructor
+  @namespace DS
+  @extends DS.RESTSerializer
 **/
+
+DS.EmbeddedSerializer = DS.RESTSerializer.extend(
+  DS.UnderscoredSerializer,
+  DS.EmbeddedMixin
+);
+
 Ember.onLoad('Ember.Application', function(Application) {
   Application.initializer({
-    name: "embeddedJSONAdapter",
+    name: "embeddedAdapter",
 
     initialize: function(container, application) {
-      application.register('serializer:embedded_json', DS.EmbeddedJSONSerializer);
-      application.register('adapter:embedded_json', DS.EmbeddedJSONAdapter);
+      application.register('serializer:_embedded', DS.EmbeddedSerializer);
+      application.register('adapter:_embedded', DS.EmbeddedAdapter);
     }
   });
 });

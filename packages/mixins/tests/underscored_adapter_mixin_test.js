@@ -1,14 +1,23 @@
 var env, store, adapter, SuperUser;
 var originalAjax, passedUrl, passedVerb, passedHash;
 
-module("embedded-json-adapter - EmbeddedJSONAdapter", {
+module("mixins - EmbeddedAdapter", {
   setup: function() {
     Ember.run.begin();
     SuperUser = DS.Model.extend();
 
+    DS.EmbeddedAdapter = DS.RESTAdapter.extend(
+      DS.UnderscoredAdapterMixin, {
+      defaultSerializer: '_embedded'
+    });
+
+    DS.EmbeddedSerializer = DS.RESTSerializer.extend(
+      DS.UnderscoredSerializer, DS.EmbeddedMixin
+    );
+
     env = setupStore({
       superUser: SuperUser,
-      adapter: DS.EmbeddedJSONAdapter
+      adapter: DS.EmbeddedAdapter
     });
 
     store = env.store;

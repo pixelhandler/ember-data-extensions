@@ -2,28 +2,30 @@ exports.config = {
   paths: {
     'public': 'dist',
     watched: [
-      'packages/embedded-json-adapter/lib',
+      'packages/embedded-adapter/lib',
       'packages/mixins/lib'
     ]
   },
   files: {
     javascripts: {
       joinTo: {
-        // embedded-json-adapter
-        'embedded-json-adapter.js': /(^packages\/embedded\-json\-adapter\/lib|^packages\/mixins\/lib\/embedded_json_mixin\.js$)/,
+        // embedded-adapter
+        'embedded-adapter.js': /(^packages\/embedded\-adapter\/lib|^packages\/mixins\/lib\/(embedded|underscored))/,
 
         // mixins
-        'embedded-json-mixin.js': /^packages\/mixins\/lib\/embedded_json_mixin\.js$/
+        'embedded-mixin.js': /^packages\/mixins\/lib\/embedded_mixin/,
+        'underscored-adapter-mixin.js': /^packages\/mixins\/lib\/underscored_adapter/,
+        'underscored-serializer-mixin.js': /^packages\/mixins\/lib\/underscored_serializer/
       },
       order: {
         before: [
           // mixins
-          'packages/mixins/lib/embedded_json_mixin.js',
+          'packages/mixins/lib/underscored_adapter_mixin.js',
+          'packages/mixins/lib/embedded_mixin.js',
+          'packages/mixins/lib/underscored_serializer_mixin.js',
 
           // embedded-json-adapter
-          'packages/embedded-json-adapter/lib/embedded_json_serializer.js',
-          'packages/embedded-json-adapter/lib/embedded_json_adapter.js',
-          'packages/embedded-json-adapter/lib/initializer.js'
+          'packages/embedded-adapter/lib/initializer.js'
         ]
       }
     }
@@ -45,10 +47,12 @@ exports.config = {
         javascripts: {
           joinTo: {
             // embedded-json-adapter
-            'embedded-json-adapter.min.js': /^packages\/embedded\-json\-adapter\/lib|^packages\/mixins\/lib\/embedded_json_mixin\.js/,
+            'embedded-adapter.min.js': /(^packages\/embedded\-adapter\/lib|^packages\/mixins\/lib\/(embedded|underscored))/,
 
             // mixins
-            'embedded-json-mixin.min.js': /^packages\/mixins\/lib\/embedded_json_mixin\.js$/
+            'embedded-mixin.min.js': /^packages\/mixins\/lib\/embedded_mixin\.js$/,
+            'underscored-adapter-mixin.min.js': /^packages\/mixins\/lib\/underscored_adapter_mixin\.js$/,
+            'underscored-serializer-mixin.min.js': /^packages\/mixins\/lib\/underscored_serializer_mixin\.js$/
           }
         }
       }

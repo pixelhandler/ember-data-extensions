@@ -1,3 +1,4 @@
+/* packages/mixins/lib/embedded_mixin.js */
 (function(Ember, DS) {
 
 var get = Ember.get;
@@ -9,15 +10,15 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The EmbeddedJSONMixin allows you to add embedded record support to your serializers.
+  DS.EmbeddedMixin supports serializing embedded records.
 
-  To set up embedded records, you include the mixin into the serializer and then
-  define your embedded relations. The EmbeddedJSONSerializer is an example.
+  To set up embedded records, include the mixin into a serializer then
+  define embedded (model) relationships.
 
   Below is an example of a per type serializer (post type).
 
   ```js
-  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+  App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
     attrs: {
       author: {embedded: 'always'},
       comments: {embedded: 'always'}
@@ -27,10 +28,10 @@ var forEach = Ember.EnumerableUtils.forEach;
 
   Currently only `{embedded: 'always'}` records are supported.
 
-  @class EmbeddedJSONMixin
+  @class EmbeddedMixin
   @namespace DS
 */
-DS.EmbeddedJSONMixin = Ember.Mixin.create({
+DS.EmbeddedMixin = Ember.Mixin.create({
 
   /**
     Serialize `belongsTo` relationship when it is configured as an embedded object.
@@ -53,7 +54,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded author
 
     ```js
-    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
       attrs: {
         author: {embedded: 'always'}
       }
@@ -127,7 +128,7 @@ DS.EmbeddedJSONMixin = Ember.Mixin.create({
     Use a custom (type) serializer for the post model to configure embedded comments
 
     ```js
-    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
       attrs: {
         comments: {embedded: 'always'}
       }
@@ -392,3 +393,6 @@ function updatePayloadWithEmbeddedBelongsTo(store, primaryType, relationship, pa
 }
 
 }(Ember, DS));
+
+
+;

@@ -1,7 +1,7 @@
 {
   "name": "ember-data-extensions",
   "summary": "Extensions for Ember Data",
-  "description": "Adapters, Serializers and Mixins",
+  "description": "Mixins for Adapters and Serializers",
   "homepage": "http://github.com/emberjs/ember.js",
   "author": [
     "Bill Heaton"

@@ -1,3 +1,4 @@
+/* packages/mixins/lib/underscored_serializer_mixin.js */
 (function(Ember, DS) {
 
 var get = Ember.get;
@@ -5,24 +6,24 @@ var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule mixins
 **/
 
 /**
-  The DS.EmbeddedJSONSerializer is a subclass of the RESTSerializer
+  The `UnderscoredSerializer` is intended use when creating a subclass of the
+  DS.RESTSerializer.
 
-  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
+  Based on `activemodel-adapter` package, supports `hasMany` and `belongsTo`
   records embedded in JSON payloads, designed to work out of the box with the
   [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem. And is designed to integrate with a JSON API that uses an underscored
+  Ruby gem. And is designed to integrate with an API that uses an underscored
   naming convention instead of camelCasing.
 
-  @class DS.EmbeddedJSONSerializer
+  @class DS.UnderscoredSerializer
   @constructor
   @namespace DS
-  @extends DS.RESTSerializer
 **/
-DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
+DS.UnderscoredSerializer = Ember.Mixin.create({
   // SERIALIZE
 
   /**
@@ -217,3 +218,6 @@ DS.EmbeddedJSONSerializer = DS.RESTSerializer.extend(DS.EmbeddedJSONMixin, {
 });
 
 }(Ember, DS));
+
+
+;

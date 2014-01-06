@@ -1,31 +1,35 @@
+/* packages/mixins/lib/underscored_adapter_mixin.js */
 (function(Ember, DS) {
 
 var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
-  @submodule embedded-json-adapter
+  @submodule mixins
 **/
 
 /**
-  The `EmbeddedJSONAdapter` is a subclass of the RESTAdapter.
+  The `UnderscoredAdapterMixin` is intended use when creating a subclass of the
+  DS.RESTAdapter.
 
-  A fork of `activemodel-adapter` with support for embedded `hasMany` and `belongsTo`
+  Based on `activemodel-adapter` package, supports `hasMany` and `belongsTo`
   records embedded in JSON payloads, designed to work out of the box with the
-  [active_model_serializers](http://github.com/rails-api/active_model_serializers) Ruby gem.
+  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
+  Ruby gem.
 
-  [Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and `embeds_one`
-  in (Rails) models. Also `has_one` and `has_many` can be used with
+  [Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and
+  `embeds_one` in (Rails) models. Also `has_one` and `has_many` can be used with
   `ActiveModel::Serializers`. Choose an option for embedding ids or object(s).
 
-  This adapter extends the DS.RESTAdapter by making consistent use of the camelization,
-  decamelization and pluralization methods to normalize the serialized JSON into a
-  format that is compatible with a conventional Rails backend and Ember Data.
+  Use to create an adapter based on the DS.RESTAdapter by making consistent use of
+  the camelization, decamelization and pluralization methods to normalize the
+  serialized JSON into a format that is compatible with a conventional Rails backend
+  and Ember Data.
 
   ## JSON Structure
 
-  The EmbeddedJSONAdapter expects the JSON payload from your server to follow
-  the REST adapter conventions substituting underscored keys for camelcased ones.
+  The UnderscoredAdapterMixin expects the JSON payload from your server to follow
+  the REST adapter conventions substituting underscored keys for camelCased ones.
 
   ### Conventional Names
 
@@ -54,16 +58,14 @@ var forEach = Ember.EnumerableUtils.forEach;
   }
   ```
 
-  @class EmbeddedJSONAdapter
+  @class UnderscoredAdapterMixin
   @constructor
   @namespace DS
-  @extends DS.RESTAdapter
 **/
 
-DS.EmbeddedJSONAdapter = DS.RESTAdapter.extend({
-  defaultSerializer: 'ams_mongoid',
+DS.UnderscoredAdapterMixin = Ember.Mixin.create({
   /**
-    The ActiveModelAdapter overrides the `pathForType` method to build
+    The UnderscoredAdapterMixin overrides the `pathForType` method to build
     underscored URLs by decamelizing and pluralizing the object type name.
 
     ```js
@@ -81,7 +83,7 @@ DS.EmbeddedJSONAdapter = DS.RESTAdapter.extend({
   },
 
   /**
-    The ActiveModelAdapter overrides the `ajaxError` method
+    DS.UnderscoredAdapterMixin can override the `ajaxError` method
     to return a DS.InvalidError for all 422 Unprocessable Entity
     responses.
 
@@ -115,3 +117,6 @@ DS.EmbeddedJSONAdapter = DS.RESTAdapter.extend({
 });
 
 }(Ember, DS));
+
+
+;

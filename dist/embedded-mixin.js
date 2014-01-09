@@ -338,12 +338,12 @@ function updatePayloadWithEmbedded(store, type, payload, partial) {
 
 // handles embedding for `hasMany` relationship
 function updatePayloadWithEmbeddedHasMany(store, primaryType, relationship, payload, partial) {
-  var serializer = store.serializerFor(relationship.type.typeKey),
-      primaryKey = get(this, 'primaryKey');
-
+  var serializer = store.serializerFor(relationship.type.typeKey);
+  var primaryKey = get(this, 'primaryKey');
+  var attr = relationship.type.typeKey;
   // underscore forces the embedded records to be side loaded.
   // it is needed when main type === relationship.type
-  var embeddedTypeKey = '_' + Ember.String.pluralize(relationship.type.typeKey);
+  var embeddedTypeKey = '_' + Ember.String.pluralize(attr);
   var expandedKey = this.keyForRelationship(primaryType, relationship.kind);
   var attribute  = this.keyForAttribute(primaryType);
   var ids = [];
@@ -355,7 +355,7 @@ function updatePayloadWithEmbeddedHasMany(store, primaryType, relationship, payl
   payload[embeddedTypeKey] = payload[embeddedTypeKey] || [];
 
   forEach(partial[attribute], function(data) {
-    var embeddedType = store.modelFor(relationship.type.typeKey);
+    var embeddedType = store.modelFor(attr);
     updatePayloadWithEmbedded.call(serializer, store, embeddedType, payload, data);
     ids.push(data[primaryKey]);
     payload[embeddedTypeKey].push(data);
@@ -373,17 +373,23 @@ function updatePayloadWithEmbeddedBelongsTo(store, primaryType, relationship, pa
     !(isEmbedded(attrs[Ember.String.camelize(primaryType)]) || isEmbedded(attrs[primaryType]))) {
     return;
   }
-  var serializer = store.serializerFor(relationship.type.typeKey),
-      primaryKey = get(serializer, 'primaryKey'),
-      embeddedTypeKey = Ember.String.pluralize(relationship.type.typeKey),
-      expandedKey = serializer.keyForRelationship(primaryType, relationship.kind),
-      attribute = serializer.keyForAttribute(primaryType);
+  var attr = relationship.type.typeKey;
+  var serializer = store.serializerFor(relationship.type.typeKey);
+  var primaryKey = get(serializer, 'primaryKey');
+  var embeddedTypeKey = Ember.String.pluralize(attr);
+  var expandedKey = serializer.keyForRelationship(primaryType, relationship.kind);
+  var attribute = serializer.keyForAttribute(primaryType);
 
   if (!partial[attribute]) {
     return;
   }
   payload[embeddedTypeKey] = payload[embeddedTypeKey] || [];
   var embeddedType = store.modelFor(relationship.type.typeKey);
+  for (var key in partial) {
+    if (partial.hasOwnProperty(key) && key.camelize() === attr) {
+      updatePayloadWithEmbedded.call(serializer, store, embeddedType, payload, partial[key]);
+    }
+  }
   partial[expandedKey] = partial[attribute].id;
   // Need to move an embedded `belongsTo` object into a pluralized collection
   payload[embeddedTypeKey].push(partial[attribute]);

@@ -605,3 +605,46 @@ test("when related record is not present, serialize embedded record (with a belo
     secret_lab: null
   });
 });
+
+test("extractSingle with multiply-nested belongsTo", function() {
+  env.container.register('adapter:evilMinion', DS.EmbeddedAdapter);
+  env.container.register('serializer:evilMinion', DS.EmbeddedSerializer.extend({
+    attrs: {
+      superVillain: {embedded: 'always'}
+    }
+  }));
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
+    attrs: {
+      homePlanet: {embedded: 'always'}
+    }
+  }));
+
+  var serializer = env.container.lookup("serializer:evilMinion");
+  var json_hash = {
+    evil_minion: {
+      id: "1",
+      name: "Alex",
+      super_villain: {
+        id: "1",
+        first_name: "Tom",
+        last_name: "Dale",
+        evil_minion_ids: ["1"],
+        home_planet: {
+          id: "1",
+          name: "Umber",
+          super_villain_ids: ["1"]
+        }
+      }
+    }
+  };
+  var json = serializer.extractSingle(env.store, EvilMinion, json_hash);
+
+  deepEqual(json, {
+    id: "1",
+    name: "Alex",
+    superVillain: "1"
+  }, "Primary array was correct");
+
+  equal(env.store.recordForId("superVillain", "1").get("firstName"), "Tom", "Secondary record, Tom, found in the steore");
+  equal(env.store.recordForId("homePlanet", "1").get("name"), "Umber", "Nested Secondary record, Umber, found in the store");
+});

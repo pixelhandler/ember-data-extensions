@@ -175,7 +175,7 @@ the acceptable percentage of code coverage (e.g. 97%).
 Docs are generated from source using [yuidoc](https://github.com/yui/yuidoc).
 
 `make docfiles` is used to generante files for the gh-pages branch of this repo,
-[generated docs](http://pixelhandler.github.io/ember-data-extensions/docs/)
+**[generated docs](http://pixelhandler.github.io/ember-data-extensions/docs/)**
 
 See the [wiki](https://github.com/pixelhandler/ember-data-extensions/wiki) for notes on usage.
 

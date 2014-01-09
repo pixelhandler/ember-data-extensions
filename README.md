@@ -36,11 +36,10 @@ RESTAdapter/Serializer using mixins for supporting embedded records. See
 * [embedded-adapter.min.js](dist/embedded-adapter.min.js)
 
 _Note: `EmbeddedMixin`, `UnderscoredAdapterMixin` and `UnderscoredSerializer` are included
-in the build, along with an application initializer (name: `embeddedAdapter`). Embedding
-objects/arrays 1 level deep is supported. Thanks to Bradley Priest (and the Ember.js community)
-for the `ActiveModelAdapter`, which provides a large portion of support for embedded records
-in JSON payloads. The embedded-json-adapter and embedded-json-mixin are forks of the
-activemodel-adapter package._
+in the build, along with an application initializer (name: `embeddedAdapter`). Thanks to 
+Bradley Priest (and the Ember.js community) for the `ActiveModelAdapter`, which provides a
+large portion of support for embedded records in JSON payloads. The embedded-json-adapter
+and embedded-json-mixin are forks of the activemodel-adapter package._
 
 
 ### mixins

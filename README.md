@@ -2,6 +2,45 @@
 
 [![Build Status](https://travis-ci.org/pixelhandler/ember-data-extensions.png)](https://travis-ci.org/pixelhandler/ember-data-extensions)
 
+## Using Bower
+
+For info: `bower info ember-data-extensions`
+
+To install the repo in your projects 'bower_components' directory:
+
+    bower install ember-data-extensions
+
+Use the files in the 'dist' directory.
+
+### Add to your project's bower.json as a dependency:
+
+```
+{
+  "name": "your project",
+  "dependencies": {
+    "jquery": "~1.10.2",
+    "handlebars": "~1.2.1",
+    "ember": "~1.2.0",
+    "ember-data": "~1.0.0-beta.4",
+    "ember-data-extensions": "~1.0.0-beta.4"
+  }
+}
+```
+
+* See: [Bower.io](http://bower.io)
+
+
+## Online Docs
+
+* [Generated docs](http://pixelhandler.github.io/ember-data-extensions/docs/)
+* [Wiki](https://github.com/pixelhandler/ember-data-extensions/wiki)
+
+
+## Ember Data compatability
+
+The releases (tags) will follow Ember Data's versions, currently ember-data-extensions have
+the tag `1.0.0-beta.4`
+
 
 ## Packages
 

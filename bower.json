@@ -1,5 +1,6 @@
 {
   "name": "ember-data-extensions",
+  "version": "1.0.0-beta.4",
   "dependencies": {
     "jquery": "~1.10.2",
     "handlebars": "~1.2.1",

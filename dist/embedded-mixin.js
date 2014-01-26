@@ -155,29 +155,54 @@ DS.EmbeddedMixin = Ember.Mixin.create({
     }
     ```
 
+    To embed the ids for a related object (using a hasMany relationship):
+    ```js
+    App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
+      attrs: {
+        comments: {embedded: 'ids'}
+      }
+    })
+    ```
+
+    ```js
+    {
+      "post": {
+        "id": "1"
+        "title": "Rails is omakase",
+        "body": "I want this for my ORM, I want that for my template language..."
+        "comments": ["1", "2"]
+      }
+    }
+    ```
+
     @method serializeHasMany
     @param {DS.Model} record
     @param {Object} json
     @param relationship
   */
   serializeHasMany: function(record, json, relationship) {
-    var attr = relationship.key, config = this.get('attrs');
+    var attr = relationship.key, config = this.get('attrs'), key;
 
-    if (!config || !isEmbedded(config[attr])) {
+    if (!config || (!isEmbedded(config[attr]) && !hasEmbeddedIds(config[attr]))) {
       this._super(record, json, relationship);
       return;
     }
-    var key = this.keyForAttribute(attr);
-    json[key] = get(record, attr).map(function(relation) {
-      var data = relation.serialize(),
-          primaryKey = get(this, 'primaryKey');
+    if (hasEmbeddedIds(config[attr])) {
+      key = this.keyForRelationship(attr, relationship.kind);
+      json[key] = get(record, attr).mapBy(get(this, 'primaryKey'));
+    } else {
+      key = this.keyForAttribute(attr);
+      json[key] = get(record, attr).map(function(relation) {
+        var data = relation.serialize(),
+            primaryKey = get(this, 'primaryKey');
 
-      data[primaryKey] = get(relation, primaryKey);
-      if (data.id === null) {
-        delete data.id;
-      }
-      return data;
-    }, this);
+        data[primaryKey] = get(relation, primaryKey);
+        if (data.id === null) {
+          delete data.id;
+        }
+        return data;
+      }, this);
+    }
   },
 
   /**
@@ -304,6 +329,11 @@ DS.EmbeddedMixin = Ember.Mixin.create({
 // checks config for embedded flag
 function isEmbedded(config) {
   return config && (config.embedded === 'always' || config.embedded === 'load');
+}
+
+// checks config for included ids flag
+function hasEmbeddedIds(config) {
+  return config && (config.embedded === 'ids');
 }
 
 // used to remove id (foreign key) when embedding

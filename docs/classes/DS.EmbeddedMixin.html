@@ -261,7 +261,7 @@ define embedded (model) relationships.</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l241"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:241</code></a>
+        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l266"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:266</code></a>
         
         </p>
 
@@ -453,7 +453,7 @@ and add them as side-loaded objects instead.</p>
             
         
         
-        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l182"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:182</code></a>
+        <a href="../files/packages_mixins_lib_embedded_mixin.js.html#l207"><code>packages&#x2F;mixins&#x2F;lib&#x2F;embedded_mixin.js:207</code></a>
         
         </p>
 
@@ -857,6 +857,20 @@ the records together under the root attribute&#39;s payload:</p>
       &quot;id&quot;: &quot;2&quot;,
       &quot;body&quot;: &quot;Omakase O_o&quot;
     }]
+  }
+}</code></pre>
+<p>To embed the ids for a related object (using a hasMany relationship):</p>
+<pre><code class="lang-js">App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
+  attrs: {
+    comments: {embedded: &#39;ids&#39;}
+  }
+})</code></pre>
+<pre><code class="lang-js">{
+  &quot;post&quot;: {
+    &quot;id&quot;: &quot;1&quot;
+    &quot;title&quot;: &quot;Rails is omakase&quot;,
+    &quot;body&quot;: &quot;I want this for my ORM, I want that for my template language...&quot;
+    &quot;comments&quot;: [&quot;1&quot;, &quot;2&quot;]
   }
 }</code></pre>
 

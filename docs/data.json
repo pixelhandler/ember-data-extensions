@@ -229,7 +229,7 @@
         {
             "file": "packages/mixins/lib/embedded_mixin.js",
             "line": 109,
-            "description": "Serialize `hasMany` relationship when it is configured as embedded objects.\n\nThis example of a post model has many comments:\n\n```js\nPost = DS.Model.extend({\n  title:    DS.attr('string'),\n  body:     DS.attr('string'),\n  comments: DS.hasMany('comment')\n});\n\nComment = DS.Model.extend({\n  body:     DS.attr('string'),\n  post:     DS.belongsTo('post')\n});\n```\n\nUse a custom (type) serializer for the post model to configure embedded comments\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nA payload with an attribute configured for embedded records can serialize\nthe records together under the root attribute's payload:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"body\": \"I want this for my ORM, I want that for my template language...\"\n    \"comments\": [{\n      \"id\": \"1\",\n      \"body\": \"Rails is unagi\"\n    }, {\n      \"id\": \"2\",\n      \"body\": \"Omakase O_o\"\n    }]\n  }\n}\n```",
+            "description": "Serialize `hasMany` relationship when it is configured as embedded objects.\n\nThis example of a post model has many comments:\n\n```js\nPost = DS.Model.extend({\n  title:    DS.attr('string'),\n  body:     DS.attr('string'),\n  comments: DS.hasMany('comment')\n});\n\nComment = DS.Model.extend({\n  body:     DS.attr('string'),\n  post:     DS.belongsTo('post')\n});\n```\n\nUse a custom (type) serializer for the post model to configure embedded comments\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nA payload with an attribute configured for embedded records can serialize\nthe records together under the root attribute's payload:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"body\": \"I want this for my ORM, I want that for my template language...\"\n    \"comments\": [{\n      \"id\": \"1\",\n      \"body\": \"Rails is unagi\"\n    }, {\n      \"id\": \"2\",\n      \"body\": \"Omakase O_o\"\n    }]\n  }\n}\n```\n\nTo embed the ids for a related object (using a hasMany relationship):\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    comments: {embedded: 'ids'}\n  }\n})\n```\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"body\": \"I want this for my ORM, I want that for my template language...\"\n    \"comments\": [\"1\", \"2\"]\n  }\n}\n```",
             "itemtype": "method",
             "name": "serializeHasMany",
             "params": [
@@ -255,7 +255,7 @@
         },
         {
             "file": "packages/mixins/lib/embedded_mixin.js",
-            "line": 182,
+            "line": 207,
             "description": "Extract an embedded object from the payload for a single object\nand add the object in the compound document (side-loaded) format instead.\n\nA payload with an attribute configured for embedded records needs to be extracted:\n\n```js\n{\n  \"post\": {\n    \"id\": 1\n    \"title\": \"Rails is omakase\",\n    \"author\": {\n      \"id\": 2\n      \"name\": \"dhh\"\n    }\n    \"comments\": []\n  }\n}\n```\n\nEmber Data is expecting a payload with a compound document (side-loaded) like:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"author\": \"2\"\n    \"comments\": []\n  },\n  \"authors\": [{\n    \"id\": \"2\"\n    \"post\": \"1\"\n    \"name\": \"dhh\"\n  }]\n  \"comments\": []\n}\n```\n\nThe payload's `author` attribute represents an object with a `belongsTo` relationship.\nThe `post` attribute under `author` is the foreign key with the id for the post",
             "itemtype": "method",
             "name": "extractSingle",
@@ -296,7 +296,7 @@
         },
         {
             "file": "packages/mixins/lib/embedded_mixin.js",
-            "line": 241,
+            "line": 266,
             "description": "Extract embedded objects in an array when an attr is configured for embedded,\nand add them as side-loaded objects instead.\n\nA payload with an attr configured for embedded records needs to be extracted:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"comments\": [{\n      \"id\": \"1\",\n      \"body\": \"Rails is unagi\"\n    }, {\n      \"id\": \"2\",\n      \"body\": \"Omakase O_o\"\n    }]\n  }\n}\n```\n\nEmber Data is expecting a payload with compound document (side-loaded) like:\n\n```js\n{\n  \"post\": {\n    \"id\": \"1\"\n    \"title\": \"Rails is omakase\",\n    \"comments\": [\"1\", \"2\"]\n  },\n  \"comments\": [{\n    \"id\": \"1\",\n    \"body\": \"Rails is unagi\"\n  }, {\n    \"id\": \"2\",\n    \"body\": \"Omakase O_o\"\n  }]\n}\n```\n\nThe payload's `comments` attribute represents records in a `hasMany` relationship",
             "itemtype": "method",
             "name": "extractArray",

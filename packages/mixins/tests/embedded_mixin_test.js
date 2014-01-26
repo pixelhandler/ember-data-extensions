@@ -1,5 +1,6 @@
 var get = Ember.get, set = Ember.set;
-var HomePlanet, league, SuperVillain, superVillain, SecretLab, EvilMinion, Comment, env;
+var HomePlanet, SuperVillain, EvilMinion, SecretLab, SecretWeapon, Comment,
+    league, superVillain, evilMinion, secretWeapon, env;
 
 module("mixins - EmbeddedMixin", {
   setup: function() {
@@ -18,6 +19,7 @@ module("mixins - EmbeddedMixin", {
       lastName:        DS.attr('string'),
       homePlanet:      DS.belongsTo("homePlanet"),
       secretLab:       DS.belongsTo("secretLab"),
+      secretWeapons:   DS.hasMany("secretWeapon"),
       evilMinions:     DS.hasMany("evilMinion")
     });
     HomePlanet = DS.Model.extend({
@@ -29,11 +31,15 @@ module("mixins - EmbeddedMixin", {
       vicinity:        DS.attr('string'),
       superVillain:    DS.belongsTo('superVillain')
     });
+    SecretWeapon = DS.Model.extend({
+      name:            DS.attr('string'),
+      superVillain:    DS.belongsTo('superVillain')
+    });
     EvilMinion = DS.Model.extend({
       superVillain:    DS.belongsTo('superVillain'),
       name:            DS.attr('string')
     });
-    Comment =          DS.Model.extend({
+    Comment = DS.Model.extend({
       body:            DS.attr('string'),
       root:            DS.attr('boolean'),
       children:        DS.hasMany('comment')
@@ -42,12 +48,14 @@ module("mixins - EmbeddedMixin", {
       superVillain:    SuperVillain,
       homePlanet:      HomePlanet,
       secretLab:       SecretLab,
+      secretWeapon:    SecretWeapon,
       evilMinion:      EvilMinion,
       comment:         Comment
     });
     env.store.modelFor('superVillain');
     env.store.modelFor('homePlanet');
     env.store.modelFor('secretLab');
+    env.store.modelFor('secretWeapon');
     env.store.modelFor('evilMinion');
     env.store.modelFor('comment');
     env.container.register('serializer:application', DS.EmbeddedSerializer.extend());
@@ -452,7 +460,7 @@ test("serialize with embedded objects (hasMany relationship)", function() {
 
 test("serialize with (new) embedded objects (hasMany relationship)", function() {
   league = env.store.createRecord(HomePlanet, { name: "Villain League", id: "123" });
-  var tom = env.store.createRecord(SuperVillain, { firstName: "Tom", lastName: "Dale", homePlanet: league });
+  superVillain = env.store.createRecord(SuperVillain, { firstName: "Tom", lastName: "Dale", homePlanet: league });
 
   env.container.register('serializer:homePlanet', DS.EmbeddedSerializer.extend({
     attrs: {
@@ -470,6 +478,35 @@ test("serialize with (new) embedded objects (hasMany relationship)", function() 
       home_planet_id: get(league, "id"),
       secret_lab_id: null
     }]
+  });
+});
+
+test("serialize with embedded objects (hasMany relationships, including related objects not embedded)", function() {
+  superVillain = env.store.createRecord(SuperVillain, { id: 1, firstName: "Super", lastName: "Villian" });
+  evilMinion = env.store.createRecord(EvilMinion, { id: 1, name: "Evil Minion", superVillian: superVillain });
+  secretWeapon = env.store.createRecord(SecretWeapon, { id: 1, name: "Secret Weapon", superVillain: superVillain });
+  superVillain.get('evilMinions').pushObject(evilMinion);
+  superVillain.get('secretWeapons').pushObject(secretWeapon);
+
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
+    attrs: {
+      evilMinions: {embedded: 'always'}
+    }
+  }));
+  var serializer = env.container.lookup("serializer:superVillain");
+
+  var json = serializer.serialize(superVillain);
+  deepEqual(json, {
+    first_name: get(superVillain, "firstName"),
+    last_name: get(superVillain, "lastName"),
+    home_planet_id: null,
+    evil_minions: [{
+      id: get(evilMinion, "id"),
+      name: get(evilMinion, "name"),
+      super_villain_id: "1"
+    }],
+    secret_lab_id: null,
+    secret_weapon_ids: [ "1" ]
   });
 });
 
@@ -495,7 +532,8 @@ test("extractSingle with embedded object (belongsTo relationship)", function() {
         minion_capacity: 5000,
         vicinity: "California, USA",
         id: "101"
-      }
+      },
+      secret_weapon_ids: []
     }
   };
 
@@ -507,7 +545,8 @@ test("extractSingle with embedded object (belongsTo relationship)", function() {
     "lastName": "Dale",
     "homePlanet": "123",
     "evilMinions": ["1", "2", "3"],
-    "secretLab": "101"
+    "secretLab": "101",
+    "secretWeapons": []
   });
 
   env.store.find("secretLab", 101).then(async(function(secretLab) {

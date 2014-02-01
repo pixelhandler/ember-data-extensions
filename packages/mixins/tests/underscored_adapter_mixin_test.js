@@ -6,15 +6,6 @@ module("mixins - EmbeddedAdapter", {
     Ember.run.begin();
     SuperUser = DS.Model.extend();
 
-    DS.EmbeddedAdapter = DS.RESTAdapter.extend(
-      DS.UnderscoredAdapterMixin, {
-      defaultSerializer: '_embedded'
-    });
-
-    DS.EmbeddedSerializer = DS.RESTSerializer.extend(
-      DS.UnderscoredSerializer, DS.EmbeddedMixin
-    );
-
     env = setupStore({
       superUser: SuperUser,
       adapter: DS.EmbeddedAdapter

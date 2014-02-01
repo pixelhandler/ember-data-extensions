@@ -15,17 +15,23 @@ exports.config = {
         // mixins
         'embedded-mixin.js': /^packages\/mixins\/lib\/embedded_mixin/,
         'underscored-adapter-mixin.js': /^packages\/mixins\/lib\/underscored_adapter/,
-        'underscored-serializer-mixin.js': /^packages\/mixins\/lib\/underscored_serializer/
+        'underscored-serializer-mixin.js': /^packages\/mixins\/lib\/underscored_serializer/,
+        'embedded_in_model_mixin.js': /^packages\/mixins\/lib\/embedded_in_model_mixin.js/,
+        'model_with_embedded_mixin.js': /^packages\/mixins\/lib\/model_with_embedded_mixin.js/
       },
       order: {
         before: [
           // mixins
           'packages/mixins/lib/underscored_adapter_mixin.js',
-          'packages/mixins/lib/embedded_mixin.js',
           'packages/mixins/lib/underscored_serializer_mixin.js',
+          'packages/mixins/lib/embedded_mixin.js',
+          'packages/mixins/lib/embedded_in_model_mixin.js',
+          'packages/mixins/lib/model_with_embedded_mixin.js',
 
-          // embedded-json-adapter
-          'packages/embedded-adapter/lib/initializer.js'
+          // embedded-adapter
+          'packages/embedded-adapter/lib/initializer.js',
+          'packages/embedded-adapter/lib/embedded_serializer.js',
+          'packages/embedded-adapter/lib/embedded_in_model.js'
         ]
       }
     }

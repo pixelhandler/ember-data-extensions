@@ -24,7 +24,7 @@ prod: lint
 	@brunch build --production
 
 test: lint
-	@open http://localhost:7357/
+	#@open http://localhost:7357/
 	@testem
 
 coverage: lint
@@ -32,6 +32,7 @@ coverage: lint
 	@python -m SimpleHTTPServer 8080
 
 ci: dist
-	@grunt blanket_qunit --verbose
+	#@grunt blanket_qunit --verbose
+	@testem ci
 
 .PHONY: build clean dist doc docfiles install lint prod test coverage ci

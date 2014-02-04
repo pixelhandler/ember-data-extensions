@@ -58,6 +58,9 @@
     var adapter = env.adapter = (options.adapter || DS.Adapter);
     delete options.adapter;
 
+    var serializer = env.serializer = (options.serializer || DS.JSONSerializer);
+    delete options.adapter;
+
     for (var prop in options) {
       container.register('model:' + prop, options[prop]);
     }
@@ -66,7 +69,7 @@
       adapter: adapter
     }));
 
-    container.register('serializer:_default', DS.JSONSerializer);
+    container.register('serializer:_default', serializer);
     container.register('serializer:_rest', DS.RESTSerializer);
     container.register('adapter:_rest', DS.RESTAdapter);
 
@@ -130,13 +133,13 @@
     });
   };
 
-  testSetup = function () {
+  var testSetup = function () {
     Ember.RSVP.configure('onerror', function(reason) {
       // only print error messages if they're exceptions;
       // otherwise, let a future turn of the event loop
       // handle the error.
       if (reason && reason instanceof Error) {
-        Ember.Logger.log(reason, reason.stack)
+        Ember.Logger.log(reason, reason.stack);
         throw reason;
       }
     });
@@ -150,6 +153,7 @@
     DS.Store.reopen({
       save: syncForTest(),
       createRecord: syncForTest(),
+      updateRecord: syncForTest(),
       deleteRecord: syncForTest(),
       push: syncForTest(),
       pushMany: syncForTest(),

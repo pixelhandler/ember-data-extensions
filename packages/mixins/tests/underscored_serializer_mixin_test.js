@@ -3,14 +3,6 @@ var HomePlanet, league, SuperVillain, superVillain, EvilMinion, YellowMinion, Do
 
 module("mixins - EmbeddedSerializer", {
   setup: function() {
-    DS.EmbeddedAdapter = DS.RESTAdapter.extend(
-      DS.UnderscoredAdapterMixin, {
-      defaultSerializer: '_embedded'
-    });
-
-    DS.EmbeddedSerializer = DS.RESTSerializer.extend(
-      DS.UnderscoredSerializer, DS.EmbeddedMixin
-    );
 
     SuperVillain = DS.Model.extend({
       firstName:       DS.attr('string'),

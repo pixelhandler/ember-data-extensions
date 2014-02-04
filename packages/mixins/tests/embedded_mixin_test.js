@@ -5,15 +5,6 @@ var HomePlanet, SuperVillain, EvilMinion, SecretLab, SecretWeapon, Comment,
 module("mixins - EmbeddedMixin", {
   setup: function() {
 
-    DS.EmbeddedAdapter = DS.RESTAdapter.extend(
-      DS.UnderscoredAdapterMixin, {
-      defaultSerializer: '_embedded'
-    });
-
-    DS.EmbeddedSerializer = DS.RESTSerializer.extend(
-      DS.UnderscoredSerializer, DS.EmbeddedMixin
-    );
-
     SuperVillain = DS.Model.extend({
       firstName:       DS.attr('string'),
       lastName:        DS.attr('string'),
@@ -58,8 +49,8 @@ module("mixins - EmbeddedMixin", {
     env.store.modelFor('secretWeapon');
     env.store.modelFor('evilMinion');
     env.store.modelFor('comment');
-    env.container.register('serializer:application', DS.EmbeddedSerializer.extend());
-    env.container.register('serializer:embedded_json', DS.EmbeddedSerializer.extend());
+    env.container.register('serializer:application', DS.EmbeddedSerializer);
+    env.container.register('serializer:embedded_json', DS.EmbeddedSerializer);
     env.container.register('adapter:embedded_json', DS.EmbeddedAdapter);
     env.embeddedSerializer = env.container.lookup("serializer:embedded_json");
     env.embeddedAdapter = env.container.lookup("adapter:embedded_json");

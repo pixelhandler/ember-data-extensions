@@ -1,8 +1,6 @@
 /* packages/mixins/lib/underscored_adapter_mixin.js */
 (function(Ember, DS) {
 
-var forEach = Ember.EnumerableUtils.forEach;
-
 /**
   @module ember-data
   @submodule mixins
@@ -80,38 +78,227 @@ DS.UnderscoredAdapterMixin = Ember.Mixin.create({
   pathForType: function(type) {
     var decamelized = Ember.String.decamelize(type);
     return Ember.String.pluralize(decamelized);
+  }
+});
+
+}(Ember, DS));
+
+
+;/* packages/mixins/lib/underscored_serializer_mixin.js */
+(function(Ember, DS) {
+
+var get = Ember.get;
+var forEach = Ember.EnumerableUtils.forEach;
+
+/**
+  @module ember-data
+  @submodule mixins
+**/
+
+/**
+  The `UnderscoredSerializer` is intended use when creating a subclass of the
+  DS.RESTSerializer.
+
+  Based on `activemodel-adapter` package, supports `hasMany` and `belongsTo`
+  records embedded in JSON payloads, designed to work out of the box with the
+  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
+  Ruby gem. And is designed to integrate with an API that uses an underscored
+  naming convention instead of camelCasing.
+
+  @class DS.UnderscoredSerializer
+  @constructor
+  @namespace DS
+**/
+DS.UnderscoredSerializer = Ember.Mixin.create({
+  // SERIALIZE
+
+  /**
+    Converts camelCased attributes to underscored when serializing.
+
+    @method keyForAttribute
+    @param {String} attribute
+    @return String
+  */
+  keyForAttribute: function(attr) {
+    return Ember.String.decamelize(attr);
   },
 
   /**
-    DS.UnderscoredAdapterMixin can override the `ajaxError` method
-    to return a DS.InvalidError for all 422 Unprocessable Entity
-    responses.
+    Underscores relationship names and appends "_id" or "_ids" when serializing
+    relationship keys.
 
-    A 422 HTTP response from the server generally implies that the request
-    was well formed but the API was unable to process it because the
-    content was not semantically correct or meaningful per the API.
-
-    For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
-    https://tools.ietf.org/html/rfc4918#section-11.2
-
-    @method ajaxError
-    @param jqXHR
-    @return error
+    @method keyForRelationship
+    @param {String} key
+    @param {String} kind
+    @return String
   */
-  ajaxError: function(jqXHR) {
-    var error = this._super(jqXHR);
-
-    if (jqXHR && jqXHR.status === 422) {
-      var jsonErrors = Ember.$.parseJSON(jqXHR.responseText)["errors"],
-          errors = {};
-
-      forEach(Ember.keys(jsonErrors), function(key) {
-        errors[Ember.String.camelize(key)] = jsonErrors[key];
-      });
-
-      return new DS.InvalidError(errors);
+  keyForRelationship: function(key, kind) {
+    key = Ember.String.decamelize(key);
+    if (kind === "belongsTo") {
+      return key + "_id";
+    } else if (kind === "hasMany") {
+      return Ember.String.singularize(key) + "_ids";
     } else {
-      return error;
+      return key;
+    }
+  },
+
+  /**
+    Underscores the JSON root keys when serializing.
+
+    @method serializeIntoHash
+    @param {Object} hash
+    @param {subclass of DS.Model} type
+    @param {DS.Model} record
+    @param {Object} options
+  */
+  serializeIntoHash: function(data, type, record, options) {
+    var root = Ember.String.decamelize(type.typeKey);
+    data[root] = this.serialize(record, options);
+  },
+
+  /**
+    Serializes a polymorphic type as a fully capitalized model name.
+
+    @method serializePolymorphicType
+    @param {DS.Model} record
+    @param {Object} json
+    @param relationship
+  */
+  serializePolymorphicType: function(record, json, relationship) {
+    var key = relationship.key,
+        belongsTo = get(record, key);
+    if (belongsTo) {
+      key = this.keyForAttribute(key);
+      json[key + "_type"] = Ember.String.capitalize(belongsTo.constructor.typeKey);
+    }
+  },
+
+  // EXTRACT
+
+  /**
+    Extracts the model typeKey from underscored root objects.
+
+    @method typeForRoot
+    @param {String} root
+    @return String the model's typeKey
+  */
+  typeForRoot: function(root) {
+    var camelized = Ember.String.camelize(root);
+    return Ember.String.singularize(camelized);
+  },
+
+  /**
+    Add extra step to `DS.RESTSerializer.normalize` so links are normalized.
+
+    If your payload looks like:
+
+    ```js
+    {
+      "post": {
+        "id": 1,
+        "title": "Rails is omakase",
+        "links": { "flagged_comments": "api/comments/flagged" }
+      }
+    }
+    ```
+
+    The normalized version would look like this
+
+    ```js
+    {
+      "post": {
+        "id": 1,
+        "title": "Rails is omakase",
+        "links": { "flaggedComments": "api/comments/flagged" }
+      }
+    }
+    ```
+
+    @method normalize
+    @param {subclass of DS.Model} type
+    @param {Object} hash
+    @param {String} prop
+    @return Object
+  */
+
+  normalize: function(type, hash, prop) {
+    this.normalizeLinks(hash);
+
+    return this._super(type, hash, prop);
+  },
+
+  /**
+    Convert `snake_cased` links  to `camelCase`
+
+    @method normalizeLinks
+    @param {Object} hash
+  */
+
+  normalizeLinks: function(data){
+    if (data.links) {
+      var links = data.links;
+
+      for (var link in links) {
+        var camelizedLink = Ember.String.camelize(link);
+
+        if (camelizedLink !== link) {
+          links[camelizedLink] = links[link];
+          delete links[link];
+        }
+      }
+    }
+  },
+
+  /**
+    Normalize the polymorphic type from the JSON.
+
+    Normalize:
+    ```js
+      {
+        id: "1"
+        minion: { type: "evil_minion", id: "12"}
+      }
+    ```
+
+    To:
+    ```js
+      {
+        id: "1"
+        minion: { type: "evilMinion", id: "12"}
+      }
+    ```
+
+    @method normalizeRelationships
+    @private
+  */
+  normalizeRelationships: function(type, hash) {
+    var payloadKey, payload;
+
+    if (this.keyForRelationship) {
+      type.eachRelationship(function(key, relationship) {
+        if (relationship.options.polymorphic) {
+          payloadKey = this.keyForAttribute(key);
+          payload = hash[payloadKey];
+          if (payload && payload.type) {
+            payload.type = this.typeForRoot(payload.type);
+          } else if (payload && relationship.kind === "hasMany") {
+            var self = this;
+            forEach(payload, function(single) {
+              single.type = self.typeForRoot(single.type);
+            });
+          }
+        } else {
+          payloadKey = this.keyForRelationship(key, relationship.kind);
+          payload = hash[payloadKey];
+        }
+
+        hash[key] = payload;
+
+        if (key !== payloadKey) {
+          delete hash[payloadKey];
+        }
+      }, this);
     }
   }
 });
@@ -552,11 +739,8 @@ function updatePayloadWithEmbeddedBelongsTo(store, primaryType, relationship, pa
 }(Ember, DS));
 
 
-;/* packages/mixins/lib/underscored_serializer_mixin.js */
+;/* packages/mixins/lib/embedded_in_model_mixin.js */
 (function(Ember, DS) {
-
-var get = Ember.get;
-var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
@@ -564,211 +748,26 @@ var forEach = Ember.EnumerableUtils.forEach;
 **/
 
 /**
-  The `UnderscoredSerializer` is intended use when creating a subclass of the
-  DS.RESTSerializer.
+  DS.EmbeddedInModelMixin
 
-  Based on `activemodel-adapter` package, supports `hasMany` and `belongsTo`
-  records embedded in JSON payloads, designed to work out of the box with the
-  [active_model_serializers](http://github.com/rails-api/active_model_serializers)
-  Ruby gem. And is designed to integrate with an API that uses an underscored
-  naming convention instead of camelCasing.
-
-  @class DS.UnderscoredSerializer
-  @constructor
+  @class EmbeddedInModelMixin
   @namespace DS
-**/
-DS.UnderscoredSerializer = Ember.Mixin.create({
-  // SERIALIZE
+*/
+DS.EmbeddedInModelMixin = Ember.Mixin.create({
 
-  /**
-    Converts camelCased attributes to underscored when serializing.
-
-    @method keyForAttribute
-    @param {String} attribute
-    @return String
-  */
-  keyForAttribute: function(attr) {
-    return Ember.String.decamelize(attr);
-  },
-
-  /**
-    Underscores relationship names and appends "_id" or "_ids" when serializing
-    relationship keys.
-
-    @method keyForRelationship
-    @param {String} key
-    @param {String} kind
-    @return String
-  */
-  keyForRelationship: function(key, kind) {
-    key = Ember.String.decamelize(key);
-    if (kind === "belongsTo") {
-      return key + "_id";
-    } else if (kind === "hasMany") {
-      return Ember.String.singularize(key) + "_ids";
-    } else {
-      return key;
-    }
-  },
-
-  /**
-    Underscores the JSON root keys when serializing.
-
-    @method serializeIntoHash
-    @param {Object} hash
-    @param {subclass of DS.Model} type
-    @param {DS.Model} record
-    @param {Object} options
-  */
-  serializeIntoHash: function(data, type, record, options) {
-    var root = Ember.String.decamelize(type.typeKey);
-    data[root] = this.serialize(record, options);
-  },
-
-  /**
-    Serializes a polymorphic type as a fully capitalized model name.
-
-    @method serializePolymorphicType
-    @param {DS.Model} record
-    @param {Object} json
-    @param relationship
-  */
-  serializePolymorphicType: function(record, json, relationship) {
-    var key = relationship.key,
-        belongsTo = get(record, key);
-    if (belongsTo) {
-      key = this.keyForAttribute(key);
-      json[key + "_type"] = Ember.String.capitalize(belongsTo.constructor.typeKey);
-    }
-  },
-
-  // EXTRACT
-
-  /**
-    Extracts the model typeKey from underscored root objects.
-
-    @method typeForRoot
-    @param {String} root
-    @return String the model's typeKey
-  */
-  typeForRoot: function(root) {
-    var camelized = Ember.String.camelize(root);
-    return Ember.String.singularize(camelized);
-  },
-
-  /**
-    Add extra step to `DS.RESTSerializer.normalize` so links are normalized.
-
-    If your payload looks like:
-
-    ```js
-    {
-      "post": {
-        "id": 1,
-        "title": "Rails is omakase",
-        "links": { "flagged_comments": "api/comments/flagged" }
-      }
-    }
-    ```
-
-    The normalized version would look like this
-
-    ```js
-    {
-      "post": {
-        "id": 1,
-        "title": "Rails is omakase",
-        "links": { "flaggedComments": "api/comments/flagged" }
-      }
-    }
-    ```
-
-    @method normalize
-    @param {subclass of DS.Model} type
-    @param {Object} hash
-    @param {String} prop
-    @return Object
-  */
-
-  normalize: function(type, hash, prop) {
-    this.normalizeLinks(hash);
-
-    return this._super(type, hash, prop);
-  },
-
-  /**
-    Convert `snake_cased` links  to `camelCase`
-
-    @method normalizeLinks
-    @param {Object} hash
-  */
-
-  normalizeLinks: function(data){
-    if (data.links) {
-      var links = data.links;
-
-      for (var link in links) {
-        var camelizedLink = Ember.String.camelize(link);
-
-        if (camelizedLink !== link) {
-          links[camelizedLink] = links[link];
-          delete links[link];
+  embeddedDirtyTracker: (function(obj, path) {
+    var _this = this;
+    if (this.get(path) === 'root.loaded.updated.uncommitted') {
+      return this.eachRelationship(function(relation) {
+        var _relation;
+        _relation = _this.get(relation);
+        if ((_relation != null) && _relation.toString().indexOf('Promise') < 0) {
+          return _relation.transitionTo('updated.uncommitted');
         }
-      }
+      });
     }
-  },
+  }).observes('currentState.stateName')
 
-  /**
-    Normalize the polymorphic type from the JSON.
-
-    Normalize:
-    ```js
-      {
-        id: "1"
-        minion: { type: "evil_minion", id: "12"}
-      }
-    ```
-
-    To:
-    ```js
-      {
-        id: "1"
-        minion: { type: "evilMinion", id: "12"}
-      }
-    ```
-
-    @method normalizeRelationships
-    @private
-  */
-  normalizeRelationships: function(type, hash) {
-    var payloadKey, payload;
-
-    if (this.keyForRelationship) {
-      type.eachRelationship(function(key, relationship) {
-        if (relationship.options.polymorphic) {
-          payloadKey = this.keyForAttribute(key);
-          payload = hash[payloadKey];
-          if (payload && payload.type) {
-            payload.type = this.typeForRoot(payload.type);
-          } else if (payload && relationship.kind === "hasMany") {
-            var self = this;
-            forEach(payload, function(single) {
-              single.type = self.typeForRoot(single.type);
-            });
-          }
-        } else {
-          payloadKey = this.keyForRelationship(key, relationship.kind);
-          payload = hash[payloadKey];
-        }
-
-        hash[key] = payload;
-
-        if (key !== payloadKey) {
-          delete hash[payloadKey];
-        }
-      }, this);
-    }
-  }
 });
 
 }(Ember, DS));
@@ -780,20 +779,23 @@ DS.UnderscoredSerializer = Ember.Mixin.create({
   @submodule embedded-adapter
 **/
 
+Ember.onLoad('Ember.Application', function(Application) {
+  Application.initializer({
+    name: "embeddedAdapter",
+
+    initialize: function(container, application) {
+      application.register('serializer:_embedded', DS.EmbeddedSerializer);
+      application.register('adapter:_embedded', DS.EmbeddedAdapter);
+    }
+  });
+});
+
+
+;/* packages/embedded-adapter/lib/embedded_serializer.js */
 /**
-  DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:
-  DS.UnderscoredAdapterMixin
-
-  @class EmbeddedAdapter
-  @constructor
-  @namespace DS
-  @extends DS.RESTAdapter
+  @module ember-data
+  @submodule embedded-adapter
 **/
-
-DS.EmbeddedAdapter = DS.RESTAdapter.extend(
-  DS.UnderscoredAdapterMixin,
-  { defaultSerializer: '_embedded' }
-);
 
 /**
   DS.EmbeddedSerializer extends the DS.RESTSerializer adding mixins:
@@ -810,16 +812,174 @@ DS.EmbeddedSerializer = DS.RESTSerializer.extend(
   DS.EmbeddedMixin
 );
 
-Ember.onLoad('Ember.Application', function(Application) {
-  Application.initializer({
-    name: "embeddedAdapter",
 
-    initialize: function(container, application) {
-      application.register('serializer:_embedded', DS.EmbeddedSerializer);
-      application.register('adapter:_embedded', DS.EmbeddedAdapter);
+;/* packages/embedded-adapter/lib/embedded_in_model.js */
+/**
+  @module ember-data
+  @submodule embedded-adapter
+**/
+
+/**
+  DS.EmbeddedInModel extends the DS.Model adding mixin:
+  DS.EmbeddedInModelMixin
+
+  @class EmbeddedInModel
+  @constructor
+  @namespace DS
+  @extends DS.Model
+**/
+DS.EmbeddedInModel = DS.Model.extend(DS.EmbeddedInModelMixin);
+
+
+;/* packages/embedded-adapter/lib/embedded_adapter.js */
+/**
+  @module ember-data
+  @submodule embedded-adapter
+**/
+
+var forEach = Ember.EnumerableUtils.forEach;
+
+/**
+  DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:
+  DS.UnderscoredAdapterMixin
+
+  @class EmbeddedAdapter
+  @constructor
+  @namespace DS
+  @extends DS.RESTAdapter
+**/
+
+DS.EmbeddedAdapter = DS.RESTAdapter.extend(DS.UnderscoredAdapterMixin, {
+  defaultSerializer: '_embedded',
+
+  /**
+    Redefine adapter's ajax method and keep a reference to the hash
+    in the closure, at times it was lost (without explicit ref).
+
+    @method ajax
+  **/
+  ajax: function(url, type, hash) {
+    var adapter, _hash;
+    adapter = this;
+    _hash = hash;
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      hash = adapter.ajaxOptions(url, type, _hash);
+      hash.success = function(json) {
+        return Ember.run(null, resolve, json);
+      };
+      hash.error = function(jqXHR, textStatus, errorThrown) {
+        return Ember.run(null, reject, adapter.ajaxError(jqXHR));
+      };
+      return Ember.$.ajax(hash);
+    });
+  },
+
+  /**
+    DS.UnderscoredAdapterMixin can override the `ajaxError` method
+    to return a DS.InvalidError for all 422 Unprocessable Entity
+    responses.
+
+    A 422 HTTP response from the server generally implies that the request
+    was well formed but the API was unable to process it because the
+    content was not semantically correct or meaningful per the API.
+
+    For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
+    https://tools.ietf.org/html/rfc4918#section-11.2
+
+    @method ajaxError
+    @param jqXHR
+    @return error
+  */
+  ajaxError: function(jqXHR) {
+    var error = this._super(jqXHR),
+      errors = {};
+
+    if (jqXHR && jqXHR.status === 422) {
+      var jsonErrors = Ember.$.parseJSON(jqXHR.responseText)["errors"];
+
+      forEach(Ember.keys(jsonErrors), function (key) {
+        errors[Ember.String.camelize(key)] = jsonErrors[key];
+      });
+
+      return new DS.InvalidError(errors);
+    } else if (jqXHR && jqXHR.status === 404) {
+      errors['404'] = 'Not Found';
+      return new DS.InvalidError(errors);
+    } else {
+      return error;
     }
-  });
+  }
 });
+
+
+;/* packages/embedded-adapter/lib/model.js */
+/*
+DS.ModelEmbedded = DS.Model.extend({
+
+  embeddedDirtyTracker: function (obj, path) {
+    if (this.get(path) === 'root.loaded.updated.uncommitted') {
+      this._eachRelationshipNotPromised(this._relationDirtyTransition, true);
+    }
+  }.observes('currentState.stateName'),
+
+  embeddedDirtyNotifier: function (obj, path) {
+    if (this.get(path) === 'root.loaded.saved') {
+      this._eachRelationshipNotPromised(this._relationContentRollback, true);
+    }
+  }.observes('currentState.stateName'),
+
+  save: function () {
+    return this._super().then(function (model) {
+      model._eachRelationshipNotPromised(model._relationContentRollback);
+    });
+  },
+
+  _eachRelationshipNotPromised: function (callback, subclassesOnly) {
+    var _this = this;
+    this.eachRelationship(function (relation) {
+      var _relation = _this.get(relation);
+      // TODO check w/ detectInstance?
+      if ((_relation != null) && _relation.toString().indexOf('Promise') < 0) {
+        if (subclassesOnly) {
+          if (DS.ModelEmbedded.detectInstance(_relation)) {
+            callback.call(_this, _relation);
+          }
+        } else {
+          callback.call(_this, _relation);
+        }
+      }
+    });
+  },
+
+  _relationDirtyTransition: function (relation) {
+    relation.transitionTo('updated.uncommitted');
+  },
+
+  _relationContentRollback: function (relation) {
+    relation.content.forEach(function (item) {
+      item.rollback();
+    });
+  }
+});
+*/
+
+
+;/* packages/embedded-adapter/lib/model_with_embedded.js */
+/**
+  @module ember-data
+  @submodule embedded-adapter
+**/
+
+/**
+  DS.ModelWithEmbedded extends the DS.Model adding mixin:
+  DS.ModelWithEmbeddedMixin
+
+  @class ModelWithEmbedded
+  @constructor
+  @namespace DS
+  @extends DS.Model
+**/
+DS.ModelWithEmbedded = DS.Model.extend(DS.ModelWithEmbeddedMixin);
 
 
 ;

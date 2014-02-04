@@ -9,9 +9,18 @@
     "tests/ember_configuration.js",
 
     "packages/mixins/lib/underscored_adapter_mixin.js",
-    "packages/mixins/lib/embedded_mixin.js",
     "packages/mixins/lib/underscored_serializer_mixin.js",
+    "packages/mixins/lib/embedded_mixin.js",
+    "packages/mixins/lib/embedded_in_model_mixin.js",
+    "packages/mixins/lib/model_with_embedded_mixin.js",
+
+    "packages/embedded-adapter/lib/embedded_adapter.js",
+    "packages/embedded-adapter/lib/embedded_serializer.js",
+    "packages/embedded-adapter/lib/embedded_in_model.js",
+
+    "packages/embedded-adapter/tests/*_test.js",
     "packages/mixins/tests/*_test.js"
   ],
+  "launch_in_dev": ["phantomjs", "chrome", "safari", "firefox"],
   "launch_in_ci": ["phantomjs"]
 }

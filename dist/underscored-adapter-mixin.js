@@ -1,8 +1,6 @@
 /* packages/mixins/lib/underscored_adapter_mixin.js */
 (function(Ember, DS) {
 
-var forEach = Ember.EnumerableUtils.forEach;
-
 /**
   @module ember-data
   @submodule mixins
@@ -80,39 +78,6 @@ DS.UnderscoredAdapterMixin = Ember.Mixin.create({
   pathForType: function(type) {
     var decamelized = Ember.String.decamelize(type);
     return Ember.String.pluralize(decamelized);
-  },
-
-  /**
-    DS.UnderscoredAdapterMixin can override the `ajaxError` method
-    to return a DS.InvalidError for all 422 Unprocessable Entity
-    responses.
-
-    A 422 HTTP response from the server generally implies that the request
-    was well formed but the API was unable to process it because the
-    content was not semantically correct or meaningful per the API.
-
-    For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
-    https://tools.ietf.org/html/rfc4918#section-11.2
-
-    @method ajaxError
-    @param jqXHR
-    @return error
-  */
-  ajaxError: function(jqXHR) {
-    var error = this._super(jqXHR);
-
-    if (jqXHR && jqXHR.status === 422) {
-      var jsonErrors = Ember.$.parseJSON(jqXHR.responseText)["errors"],
-          errors = {};
-
-      forEach(Ember.keys(jsonErrors), function(key) {
-        errors[Ember.String.camelize(key)] = jsonErrors[key];
-      });
-
-      return new DS.InvalidError(errors);
-    } else {
-      return error;
-    }
   }
 });
 

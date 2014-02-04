@@ -223,6 +223,20 @@ See the [wiki](https://github.com/pixelhandler/ember-data-extensions/wiki) for n
 
 A recent/current version of Node.js is required for using the build and test tools.
 
+### PhantomJS
+
+Headless testing is done with phantomjs.
+
+NPM can install phantomjs, execute `sudo npm install phantomjs -g`
+
+Or, To install with brew, execute `brew install phantomjs`.
+
+* See: [Homebrew]
+
+[Homebrew]: http://brew.sh
+
+Be sure your executable path resolves to the version of phanomjs you expect to use.
+
 
 ### Troubleshooting
 

@@ -17,6 +17,9 @@ install:
 	@npm install grunt-blanket-qunit --save-dev
 	@bower install
 
+canary:
+	@bin/canary.sh
+
 lint:
 	@jshint packages/*
 

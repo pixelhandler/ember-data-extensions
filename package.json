@@ -6,7 +6,7 @@
   "author": [
     "Bill Heaton"
   ],
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/pixelhandler/ember-data-extensions"
@@ -15,8 +15,17 @@
     "node": "~0.10"
   },
   "scripts": {
-    "build": "brunch b",
-    "test": "testem"
+    "build": "make build",
+    "clean": "make clean",
+    "dist": "make dist",
+    "doc": "make doc",
+    "docfiles": "make docfiles",
+    "canary": "make canary",
+    "lint": "make lint",
+    "prod": "make prod",
+    "test": "make test",
+    "coverage": "make coverage",
+    "ci": "make ci"
   },
   "dependencies": {},
   "devDependencies": {

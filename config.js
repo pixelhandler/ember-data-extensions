@@ -10,7 +10,7 @@ exports.config = {
     javascripts: {
       joinTo: {
         // embedded-adapter
-        'embedded-adapter.js': /(^packages\/embedded\-adapter\/lib|^packages\/mixins\/lib\/(embedded|underscored))/,
+        'embedded-adapter.js': /(^packages\/embedded\-adapter\/lib|^packages\/mixins\/lib)/,
 
         // mixins
         'embedded-mixin.js': /^packages\/mixins\/lib\/embedded_mixin\.js$/,
@@ -58,7 +58,7 @@ exports.config = {
         javascripts: {
           joinTo: {
             // embedded-json-adapter
-            'embedded-adapter.min.js': /(^packages\/embedded\-adapter\/lib|^packages\/mixins\/lib\/(embedded|underscored))/,
+            'embedded-adapter.min.js': /(^packages\/embedded\-adapter\/lib|^packages\/mixins\/lib)/,
 
             // mixins
             'embedded-mixin.min.js': /^packages\/mixins\/lib\/embedded_mixin\.js$/,

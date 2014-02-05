@@ -19,10 +19,10 @@ Use the files in the 'dist' directory.
   "name": "your project",
   "dependencies": {
     "jquery": "~1.10.2",
-    "handlebars": "~1.2.1",
-    "ember": "~1.2.0",
-    "ember-data": "~1.0.0-beta.4",
-    "ember-data-extensions": "~1.0.0-beta.4"
+    "handlebars": "~1.3.0",
+    "ember": "~1.3.1",
+    "ember-data": "~1.0.0-beta.6",
+    "ember-data-extensions": "~1.0.0-beta.6"
   }
 }
 ```
@@ -39,7 +39,7 @@ Use the files in the 'dist' directory.
 ## Ember Data compatability
 
 The releases (tags) will follow Ember Data's versions, currently ember-data-extensions have
-the tag `1.0.0-beta.4`
+the tag `1.0.0-beta.6`
 
 
 ## Packages
@@ -93,6 +93,10 @@ The mixins can be used independently from the `EmbeddedSerializer`.
 * [underscored-adapter-mixin.min.js](dist/underscored-adapter-mixin.min.js)
 * [underscored-serializer-mixin.js](dist/underscored-serializer-mixin.js)
 * [underscored-serializer-mixin.min.js](dist/underscored-serializer-mixin.min.js)
+* [embedded_in_model_mixin.js](dist/embedded_in_model_mixin.js)
+* [embedded_in_model_mixin.min.js](dist/embedded_in_model_mixin.min.js)
+* [model_with_embedded_mixin.js](model_with_embedded_mixin.js)
+* [model_with_embedded_mixin.min.js](model_with_embedded_mixin.min.js)
 
 See the [embedded-adapter/initializer.js](packages/embedded-adapter/lib/initializer.js)
 file as an example implemenation for a custom adapter/serializer based on using mixins

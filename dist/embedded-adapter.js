@@ -773,64 +773,6 @@ DS.EmbeddedInModelMixin = Ember.Mixin.create({
 }(Ember, DS));
 
 
-;/* packages/embedded-adapter/lib/initializer.js */
-/**
-  @module ember-data
-  @submodule embedded-adapter
-**/
-
-Ember.onLoad('Ember.Application', function(Application) {
-  Application.initializer({
-    name: "embeddedAdapter",
-
-    initialize: function(container, application) {
-      application.register('serializer:_embedded', DS.EmbeddedSerializer);
-      application.register('adapter:_embedded', DS.EmbeddedAdapter);
-    }
-  });
-});
-
-
-;/* packages/embedded-adapter/lib/embedded_serializer.js */
-/**
-  @module ember-data
-  @submodule embedded-adapter
-**/
-
-/**
-  DS.EmbeddedSerializer extends the DS.RESTSerializer adding mixins:
-  DS.UnderscoredSerializer, DS.EmbeddedMixin
-
-  @class EmbeddedSerializer
-  @constructor
-  @namespace DS
-  @extends DS.RESTSerializer
-**/
-
-DS.EmbeddedSerializer = DS.RESTSerializer.extend(
-  DS.UnderscoredSerializer,
-  DS.EmbeddedMixin
-);
-
-
-;/* packages/embedded-adapter/lib/embedded_in_model.js */
-/**
-  @module ember-data
-  @submodule embedded-adapter
-**/
-
-/**
-  DS.EmbeddedInModel extends the DS.Model adding mixin:
-  DS.EmbeddedInModelMixin
-
-  @class EmbeddedInModel
-  @constructor
-  @namespace DS
-  @extends DS.Model
-**/
-DS.EmbeddedInModel = DS.Model.extend(DS.EmbeddedInModelMixin);
-
-
 ;/* packages/embedded-adapter/lib/embedded_adapter.js */
 /**
   @module ember-data
@@ -912,56 +854,26 @@ DS.EmbeddedAdapter = DS.RESTAdapter.extend(DS.UnderscoredAdapterMixin, {
 });
 
 
-;/* packages/embedded-adapter/lib/model.js */
-/*
-DS.ModelEmbedded = DS.Model.extend({
+;/* packages/embedded-adapter/lib/embedded_serializer.js */
+/**
+  @module ember-data
+  @submodule embedded-adapter
+**/
 
-  embeddedDirtyTracker: function (obj, path) {
-    if (this.get(path) === 'root.loaded.updated.uncommitted') {
-      this._eachRelationshipNotPromised(this._relationDirtyTransition, true);
-    }
-  }.observes('currentState.stateName'),
+/**
+  DS.EmbeddedSerializer extends the DS.RESTSerializer adding mixins:
+  DS.UnderscoredSerializer, DS.EmbeddedMixin
 
-  embeddedDirtyNotifier: function (obj, path) {
-    if (this.get(path) === 'root.loaded.saved') {
-      this._eachRelationshipNotPromised(this._relationContentRollback, true);
-    }
-  }.observes('currentState.stateName'),
+  @class EmbeddedSerializer
+  @constructor
+  @namespace DS
+  @extends DS.RESTSerializer
+**/
 
-  save: function () {
-    return this._super().then(function (model) {
-      model._eachRelationshipNotPromised(model._relationContentRollback);
-    });
-  },
-
-  _eachRelationshipNotPromised: function (callback, subclassesOnly) {
-    var _this = this;
-    this.eachRelationship(function (relation) {
-      var _relation = _this.get(relation);
-      // TODO check w/ detectInstance?
-      if ((_relation != null) && _relation.toString().indexOf('Promise') < 0) {
-        if (subclassesOnly) {
-          if (DS.ModelEmbedded.detectInstance(_relation)) {
-            callback.call(_this, _relation);
-          }
-        } else {
-          callback.call(_this, _relation);
-        }
-      }
-    });
-  },
-
-  _relationDirtyTransition: function (relation) {
-    relation.transitionTo('updated.uncommitted');
-  },
-
-  _relationContentRollback: function (relation) {
-    relation.content.forEach(function (item) {
-      item.rollback();
-    });
-  }
-});
-*/
+DS.EmbeddedSerializer = DS.RESTSerializer.extend(
+  DS.UnderscoredSerializer,
+  DS.EmbeddedMixin
+);
 
 
 ;/* packages/embedded-adapter/lib/model_with_embedded.js */
@@ -980,6 +892,42 @@ DS.ModelEmbedded = DS.Model.extend({
   @extends DS.Model
 **/
 DS.ModelWithEmbedded = DS.Model.extend(DS.ModelWithEmbeddedMixin);
+
+
+;/* packages/embedded-adapter/lib/embedded_in_model.js */
+/**
+  @module ember-data
+  @submodule embedded-adapter
+**/
+
+/**
+  DS.EmbeddedInModel extends the DS.Model adding mixin:
+  DS.EmbeddedInModelMixin
+
+  @class EmbeddedInModel
+  @constructor
+  @namespace DS
+  @extends DS.Model
+**/
+DS.EmbeddedInModel = DS.Model.extend(DS.EmbeddedInModelMixin);
+
+
+;/* packages/embedded-adapter/lib/initializer.js */
+/**
+  @module ember-data
+  @submodule embedded-adapter
+**/
+
+Ember.onLoad('Ember.Application', function(Application) {
+  Application.initializer({
+    name: "embeddedAdapter",
+
+    initialize: function(container, application) {
+      application.register('serializer:_embedded', DS.EmbeddedSerializer);
+      application.register('adapter:_embedded', DS.EmbeddedAdapter);
+    }
+  });
+});
 
 
 ;

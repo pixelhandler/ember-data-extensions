@@ -13,11 +13,11 @@ exports.config = {
         'embedded-adapter.js': /(^packages\/embedded\-adapter\/lib|^packages\/mixins\/lib\/(embedded|underscored))/,
 
         // mixins
-        'embedded-mixin.js': /^packages\/mixins\/lib\/embedded_mixin/,
-        'underscored-adapter-mixin.js': /^packages\/mixins\/lib\/underscored_adapter/,
-        'underscored-serializer-mixin.js': /^packages\/mixins\/lib\/underscored_serializer/,
-        'embedded_in_model_mixin.js': /^packages\/mixins\/lib\/embedded_in_model_mixin.js/,
-        'model_with_embedded_mixin.js': /^packages\/mixins\/lib\/model_with_embedded_mixin.js/
+        'embedded-mixin.js': /^packages\/mixins\/lib\/embedded_mixin\.js$/,
+        'underscored-adapter-mixin.js': /^packages\/mixins\/lib\/underscored_adapter_mixin\.js$/,
+        'underscored-serializer-mixin.js': /^packages\/mixins\/lib\/underscored_serializer_mixin\.js$/,
+        'embedded_in_model_mixin.js': /^packages\/mixins\/lib\/embedded_in_model_mixin\.js$/,
+        'model_with_embedded_mixin.js': /^packages\/mixins\/lib\/model_with_embedded_mixin\.js$/
       },
       order: {
         before: [
@@ -29,9 +29,14 @@ exports.config = {
           'packages/mixins/lib/model_with_embedded_mixin.js',
 
           // embedded-adapter
-          'packages/embedded-adapter/lib/initializer.js',
+          'packages/embedded-adapter/lib/embedded_adapter.js',
           'packages/embedded-adapter/lib/embedded_serializer.js',
+          'packages/embedded-adapter/lib/model_with_embedded.js',
           'packages/embedded-adapter/lib/embedded_in_model.js'
+        ],
+        after: [
+          // initializer
+          'packages/embedded-adapter/lib/initializer.js'
         ]
       }
     }
@@ -58,7 +63,9 @@ exports.config = {
             // mixins
             'embedded-mixin.min.js': /^packages\/mixins\/lib\/embedded_mixin\.js$/,
             'underscored-adapter-mixin.min.js': /^packages\/mixins\/lib\/underscored_adapter_mixin\.js$/,
-            'underscored-serializer-mixin.min.js': /^packages\/mixins\/lib\/underscored_serializer_mixin\.js$/
+            'underscored-serializer-mixin.min.js': /^packages\/mixins\/lib\/underscored_serializer_mixin\.js$/,
+            'embedded_in_model_mixin.min.js': /^packages\/mixins\/lib\/embedded_in_model_mixin\.js$/,
+            'model_with_embedded_mixin.min.js': /^packages\/mixins\/lib\/model_with_embedded_mixin\.js$/
           }
         }
       }

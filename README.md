@@ -1,6 +1,6 @@
 # Extensions for Ember Data
 
-[![Build Status](https://travis-ci.org/pixelhandler/ember-data-extensions.png)](https://travis-ci.org/pixelhandler/ember-data-extensions)
+[![Build Status](https://travis-ci.org/pixelhandler/ember-data-extensions.png?branch=master)](https://travis-ci.org/pixelhandler/ember-data-extensions)
 
 ## Using Bower
 

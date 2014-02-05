@@ -43,9 +43,17 @@
             
                 <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
+                <li><a href="../classes/DS.EmbeddedInModel.html">DS.EmbeddedInModel</a></li>
+            
+                <li><a href="../classes/DS.EmbeddedInModelMixin.html">DS.EmbeddedInModelMixin</a></li>
+            
                 <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbedded.html">DS.ModelWithEmbedded</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbeddedMixin.html">DS.ModelWithEmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
             
@@ -104,36 +112,6 @@
   @module ember-data
   @submodule embedded-adapter
 **/
-
-/**
-  DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:
-  DS.UnderscoredAdapterMixin
-
-  @class EmbeddedAdapter
-  @constructor
-  @namespace DS
-  @extends DS.RESTAdapter
-**/
-
-DS.EmbeddedAdapter = DS.RESTAdapter.extend(
-  DS.UnderscoredAdapterMixin,
-  { defaultSerializer: &#x27;_embedded&#x27; }
-);
-
-/**
-  DS.EmbeddedSerializer extends the DS.RESTSerializer adding mixins:
-  DS.UnderscoredSerializer, DS.EmbeddedMixin
-
-  @class EmbeddedSerializer
-  @constructor
-  @namespace DS
-  @extends DS.RESTSerializer
-**/
-
-DS.EmbeddedSerializer = DS.RESTSerializer.extend(
-  DS.UnderscoredSerializer,
-  DS.EmbeddedMixin
-);
 
 Ember.onLoad(&#x27;Ember.Application&#x27;, function(Application) {
   Application.initializer({

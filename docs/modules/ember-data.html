@@ -43,9 +43,17 @@
             
                 <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
+                <li><a href="../classes/DS.EmbeddedInModel.html">DS.EmbeddedInModel</a></li>
+            
+                <li><a href="../classes/DS.EmbeddedInModelMixin.html">DS.EmbeddedInModelMixin</a></li>
+            
                 <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbedded.html">DS.ModelWithEmbedded</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbeddedMixin.html">DS.ModelWithEmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
             
@@ -133,6 +141,18 @@
                 </li>
             
                 <li class="module-class">
+                    <a href="../classes/DS.EmbeddedInModel.html">
+                        DS.EmbeddedInModel
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/DS.EmbeddedInModelMixin.html">
+                        DS.EmbeddedInModelMixin
+                    </a>
+                </li>
+            
+                <li class="module-class">
                     <a href="../classes/DS.EmbeddedMixin.html">
                         DS.EmbeddedMixin
                     </a>
@@ -141,6 +161,18 @@
                 <li class="module-class">
                     <a href="../classes/DS.EmbeddedSerializer.html">
                         DS.EmbeddedSerializer
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/DS.ModelWithEmbedded.html">
+                        DS.ModelWithEmbedded
+                    </a>
+                </li>
+            
+                <li class="module-class">
+                    <a href="../classes/DS.ModelWithEmbeddedMixin.html">
+                        DS.ModelWithEmbeddedMixin
                     </a>
                 </li>
             
@@ -183,23 +215,7 @@ DS.UnderscoredAdapterMixin
                     </a>
 
                     <div class="module-submodule-description">
-                        DS.EmbeddedMixin supports serializing embedded records.
-
-To set up embedded records, include the mixin into a serializer then
-define embedded (model) relationships.
-
-Below is an example of a per type serializer (post type).
-
-<code>&#x60;</code>js
-App.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {
-  attrs: {
-    author: {embedded: 'always'},
-    comments: {embedded: 'always'}
-  }
-})
-<code>&#x60;</code>
-
-Currently only <code>{embedded: &#x27;always&#x27;}</code> records are supported.
+                        DS.EmbeddedInModelMixin
                     </div>
                 </li>
             

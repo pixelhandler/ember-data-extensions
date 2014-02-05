@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>mixins - Extensions for Ember Data</title>
+    <title>DS.ModelWithEmbeddedMixin - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -104,16 +104,23 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>mixins Module</h1>
-<div class="box clearfix meta">
+                        <h1>DS.ModelWithEmbeddedMixin Class</h1>
+<div class="box meta">
     
 
     
 
     
         <div class="foundat">
-            Defined in: <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:11</code></a>
+            Defined in: <a href="../files/packages_mixins_lib_model_with_embedded_mixin.js.html#l10"><code>packages&#x2F;mixins&#x2F;lib&#x2F;model_with_embedded_mixin.js:10</code></a>
         </div>
+    
+
+    
+        
+            Module: <a href="../modules/mixins.html">mixins</a><br>
+            Parent Module: <a href="../modules/ember-data.html">ember-data</a>
+        
     
 
     
@@ -122,54 +129,123 @@
 
 
 <div class="box intro">
-    <p>DS.EmbeddedInModelMixin</p>
+    <p>DS.ModelWithEmbeddedMixin</p>
 
 </div>
 
 
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-            <ul class="module-classes">
+        
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
+        
+        
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
             
-                <li class="module-class">
-                    <a href="../classes/DS.EmbeddedInModelMixin.html">
-                        DS.EmbeddedInModelMixin
-                    </a>
-                </li>
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_embeddedNotifier">embeddedNotifier</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
             
-                <li class="module-class">
-                    <a href="../classes/DS.EmbeddedMixin.html">
-                        DS.EmbeddedMixin
-                    </a>
-                </li>
+
             
-                <li class="module-class">
-                    <a href="../classes/DS.ModelWithEmbeddedMixin.html">
-                        DS.ModelWithEmbeddedMixin
-                    </a>
-                </li>
+
             
-                <li class="module-class">
-                    <a href="../classes/DS.UnderscoredAdapterMixin.html">
-                        DS.UnderscoredAdapterMixin
-                    </a>
-                </li>
+
             
-                <li class="module-class">
-                    <a href="../classes/DS.UnderscoredSerializer.html">
-                        DS.UnderscoredSerializer
-                    </a>
-                </li>
+        </div>
+
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_embeddedNotifier" class="method item">
+    <h3 class="name"><code>embeddedNotifier</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-            </ul>
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/packages_mixins_lib_model_with_embedded_mixin.js.html#l18"><code>packages&#x2F;mixins&#x2F;lib&#x2F;model_with_embedded_mixin.js:18</code></a>
+        
+        </p>
+
+
+        
+
         
     </div>
 
-    <div class="yui3-u-1-2">
+    <div class="description">
+        <p>Observes state changes and notifies related objects to change state</p>
+<p>When record becomes dirty the embeddedNotifier
+notifies embedded records to transition to dirty state</p>
+<p>When record is saved the embeddedNotifier
+notifies embedded records to rollback to a saved state</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+
         
     </div>
 </div>

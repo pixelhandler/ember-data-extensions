@@ -43,9 +43,17 @@
             
                 <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
+                <li><a href="../classes/DS.EmbeddedInModel.html">DS.EmbeddedInModel</a></li>
+            
+                <li><a href="../classes/DS.EmbeddedInModelMixin.html">DS.EmbeddedInModelMixin</a></li>
+            
                 <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbedded.html">DS.ModelWithEmbedded</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbeddedMixin.html">DS.ModelWithEmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
             
@@ -101,8 +109,6 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 (function(Ember, DS) {
-
-var forEach = Ember.EnumerableUtils.forEach;
 
 /**
   @module ember-data
@@ -181,39 +187,6 @@ DS.UnderscoredAdapterMixin = Ember.Mixin.create({
   pathForType: function(type) {
     var decamelized = Ember.String.decamelize(type);
     return Ember.String.pluralize(decamelized);
-  },
-
-  /**
-    DS.UnderscoredAdapterMixin can override the &#x60;ajaxError&#x60; method
-    to return a DS.InvalidError for all 422 Unprocessable Entity
-    responses.
-
-    A 422 HTTP response from the server generally implies that the request
-    was well formed but the API was unable to process it because the
-    content was not semantically correct or meaningful per the API.
-
-    For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
-    https://tools.ietf.org/html/rfc4918#section-11.2
-
-    @method ajaxError
-    @param jqXHR
-    @return error
-  */
-  ajaxError: function(jqXHR) {
-    var error = this._super(jqXHR);
-
-    if (jqXHR &amp;&amp; jqXHR.status === 422) {
-      var jsonErrors = Ember.$.parseJSON(jqXHR.responseText)[&quot;errors&quot;],
-          errors = {};
-
-      forEach(Ember.keys(jsonErrors), function(key) {
-        errors[Ember.String.camelize(key)] = jsonErrors[key];
-      });
-
-      return new DS.InvalidError(errors);
-    } else {
-      return error;
-    }
   }
 });
 

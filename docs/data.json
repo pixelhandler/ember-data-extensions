@@ -6,14 +6,66 @@
         "url": "https://github.com/pixelhandler/ember-data-extensions"
     },
     "files": {
-        "packages/embedded-adapter/lib/initializer.js": {
-            "name": "packages/embedded-adapter/lib/initializer.js",
+        "packages/embedded-adapter/lib/embedded_adapter.js": {
+            "name": "packages/embedded-adapter/lib/embedded_adapter.js",
             "modules": {
                 "embedded-adapter": 1
             },
             "classes": {
-                "DS.EmbeddedAdapter": 1,
+                "DS.EmbeddedAdapter": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "DS": 1
+            }
+        },
+        "packages/embedded-adapter/lib/embedded_in_model.js": {
+            "name": "packages/embedded-adapter/lib/embedded_in_model.js",
+            "modules": {},
+            "classes": {
+                "DS.EmbeddedInModel": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "DS": 1
+            }
+        },
+        "packages/embedded-adapter/lib/embedded_serializer.js": {
+            "name": "packages/embedded-adapter/lib/embedded_serializer.js",
+            "modules": {},
+            "classes": {
                 "DS.EmbeddedSerializer": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "DS": 1
+            }
+        },
+        "packages/embedded-adapter/lib/initializer.js": {
+            "name": "packages/embedded-adapter/lib/initializer.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "packages/embedded-adapter/lib/model_with_embedded.js": {
+            "name": "packages/embedded-adapter/lib/model_with_embedded.js",
+            "modules": {},
+            "classes": {
+                "DS.ModelWithEmbedded": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "DS": 1
+            }
+        },
+        "packages/mixins/lib/embedded_in_model_mixin.js": {
+            "name": "packages/mixins/lib/embedded_in_model_mixin.js",
+            "modules": {
+                "mixins": 1
+            },
+            "classes": {
+                "DS.EmbeddedInModelMixin": 1
             },
             "fors": {},
             "namespaces": {
@@ -22,11 +74,20 @@
         },
         "packages/mixins/lib/embedded_mixin.js": {
             "name": "packages/mixins/lib/embedded_mixin.js",
-            "modules": {
-                "mixins": 1
-            },
+            "modules": {},
             "classes": {
                 "DS.EmbeddedMixin": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "DS": 1
+            }
+        },
+        "packages/mixins/lib/model_with_embedded_mixin.js": {
+            "name": "packages/mixins/lib/model_with_embedded_mixin.js",
+            "modules": {},
+            "classes": {
+                "DS.ModelWithEmbeddedMixin": 1
             },
             "fors": {},
             "namespaces": {
@@ -65,8 +126,12 @@
             },
             "classes": {
                 "DS.EmbeddedAdapter": 1,
+                "DS.EmbeddedInModel": 1,
                 "DS.EmbeddedSerializer": 1,
+                "DS.ModelWithEmbedded": 1,
+                "DS.EmbeddedInModelMixin": 1,
                 "DS.EmbeddedMixin": 1,
+                "DS.ModelWithEmbeddedMixin": 1,
                 "DS.UnderscoredAdapterMixin": 1,
                 "DS.UnderscoredSerializer": 1
             },
@@ -82,7 +147,9 @@
             "submodules": {},
             "classes": {
                 "DS.EmbeddedAdapter": 1,
-                "DS.EmbeddedSerializer": 1
+                "DS.EmbeddedInModel": 1,
+                "DS.EmbeddedSerializer": 1,
+                "DS.ModelWithEmbedded": 1
             },
             "fors": {},
             "is_submodule": 1,
@@ -91,15 +158,17 @@
             },
             "module": "ember-data",
             "namespace": "",
-            "file": "packages/embedded-adapter/lib/initializer.js",
-            "line": 21,
+            "file": "packages/embedded-adapter/lib/model_with_embedded.js",
+            "line": 6,
             "description": "DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:\nDS.UnderscoredAdapterMixin"
         },
         "mixins": {
             "name": "mixins",
             "submodules": {},
             "classes": {
+                "DS.EmbeddedInModelMixin": 1,
                 "DS.EmbeddedMixin": 1,
+                "DS.ModelWithEmbeddedMixin": 1,
                 "DS.UnderscoredAdapterMixin": 1,
                 "DS.UnderscoredSerializer": 1
             },
@@ -112,7 +181,7 @@
             "namespace": "",
             "file": "packages/mixins/lib/underscored_serializer_mixin.js",
             "line": 11,
-            "description": "DS.EmbeddedMixin supports serializing embedded records.\n\nTo set up embedded records, include the mixin into a serializer then\ndefine embedded (model) relationships.\n\nBelow is an example of a per type serializer (post type).\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    author: {embedded: 'always'},\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nCurrently only `{embedded: 'always'}` records are supported."
+            "description": "DS.EmbeddedInModelMixin"
         }
     },
     "classes": {
@@ -127,11 +196,28 @@
             "module": "ember-data",
             "submodule": "embedded-adapter",
             "namespace": "DS",
-            "file": "packages/embedded-adapter/lib/initializer.js",
-            "line": 6,
+            "file": "packages/embedded-adapter/lib/embedded_adapter.js",
+            "line": 8,
             "description": "DS.EmbeddedAdapter extends the DS.RESTSerializer adding mixin:\nDS.UnderscoredAdapterMixin",
             "is_constructor": 1,
             "extends": "DS.RESTAdapter"
+        },
+        "DS.EmbeddedInModel": {
+            "name": "DS.EmbeddedInModel",
+            "shortname": "DS.EmbeddedInModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-data",
+            "submodule": "embedded-adapter",
+            "namespace": "DS",
+            "file": "packages/embedded-adapter/lib/embedded_in_model.js",
+            "line": 6,
+            "description": "DS.EmbeddedInModel extends the DS.Model adding mixin:\nDS.EmbeddedInModelMixin",
+            "is_constructor": 1,
+            "extends": "DS.Model"
         },
         "DS.EmbeddedSerializer": {
             "name": "DS.EmbeddedSerializer",
@@ -144,11 +230,43 @@
             "module": "ember-data",
             "submodule": "embedded-adapter",
             "namespace": "DS",
-            "file": "packages/embedded-adapter/lib/initializer.js",
-            "line": 21,
+            "file": "packages/embedded-adapter/lib/embedded_serializer.js",
+            "line": 6,
             "description": "DS.EmbeddedSerializer extends the DS.RESTSerializer adding mixins:\nDS.UnderscoredSerializer, DS.EmbeddedMixin",
             "is_constructor": 1,
             "extends": "DS.RESTSerializer"
+        },
+        "DS.ModelWithEmbedded": {
+            "name": "DS.ModelWithEmbedded",
+            "shortname": "DS.ModelWithEmbedded",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-data",
+            "submodule": "embedded-adapter",
+            "namespace": "DS",
+            "file": "packages/embedded-adapter/lib/model_with_embedded.js",
+            "line": 6,
+            "description": "DS.ModelWithEmbedded extends the DS.Model adding mixin:\nDS.ModelWithEmbeddedMixin",
+            "is_constructor": 1,
+            "extends": "DS.Model"
+        },
+        "DS.EmbeddedInModelMixin": {
+            "name": "DS.EmbeddedInModelMixin",
+            "shortname": "DS.EmbeddedInModelMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS",
+            "file": "packages/mixins/lib/embedded_in_model_mixin.js",
+            "line": 8,
+            "description": "DS.EmbeddedInModelMixin"
         },
         "DS.EmbeddedMixin": {
             "name": "DS.EmbeddedMixin",
@@ -165,6 +283,21 @@
             "line": 11,
             "description": "DS.EmbeddedMixin supports serializing embedded records.\n\nTo set up embedded records, include the mixin into a serializer then\ndefine embedded (model) relationships.\n\nBelow is an example of a per type serializer (post type).\n\n```js\nApp.PostSerializer = DS.RESTSerializer.extend(DS.EmbeddedMixin, {\n  attrs: {\n    author: {embedded: 'always'},\n    comments: {embedded: 'always'}\n  }\n})\n```\n\nCurrently only `{embedded: 'always'}` records are supported."
         },
+        "DS.ModelWithEmbeddedMixin": {
+            "name": "DS.ModelWithEmbeddedMixin",
+            "shortname": "DS.ModelWithEmbeddedMixin",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS",
+            "file": "packages/mixins/lib/model_with_embedded_mixin.js",
+            "line": 10,
+            "description": "DS.ModelWithEmbeddedMixin"
+        },
         "DS.UnderscoredAdapterMixin": {
             "name": "DS.UnderscoredAdapterMixin",
             "shortname": "DS.UnderscoredAdapterMixin",
@@ -177,7 +310,7 @@
             "submodule": "mixins",
             "namespace": "DS",
             "file": "packages/mixins/lib/underscored_adapter_mixin.js",
-            "line": 10,
+            "line": 8,
             "description": "The `UnderscoredAdapterMixin` is intended use when creating a subclass of the\nDS.RESTAdapter.\n\nBased on `activemodel-adapter` package, supports `hasMany` and `belongsTo`\nrecords embedded in JSON payloads, designed to work out of the box with the\n[active_model_serializers](http://github.com/rails-api/active_model_serializers)\nRuby gem.\n\n[Mongoid](https://github.com/mongoid/mongoid) supports using `embeds_many` and\n`embeds_one` in (Rails) models. Also `has_one` and `has_many` can be used with\n`ActiveModel::Serializers`. Choose an option for embedding ids or object(s).\n\nUse to create an adapter based on the DS.RESTAdapter by making consistent use of\nthe camelization, decamelization and pluralization methods to normalize the\nserialized JSON into a format that is compatible with a conventional Rails backend\nand Ember Data.\n\n## JSON Structure\n\nThe UnderscoredAdapterMixin expects the JSON payload from your server to follow\nthe REST adapter conventions substituting underscored keys for camelCased ones.\n\n### Conventional Names\n\nAttribute names in your JSON payload should be the underscored versions of\nthe attributes in your Ember.js models.\n\nFor example, if you have a `Person` model:\n\n```js\nApp.FamousPerson = DS.Model.extend({\n  firstName: DS.attr('string'),\n  lastName: DS.attr('string'),\n  occupation: DS.attr('string')\n});\n```\n\nThe JSON returned should look like this:\n\n```js\n{\n  \"famous_person\": {\n    \"first_name\": \"Barack\",\n    \"last_name\": \"Obama\",\n    \"occupation\": \"President\"\n  }\n}\n```",
             "is_constructor": 1
         },
@@ -199,6 +332,37 @@
         }
     },
     "classitems": [
+        {
+            "file": "packages/embedded-adapter/lib/embedded_adapter.js",
+            "line": 21,
+            "description": "Redefine adapter's ajax method and keep a reference to the hash\nin the closure, at times it was lost (without explicit ref).",
+            "itemtype": "method",
+            "name": "ajax",
+            "class": "DS.EmbeddedAdapter",
+            "module": "ember-data",
+            "submodule": "embedded-adapter",
+            "namespace": "DS"
+        },
+        {
+            "file": "packages/embedded-adapter/lib/embedded_adapter.js",
+            "line": 43,
+            "description": "DS.UnderscoredAdapterMixin can override the `ajaxError` method\nto return a DS.InvalidError for all 422 Unprocessable Entity\nresponses.\n\nA 422 HTTP response from the server generally implies that the request\nwas well formed but the API was unable to process it because the\ncontent was not semantically correct or meaningful per the API.\n\nFor more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918\nhttps://tools.ietf.org/html/rfc4918#section-11.2",
+            "itemtype": "method",
+            "name": "ajaxError",
+            "params": [
+                {
+                    "name": "jqXHR",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "error"
+            },
+            "class": "DS.EmbeddedAdapter",
+            "module": "ember-data",
+            "submodule": "embedded-adapter",
+            "namespace": "DS"
+        },
         {
             "file": "packages/mixins/lib/embedded_mixin.js",
             "line": 35,
@@ -327,8 +491,19 @@
             "namespace": "DS"
         },
         {
+            "file": "packages/mixins/lib/model_with_embedded_mixin.js",
+            "line": 18,
+            "description": "Observes state changes and notifies related objects to change state\n\nWhen record becomes dirty the embeddedNotifier\nnotifies embedded records to transition to dirty state\n\nWhen record is saved the embeddedNotifier\nnotifies embedded records to rollback to a saved state",
+            "itemtype": "method",
+            "name": "embeddedNotifier",
+            "class": "DS.ModelWithEmbeddedMixin",
+            "module": "ember-data",
+            "submodule": "mixins",
+            "namespace": "DS"
+        },
+        {
             "file": "packages/mixins/lib/underscored_adapter_mixin.js",
-            "line": 66,
+            "line": 64,
             "description": "The UnderscoredAdapterMixin overrides the `pathForType` method to build\nunderscored URLs by decamelizing and pluralizing the object type name.\n\n```js\n  this.pathForType(\"famousPerson\");\n  //=> \"famous_people\"\n```",
             "itemtype": "method",
             "name": "pathForType",
@@ -341,26 +516,6 @@
             ],
             "return": {
                 "description": "String"
-            },
-            "class": "DS.UnderscoredAdapterMixin",
-            "module": "ember-data",
-            "submodule": "mixins",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/mixins/lib/underscored_adapter_mixin.js",
-            "line": 84,
-            "description": "DS.UnderscoredAdapterMixin can override the `ajaxError` method\nto return a DS.InvalidError for all 422 Unprocessable Entity\nresponses.\n\nA 422 HTTP response from the server generally implies that the request\nwas well formed but the API was unable to process it because the\ncontent was not semantically correct or meaningful per the API.\n\nFor more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918\nhttps://tools.ietf.org/html/rfc4918#section-11.2",
-            "itemtype": "method",
-            "name": "ajaxError",
-            "params": [
-                {
-                    "name": "jqXHR",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "error"
             },
             "class": "DS.UnderscoredAdapterMixin",
             "module": "ember-data",

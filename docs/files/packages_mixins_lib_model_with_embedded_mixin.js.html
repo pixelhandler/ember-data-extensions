@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>mixins - Extensions for Ember Data</title>
+    <title>packages/mixins/lib/model_with_embedded_mixin.js - Extensions for Ember Data</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -104,74 +104,105 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>mixins Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: packages/mixins/lib/model_with_embedded_mixin.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+(function(Ember, DS) {
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/packages_mixins_lib_underscored_serializer_mixin.js.html#l11"><code>packages&#x2F;mixins&#x2F;lib&#x2F;underscored_serializer_mixin.js:11</code></a>
-        </div>
-    
+var get = Ember.get;
 
-    
-</div>
+/**
+  @module ember-data
+  @submodule mixins
+**/
 
+/**
+  DS.ModelWithEmbeddedMixin
 
+  @class ModelWithEmbeddedMixin
+  @namespace DS
+*/
+DS.ModelWithEmbeddedMixin = Ember.Mixin.create({
 
-<div class="box intro">
-    <p>DS.EmbeddedInModelMixin</p>
+  /**
+    Observes state changes and notifies related objects to change state
 
-</div>
+    When record becomes dirty the embeddedNotifier
+    notifies embedded records to transition to dirty state
 
+    When record is saved the embeddedNotifier
+    notifies embedded records to rollback to a saved state
 
+    @method embeddedNotifier
+  **/
+  embeddedNotifier: (function(obj, path) {
+    var serializer = this.store.serializerFor(this.constructor),
+      config = serializer.get(&#x27;attrs&#x27;);
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-            <p>This module provides the following classes:</p>
+    if (!config) return;
+    if (this.get(path) === &#x27;root.loaded.updated.uncommitted&#x27;) {
+      enumerateRelationships.call(this, config, serializer, transitionRelatedToDirty);
+    } else if (this.get(path) === &#x27;root.loaded.saved&#x27;) {
+      enumerateRelationships.call(this, config, serializer, rollbackRelated);
+    }
+  }).observes(&#x27;currentState.stateName&#x27;)
 
-            <ul class="module-classes">
-            
-                <li class="module-class">
-                    <a href="../classes/DS.EmbeddedInModelMixin.html">
-                        DS.EmbeddedInModelMixin
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/DS.EmbeddedMixin.html">
-                        DS.EmbeddedMixin
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/DS.ModelWithEmbeddedMixin.html">
-                        DS.ModelWithEmbeddedMixin
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/DS.UnderscoredAdapterMixin.html">
-                        DS.UnderscoredAdapterMixin
-                    </a>
-                </li>
-            
-                <li class="module-class">
-                    <a href="../classes/DS.UnderscoredSerializer.html">
-                        DS.UnderscoredSerializer
-                    </a>
-                </li>
-            
-            </ul>
-        
-    </div>
+});
 
-    <div class="yui3-u-1-2">
-        
-    </div>
+// Check config for embedded flag
+function isEmbedded(config) {
+  return config &amp;&amp; (config.embedded === &#x27;always&#x27; || config.embedded === &#x27;load&#x27;);
+}
+
+// Enumerate over relationship objects, check serializer&#x27;s config
+// execute a callback when relationship is embedded
+function enumerateRelationships(config, serializer, callback) {
+  var relationshipsByName = get(this.constructor, &#x27;relationshipsByName&#x27;);
+  var relationships = relationshipsByName.values;
+  for (var relation in relationships) {
+    if (!relationships.hasOwnProperty(relation)) continue;
+    var key = relationships[relation].key;
+    if (!config || !isEmbedded(config[serializer.keyForAttribute(key)])) continue;
+    callback(relationships[relation], this.get(key));
+  }
+}
+
+// Rollback related record
+function rollbackRelated(relationship, record) {
+  if (!record || record.toString().indexOf(&#x27;Promise&#x27;) &gt; 0) return;
+  var kind = relationship.kind;
+  if (kind === &#x27;belongsTo&#x27;) {
+    rollback(record);
+  } else if (kind === &#x27;hasMany&#x27;) {
+    record.content.forEach(rollback);
+  }
+}
+
+// Call the model&#x27;s rollback method
+function rollback(model) {
+  model.rollback();
+}
+
+// Transition related record(s) to dirty state
+function transitionRelatedToDirty(relationship, record) {
+  if (!record || record.toString().indexOf(&#x27;Promise&#x27;) &gt; 0) return;
+  var kind = relationship.kind;
+  if (kind === &#x27;belongsTo&#x27;) {
+    transitionToDirty(record);
+  } else if (kind === &#x27;hasMany&#x27;) {
+    record.content.forEach(transitionToDirty);
+  }
+}
+
+// Transition record to dirty state
+function transitionToDirty(record) {
+  record.transitionTo(&#x27;updated.uncommitted&#x27;);
+}
+
+}(Ember, DS));
+
+    </pre>
 </div>
 
                     </div>

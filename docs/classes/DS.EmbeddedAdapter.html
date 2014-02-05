@@ -43,9 +43,17 @@
             
                 <li><a href="../classes/DS.EmbeddedAdapter.html">DS.EmbeddedAdapter</a></li>
             
+                <li><a href="../classes/DS.EmbeddedInModel.html">DS.EmbeddedInModel</a></li>
+            
+                <li><a href="../classes/DS.EmbeddedInModelMixin.html">DS.EmbeddedInModelMixin</a></li>
+            
                 <li><a href="../classes/DS.EmbeddedMixin.html">DS.EmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.EmbeddedSerializer.html">DS.EmbeddedSerializer</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbedded.html">DS.ModelWithEmbedded</a></li>
+            
+                <li><a href="../classes/DS.ModelWithEmbeddedMixin.html">DS.ModelWithEmbeddedMixin</a></li>
             
                 <li><a href="../classes/DS.UnderscoredAdapterMixin.html">DS.UnderscoredAdapterMixin</a></li>
             
@@ -108,7 +116,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/packages_embedded-adapter_lib_initializer.js.html#l6"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;initializer.js:6</code></a>
+            Defined in: <a href="../files/packages_embedded-adapter_lib_embedded_adapter.js.html#l8"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;embedded_adapter.js:8</code></a>
         </div>
     
 
@@ -165,7 +173,7 @@ DS.UnderscoredAdapterMixin</p>
             
         
         
-        <a href="../files/packages_embedded-adapter_lib_initializer.js.html#l6"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;initializer.js:6</code></a>
+        <a href="../files/packages_embedded-adapter_lib_embedded_adapter.js.html#l8"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;embedded_adapter.js:8</code></a>
         
         </p>
 
@@ -194,6 +202,8 @@ DS.UnderscoredAdapterMixin</p>
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
         
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
         
         
         
@@ -204,6 +214,28 @@ DS.UnderscoredAdapterMixin</p>
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods extends">
+                        
+                            <li class="index-item method">
+                                <a href="#method_ajax">ajax</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_ajaxError">ajaxError</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
 
             
 
@@ -212,6 +244,179 @@ DS.UnderscoredAdapterMixin</p>
             
         </div>
 
+        
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method_ajax" class="method item">
+    <h3 class="name"><code>ajax</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/packages_embedded-adapter_lib_embedded_adapter.js.html#l21"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;embedded_adapter.js:21</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Redefine adapter&#39;s ajax method and keep a reference to the hash
+in the closure, at times it was lost (without explicit ref).</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_ajaxError" class="method item">
+    <h3 class="name"><code>ajaxError</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>jqXHR</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/packages_embedded-adapter_lib_embedded_adapter.js.html#l43"><code>packages&#x2F;embedded-adapter&#x2F;lib&#x2F;embedded_adapter.js:43</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>DS.UnderscoredAdapterMixin can override the <code>ajaxError</code> method
+to return a DS.InvalidError for all 422 Unprocessable Entity
+responses.</p>
+<p>A 422 HTTP response from the server generally implies that the request
+was well formed but the API was unable to process it because the
+content was not semantically correct or meaningful per the API.</p>
+<p>For more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918
+<a href="https://tools.ietf.org/html/rfc4918#section-11.2">https://tools.ietf.org/html/rfc4918#section-11.2</a></p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">jqXHR</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                    <p>error</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+            </div>
         
 
         

@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+  <!-- vendor -->
   <script src="../bower_components/qunit/qunit/qunit.js"></script>
   <script src="../bower_components/blanket/dist/qunit/blanket.js" data-cover-reporter="./grunt-reporter.js"></script>
   <script src="../bower_components/jquery/jquery.js"></script>
@@ -8,22 +9,24 @@
   <script src="../bower_components/ember/ember.js"></script>
   <script src="../bower_components/ember-data/ember-data.js"></script>
   <script src="./ember_configuration.js"></script>
-  <script src="../packages/mixins/lib/underscored_adapter_mixin.js"></script>
-  <script src="../packages/mixins/lib/underscored_serializer_mixin.js"></script>
-  <script src="../packages/mixins/lib/embedded_mixin.js"></script>
-  <script src="../packages/mixins/lib/embedded_in_model_mixin.js"></script>
-  <script src="../packages/mixins/lib/model_with_embedded_mixin.js"></script>
-  <script src="../packages/embedded-adapter/lib/embedded_adapter.js"></script>
-  <script src="../packages/embedded-adapter/lib/embedded_serializer.js"></script>
-  <script src="../packages/embedded-adapter/lib/embedded_in_model.js"></script>
-  <script src="../packages/embedded-adapter/tests/embedded_adapter_test.js"></script>
-  <script src="../packages/embedded-adapter/tests/embedded_serializer_test.js"></script>
-  <script src="../packages/embedded-adapter/tests/model_test.js"></script>
-  <script src="../packages/mixins/tests/embedded_in_model_mixin_test.js"></script>
-  <script src="../packages/mixins/tests/embedded_mixin_test.js"></script>
-  <script src="../packages/mixins/tests/model_with_embedded_mixin_test.js"></script>
+  <!-- lib -->
+  <script src="../packages/mixins/lib/underscored_adapter_mixin.js" data-cover></script>
+  <script src="../packages/mixins/lib/underscored_serializer_mixin.js" data-cover></script>
+  <script src="../packages/mixins/lib/embedded_mixin.js" data-cover></script>
+  <script src="../packages/mixins/lib/embedded_in_model_mixin.js" data-cover></script>
+  <script src="../packages/mixins/lib/model_with_embedded_mixin.js" data-cover></script>
+  <script src="../packages/embedded-adapter/lib/embedded_adapter.js" data-cover></script>
+  <script src="../packages/embedded-adapter/lib/embedded_serializer.js" data-cover></script>
+  <script src="../packages/embedded-adapter/lib/model_with_embedded.js" data-cover></script>
+  <script src="../packages/embedded-adapter/lib/embedded_in_model.js" data-cover></script>
+  <!-- tests -->
   <script src="../packages/mixins/tests/underscored_adapter_mixin_test.js"></script>
   <script src="../packages/mixins/tests/underscored_serializer_mixin_test.js"></script>
+  <script src="../packages/mixins/tests/embedded_mixin_test.js"></script>
+  <script src="../packages/embedded-adapter/tests/embedded_adapter_test.js"></script>
+  <script src="../packages/embedded-adapter/tests/embedded_serializer_test.js"></script>
+  <script src="../packages/mixins/tests/model_with_embedded_mixin_test.js"></script>
+  <script src="../packages/mixins/tests/embedded_in_model_mixin_test.js"></script>
 
   <link rel="stylesheet" href="../bower_components/qunit/qunit/qunit.css"/>
 </head>

@@ -16,6 +16,7 @@
 
     "packages/embedded-adapter/lib/embedded_adapter.js",
     "packages/embedded-adapter/lib/embedded_serializer.js",
+    "packages/embedded-adapter/lib/model_with_embedded.js",
     "packages/embedded-adapter/lib/embedded_in_model.js",
 
     "packages/embedded-adapter/tests/*_test.js",

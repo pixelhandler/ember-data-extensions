@@ -795,28 +795,6 @@ DS.EmbeddedAdapter = DS.RESTAdapter.extend(DS.UnderscoredAdapterMixin, {
   defaultSerializer: '_embedded',
 
   /**
-    Redefine adapter's ajax method and keep a reference to the hash
-    in the closure, at times it was lost (without explicit ref).
-
-    @method ajax
-  **/
-  ajax: function(url, type, hash) {
-    var adapter, _hash;
-    adapter = this;
-    _hash = hash;
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      hash = adapter.ajaxOptions(url, type, _hash);
-      hash.success = function(json) {
-        return Ember.run(null, resolve, json);
-      };
-      hash.error = function(jqXHR, textStatus, errorThrown) {
-        return Ember.run(null, reject, adapter.ajaxError(jqXHR));
-      };
-      return Ember.$.ajax(hash);
-    });
-  },
-
-  /**
     DS.UnderscoredAdapterMixin can override the `ajaxError` method
     to return a DS.InvalidError for all 422 Unprocessable Entity
     responses.

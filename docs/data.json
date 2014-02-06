@@ -335,17 +335,6 @@
         {
             "file": "packages/embedded-adapter/lib/embedded_adapter.js",
             "line": 21,
-            "description": "Redefine adapter's ajax method and keep a reference to the hash\nin the closure, at times it was lost (without explicit ref).",
-            "itemtype": "method",
-            "name": "ajax",
-            "class": "DS.EmbeddedAdapter",
-            "module": "ember-data",
-            "submodule": "embedded-adapter",
-            "namespace": "DS"
-        },
-        {
-            "file": "packages/embedded-adapter/lib/embedded_adapter.js",
-            "line": 43,
             "description": "DS.UnderscoredAdapterMixin can override the `ajaxError` method\nto return a DS.InvalidError for all 422 Unprocessable Entity\nresponses.\n\nA 422 HTTP response from the server generally implies that the request\nwas well formed but the API was unable to process it because the\ncontent was not semantically correct or meaningful per the API.\n\nFor more information on 422 HTTP Error code see 11.2 WebDAV RFC 4918\nhttps://tools.ietf.org/html/rfc4918#section-11.2",
             "itemtype": "method",
             "name": "ajaxError",

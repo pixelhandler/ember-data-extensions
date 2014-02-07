@@ -95,8 +95,8 @@ The mixins can be used independently from the `EmbeddedSerializer`.
 * [underscored-serializer-mixin.min.js](dist/underscored-serializer-mixin.min.js)
 * [embedded_in_model_mixin.js](dist/embedded_in_model_mixin.js)
 * [embedded_in_model_mixin.min.js](dist/embedded_in_model_mixin.min.js)
-* [model_with_embedded_mixin.js](model_with_embedded_mixin.js)
-* [model_with_embedded_mixin.min.js](model_with_embedded_mixin.min.js)
+* [model_with_embedded_mixin.js](dist/model_with_embedded_mixin.js)
+* [model_with_embedded_mixin.min.js](dist/model_with_embedded_mixin.min.js)
 
 See the [embedded-adapter/initializer.js](packages/embedded-adapter/lib/initializer.js)
 file as an example implemenation for a custom adapter/serializer based on using mixins

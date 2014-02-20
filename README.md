@@ -38,9 +38,9 @@ Use the files in the 'dist' directory.
 
 ## Ember Data compatability
 
-The releases (tags) will follow Ember Data's versions, currently ember-data-extensions have
-the tag `1.0.0-beta.6`
+The releases (tags) will follow Ember Data's versions, see the [releases] page
 
+[releases]: https://github.com/pixelhandler/ember-data-extensions/releases
 
 ## Packages
 

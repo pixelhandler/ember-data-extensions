@@ -5,6 +5,7 @@
   @module ember-data
   @submodule mixins
 **/
+var stateName = 'currentState.stateName';
 
 /**
   DS.EmbeddedInModelMixin
@@ -15,19 +16,26 @@
 DS.EmbeddedInModelMixin = Ember.Mixin.create({
 
   embeddedDirtyTracker: (function(obj, path) {
-    var _this = this;
-    if (this.get(path) === 'root.loaded.updated.uncommitted') {
-      return this.eachRelationship(function(relation) {
-        var _relation;
-        _relation = _this.get(relation);
-        if ((_relation != null) && _relation.toString().indexOf('Promise') < 0) {
-          return _relation.transitionTo('updated.uncommitted');
+    if (this.get('isDirty')) {
+      var _this = this;
+      this.eachRelationship(function (relation) {
+        if (typeof this.then === 'function') { return; }
+        var record = _this.get(relation);
+        if (!record.get('isLoading') && !record.get('isDirty')) {
+          dirtyTransition.call(record);
         }
       });
     }
-  }).observes('currentState.stateName')
+  }).observes(stateName)
 
 });
+
+function dirtyTransition() {
+  var _this = this;
+  Ember.run(function () {
+    _this.transitionTo('updated.uncommitted');
+  });
+}
 
 }(Ember, DS));
 

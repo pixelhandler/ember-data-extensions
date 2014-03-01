@@ -746,6 +746,7 @@ function updatePayloadWithEmbeddedBelongsTo(store, primaryType, relationship, pa
   @module ember-data
   @submodule mixins
 **/
+var stateName = 'currentState.stateName';
 
 /**
   DS.EmbeddedInModelMixin
@@ -756,19 +757,26 @@ function updatePayloadWithEmbeddedBelongsTo(store, primaryType, relationship, pa
 DS.EmbeddedInModelMixin = Ember.Mixin.create({
 
   embeddedDirtyTracker: (function(obj, path) {
-    var _this = this;
-    if (this.get(path) === 'root.loaded.updated.uncommitted') {
-      return this.eachRelationship(function(relation) {
-        var _relation;
-        _relation = _this.get(relation);
-        if ((_relation != null) && _relation.toString().indexOf('Promise') < 0) {
-          return _relation.transitionTo('updated.uncommitted');
+    if (this.get('isDirty')) {
+      var _this = this;
+      this.eachRelationship(function (relation) {
+        if (typeof this.then === 'function') { return; }
+        var record = _this.get(relation);
+        if (!record.get('isLoading') && !record.get('isDirty')) {
+          dirtyTransition.call(record);
         }
       });
     }
-  }).observes('currentState.stateName')
+  }).observes(stateName)
 
 });
+
+function dirtyTransition() {
+  var _this = this;
+  Ember.run(function () {
+    _this.transitionTo('updated.uncommitted');
+  });
+}
 
 }(Ember, DS));
 
@@ -776,12 +784,13 @@ DS.EmbeddedInModelMixin = Ember.Mixin.create({
 ;/* packages/mixins/lib/model_with_embedded_mixin.js */
 (function(Ember, DS) {
 
-var get = Ember.get;
-
 /**
   @module ember-data
   @submodule mixins
 **/
+var get = Ember.get;
+
+var stateName = 'currentState.stateName';
 
 /**
   DS.ModelWithEmbeddedMixin
@@ -812,7 +821,7 @@ DS.ModelWithEmbeddedMixin = Ember.Mixin.create({
     } else if (this.get(path) === 'root.loaded.saved') {
       enumerateRelationships.call(this, config, serializer, rollbackRelated);
     }
-  }).observes('currentState.stateName')
+  }).observes(stateName)
 
 });
 
@@ -836,7 +845,7 @@ function enumerateRelationships(config, serializer, callback) {
 
 // Rollback related record
 function rollbackRelated(relationship, record) {
-  if (!record || record.toString().indexOf('Promise') > 0) return;
+  if (!record || isPromise(record)) return;
   var kind = relationship.kind;
   if (kind === 'belongsTo') {
     rollback(record);
@@ -845,14 +854,22 @@ function rollbackRelated(relationship, record) {
   }
 }
 
+function isPromise(record) {
+  return typeof record.then === 'function';
+}
+
 // Call the model's rollback method
 function rollback(model) {
-  model.rollback();
+  if (model.get(stateName).match(/saved/) === null) {
+    Ember.run(function () {
+      model.rollback();
+    });
+  }
 }
 
 // Transition related record(s) to dirty state
 function transitionRelatedToDirty(relationship, record) {
-  if (!record || record.toString().indexOf('Promise') > 0) return;
+  if (!record || isPromise(record)) return;
   var kind = relationship.kind;
   if (kind === 'belongsTo') {
     transitionToDirty(record);
@@ -861,9 +878,19 @@ function transitionRelatedToDirty(relationship, record) {
   }
 }
 
-// Transition record to dirty state
 function transitionToDirty(record) {
-  record.transitionTo('updated.uncommitted');
+  if (isPromise(this)) { return this; }
+  if (!record.get('isLoading') && !record.get('isDirty')) {
+    dirtyTransition.call(record);
+  }
+}
+
+function dirtyTransition() {
+  var _this = this;
+  Ember.run(function () {
+    // Transition record to dirty state
+    _this.transitionTo('updated.uncommitted');
+  });
 }
 
 }(Ember, DS));

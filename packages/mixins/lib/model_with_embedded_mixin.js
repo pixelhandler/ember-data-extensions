@@ -1,11 +1,12 @@
 (function(Ember, DS) {
 
-var get = Ember.get;
-
 /**
   @module ember-data
   @submodule mixins
 **/
+var get = Ember.get;
+
+var stateName = 'currentState.stateName';
 
 /**
   DS.ModelWithEmbeddedMixin
@@ -36,7 +37,7 @@ DS.ModelWithEmbeddedMixin = Ember.Mixin.create({
     } else if (this.get(path) === 'root.loaded.saved') {
       enumerateRelationships.call(this, config, serializer, rollbackRelated);
     }
-  }).observes('currentState.stateName')
+  }).observes(stateName)
 
 });
 
@@ -60,7 +61,7 @@ function enumerateRelationships(config, serializer, callback) {
 
 // Rollback related record
 function rollbackRelated(relationship, record) {
-  if (!record || record.toString().indexOf('Promise') > 0) return;
+  if (!record || isPromise(record)) return;
   var kind = relationship.kind;
   if (kind === 'belongsTo') {
     rollback(record);
@@ -69,14 +70,22 @@ function rollbackRelated(relationship, record) {
   }
 }
 
+function isPromise(record) {
+  return typeof record.then === 'function';
+}
+
 // Call the model's rollback method
 function rollback(model) {
-  model.rollback();
+  if (model.get(stateName).match(/saved/) === null) {
+    Ember.run(function () {
+      model.rollback();
+    });
+  }
 }
 
 // Transition related record(s) to dirty state
 function transitionRelatedToDirty(relationship, record) {
-  if (!record || record.toString().indexOf('Promise') > 0) return;
+  if (!record || isPromise(record)) return;
   var kind = relationship.kind;
   if (kind === 'belongsTo') {
     transitionToDirty(record);
@@ -85,9 +94,19 @@ function transitionRelatedToDirty(relationship, record) {
   }
 }
 
-// Transition record to dirty state
 function transitionToDirty(record) {
-  record.transitionTo('updated.uncommitted');
+  if (isPromise(this)) { return this; }
+  if (!record.get('isLoading') && !record.get('isDirty')) {
+    dirtyTransition.call(record);
+  }
+}
+
+function dirtyTransition() {
+  var _this = this;
+  Ember.run(function () {
+    // Transition record to dirty state
+    _this.transitionTo('updated.uncommitted');
+  });
 }
 
 }(Ember, DS));

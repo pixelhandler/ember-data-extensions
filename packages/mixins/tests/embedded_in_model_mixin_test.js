@@ -87,7 +87,11 @@ test('A dirty (embedded/belongsTo) record causes its parent record to become dir
     equal(superVillain.get('isDirty'), false, 'superVillain is not dirty');
     equal(secretLab.get('isDirty'), false, 'secretLab is not dirty');
 
-    secretLab.set('vicinity', 'Earth');
+    stop();
+    Ember.run(function () {
+      secretLab.set('vicinity', 'Earth');
+      start();
+    });
 
     equal(secretLab.get('vicinity'), 'Earth', 'secretLab has a changed vicinity');
     equal(secretLab.get('isDirty'), true, 'secretLab is dirty');
@@ -131,7 +135,11 @@ test('A dirty (embedded/hasMany) record causes its parent record to become dirty
     equal(superVillain.get('isDirty'), false, 'superVillain is not dirty');
     equal(secretWeapon.get('isDirty'), false, 'secretWeapon is not dirty');
 
-    secretWeapon.set('name', 'Kaboom');
+    stop();
+    Ember.run(function () {
+      secretWeapon.set('name', 'Kaboom');
+      start();
+    });
 
     equal(secretWeapon.get('name'), 'Kaboom', 'secretWeapon has a changed name');
     equal(secretWeapon.get('isDirty'), true, 'secretWeapon is dirty');

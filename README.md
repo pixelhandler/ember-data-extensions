@@ -137,9 +137,7 @@ Build command to create an optimized file: `brunch build --optimize`
 
 ## Test
 
-`make test` or...
-
-Run tests with command `testem` (dev) or `testem ci` (uses for Travis build)
+`make test` or... Run tests with command `testem` (dev) or `testem ci` (uses for Travis build)
 
 * See [testem docs](https://github.com/airportyh/testem)
 

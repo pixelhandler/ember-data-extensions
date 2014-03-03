@@ -21,7 +21,7 @@ DS.EmbeddedInModelMixin = Ember.Mixin.create({
       this.eachRelationship(function (relation) {
         if (typeof this.then === 'function') { return; }
         var record = _this.get(relation);
-        if (!record.get('isLoading') && !record.get('isDirty')) {
+        if (record && (!record.get('isLoading') && !record.get('isDirty'))) {
           dirtyTransition.call(record);
         }
       });

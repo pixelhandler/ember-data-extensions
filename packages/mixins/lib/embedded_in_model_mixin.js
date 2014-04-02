@@ -17,9 +17,9 @@ DS.EmbeddedInModelMixin = Ember.Mixin.create({
   embeddedDirtyTracker: (function(obj, path) {
     if (this.get('isDirty')) {
       var _this = this;
-      this.eachRelationship(function (relation) {
-        if (typeof this.then === 'function') { return; }
-        var record = _this.get(relation);
+      this.eachRelationship(function (key, relationship) {
+        if (typeof this.then === 'function' || relationship.kind === 'hasMany') { return; }
+        var record = _this.get(key);
         if (record && (!record.get('isLoading') && !record.get('isDirty'))) {
           dirtyTransition.call(record);
         }

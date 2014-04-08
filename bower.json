@@ -4,11 +4,11 @@
   "dependencies": {
     "jquery": "~1.10.2",
     "handlebars": "~1.3.0",
-    "ember": "~1.4.0",
+    "ember": "~1.5.0",
     "ember-data": "~1.0.0-beta.7"
   },
   "devDependencies": {
-    "qunit": "~1.13.0",
+    "qunit": "~1.14.0",
     "blanket": "~1.1.5"
   }
 }

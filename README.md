@@ -20,9 +20,9 @@ Use the files in the 'dist' directory.
   "dependencies": {
     "jquery": "~1.10.2",
     "handlebars": "~1.3.0",
-    "ember": "~1.3.1",
-    "ember-data": "~1.0.0-beta.6",
-    "ember-data-extensions": "~1.0.0-beta.6"
+    "ember": "~1.5.0",
+    "ember-data": "~1.0.0-beta.7",
+    "ember-data-extensions": "~1.0.0-beta.7"
   }
 }
 ```

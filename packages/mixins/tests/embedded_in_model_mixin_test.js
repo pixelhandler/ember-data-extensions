@@ -14,7 +14,8 @@ module('mixins - EmbeddedInModelMixin', {
     SecretLab = DS.Model.extend(DS.EmbeddedInModelMixin, {
       minionCapacity:  DS.attr('number'),
       vicinity:        DS.attr('string'),
-      superVillain:    DS.belongsTo('superVillain')
+      superVillain:    DS.belongsTo('superVillain'),
+      secretWeapons:   DS.hasMany('secretWeapon')
     });
     SecretWeapon = DS.Model.extend(DS.EmbeddedInModelMixin, {
       name:            DS.attr('string'),
@@ -96,6 +97,56 @@ test('A dirty (embedded/belongsTo) record causes its parent record to become dir
     equal(secretLab.get('vicinity'), 'Earth', 'secretLab has a changed vicinity');
     equal(secretLab.get('isDirty'), true, 'secretLab is dirty');
     equal(superVillain.get('isDirty'), true, 'superVillain is dirty');
+  }));
+});
+
+test('A dirty (embedded/belongsTo) record does not dirty its hasMany relations', function() {
+  expect(6);
+
+  env.container.register('adapter:superVillain', DS.EmbeddedAdapter);
+  env.container.register('serializer:superVillain', DS.EmbeddedSerializer.extend({
+    attrs: {
+      secret_weapons: {embedded: 'always'},
+      secret_lab: {embedded: 'always'}
+    }
+  }));
+
+  store.push(SecretWeapon, {
+    id: '1',
+    name: 'Illudium Q-36 explosive space modulator',
+    superVillain: '1'
+  });
+  store.push(SecretLab, {
+    id: '1',
+    minionCapacity: 1,
+    vicinity: 'Intergalactic Flying Space Saucer',
+    superVillain: '1',
+    secretWeapons: ['1']
+  });
+  store.push(SuperVillain, {
+    id: '1',
+    firstName: 'Marvin',
+    lastName: 'the Martian',
+    secretLab: '1'
+  });
+
+  store.find('superVillain', '1').then(async(function (superVillain) {
+    var secretLab = superVillain.get('secretLab'),
+        secretWeapon = secretLab.get('secretWeapons.firstObject');
+
+    equal(superVillain.get('isDirty'), false, 'superVillain is not dirty');
+    equal(secretLab.get('isDirty'), false, 'secretLab is not dirty');
+
+    stop();
+    Ember.run(function () {
+      secretLab.set('vicinity', 'Earth');
+      start();
+    });
+
+    equal(secretLab.get('vicinity'), 'Earth', 'secretLab has a changed vicinity');
+    equal(secretLab.get('isDirty'), true, 'secretLab is dirty');
+    equal(superVillain.get('isDirty'), true, 'superVillain is dirty');
+    equal(secretWeapon.get('isDirty'), false, 'secretWeapon is not dirty');
   }));
 });
 
